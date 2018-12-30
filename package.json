@@ -1,0 +1,13 @@
+{
+  "name": "emfactor",
+  "version": "0.0.1",
+  "private": true,
+  "dependencies": {
+    "emfactor-client-web": "file:client-web"
+  },
+  "scripts": {
+    "start-web": "cd client-web && npm run start",
+    "build-web": "cd client-web && npm run build",
+    "test-web": "cd client-web && npm run test"
+  }
+}

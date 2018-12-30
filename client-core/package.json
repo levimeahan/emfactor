@@ -1,0 +1,20 @@
+{
+  "name": "emfactor-client-core",
+  "version": "0.0.1",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "",
+  "license": "UNLICENSED",
+  "devDependencies": {
+    "@babel/core": "^7.2.2",
+    "@babel/plugin-proposal-class-properties": "^7.2.3",
+    "babel-core": "^7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "babel-preset-env": "^1.7.0",
+    "jest": "^23.6.0",
+    "regenerator-runtime": "^0.13.1"
+  }
+}
