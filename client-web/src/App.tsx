@@ -1,17 +1,24 @@
 import React, { useContext } from 'react';
-import { StyleSheet, css } from 'aphrodite';
-import Login from './pages/Login.tsx';
+import { StyleSheet, css } from 'aphrodite/no-important';
 
+import Login from './pages/Login';
+import Header from './components/Header';
 import AppRouter from './AppRouter';
 import StoreContext from './StoreContext.js';
 import { userLoggedIn } from 'emfactor-client-core/selectors';
+import { colors } from './themes/default';
 
 
 function App() {
     const state = useContext(StoreContext);
 
     return <div className={css(styles.appContainer)}>
-        {userLoggedIn(state) ? <AppRouter /> : <Login />}
+        <Header />
+        {userLoggedIn(state) ?
+            <AppRouter />
+            :
+            <Login />
+        }
     </div>;
 }
 
@@ -21,14 +28,14 @@ const styles = StyleSheet.create({
         padding: 0,
         textAlign: "center",
 
-        backgroundColor: "#282c34",
+        backgroundColor: colors.primaryBg,
         minHeight: "100vh",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        justifyContent: "center",
-        fontSize: "calc(10px + 2vmin)",
-        color: "white",
+        justifyContent: "space-between",
+        fontSize: "calc(16px)",
+        color: colors.primaryText,
     },
 });
 

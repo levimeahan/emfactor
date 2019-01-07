@@ -52,29 +52,36 @@ export const routes = [
     {
         path: '/messages',
         component: Messages,
+        name: 'Messages',
     },
     {
         path: '/notifications',
         component: Notifications,
+        name: 'Notifications',
     },
     {
         path: '/policies',
         component: Policies,
+        name: 'Policies',
     },
     {
         path: '/duties',
         component: Duties,
+        name: 'Duties',
     },
     {
         path: '/schedule',
         component: Schedule,
+        name: 'Schedule',
     },
     {
         path: '/change-availability',
         component: ChangeAvailability,
+        name: 'Change Availability',
     },
     {
         path: '/request-time-off',
         component: RequestTimeOff,
+        name: 'Request Time Off',
     },
 ];
