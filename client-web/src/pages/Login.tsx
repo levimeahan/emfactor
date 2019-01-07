@@ -1,26 +1,41 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import { StyleSheet, css } from 'aphrodite';
+
 import useFormInput from '../hooks/useFormInput';
-import { actions } from 'emfactor-client-core';
+import { login } from 'emfactor-client-core/actions';
+
+import StoreContext from '../StoreContext';
 
 const Login = () => {
     const employeeId = useFormInput('');
     const password = useFormInput('');
 
-    return <div>
+    const state = useContext(StoreContext);
+
+    return <div className={css(styles.loginContainer)}>
+        <span>{state.errorMessage}</span>
         <input
             type='number'
             placeholder='Employee ID'
             value={employeeId.value}
             onChange={employeeId.onChange}
-        /><br />
+        />
         <input
             type='password'
             placeholder='Password'
             value={password.value}
             onChange={password.onChange}
-        /><br />
-        <button>Login</button>
+        />
+        <button onClick={() => login(employeeId.value, password.value)}>Login</button>
     </div>;
 };
+
+const styles = StyleSheet.create({
+    loginContainer: {
+        display: 'flex',
+        flex: '1 0 0',
+        flexDirection: 'column',
+    },
+});
 
 export default Login;

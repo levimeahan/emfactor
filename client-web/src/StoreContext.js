@@ -1,5 +1,7 @@
 import React from 'react';
 
-const StoreContext = React.createContext();
+const StoreContext = React.createContext({
+    errorMessage: ''
+});
 
 export default StoreContext;

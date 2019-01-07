@@ -1,0 +1,1 @@
+export const userLoggedIn = (state) => state.userEmployeeId !== 0;

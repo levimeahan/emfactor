@@ -1,7 +1,8 @@
 import {ROLE_EMPLOYEE} from "./roles";
 
 export default {
-    userEmployeeId: 0,
+    userEmployeeId: 1,
+    errorMessage: '',
     employees: {
         1: {
             id: 1,
