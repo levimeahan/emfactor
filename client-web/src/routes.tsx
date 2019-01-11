@@ -50,6 +50,11 @@ const RequestTimeOff = () => ( <h2>RequestTimeOff</h2> );
 
 export const routes = [
     {
+        path: '/schedule',
+        component: Schedule,
+        name: 'Schedule',
+    },
+    {
         path: '/messages',
         component: Messages,
         name: 'Messages',
@@ -60,21 +65,6 @@ export const routes = [
         name: 'Notifications',
     },
     {
-        path: '/policies',
-        component: Policies,
-        name: 'Policies',
-    },
-    {
-        path: '/duties',
-        component: Duties,
-        name: 'Duties',
-    },
-    {
-        path: '/schedule',
-        component: Schedule,
-        name: 'Schedule',
-    },
-    {
         path: '/change-availability',
         component: ChangeAvailability,
         name: 'Change Availability',
@@ -83,5 +73,15 @@ export const routes = [
         path: '/request-time-off',
         component: RequestTimeOff,
         name: 'Request Time Off',
+    },
+    {
+        path: '/policies',
+        component: Policies,
+        name: 'Policies',
+    },
+    {
+        path: '/duties',
+        component: Duties,
+        name: 'Duties',
     },
 ];

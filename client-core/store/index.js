@@ -1,6 +1,5 @@
 // TODO: Prevent state mutation
-// TODO: Add support for subscribing to individual slices of state
-// TODO: Add support for reducers only receiving/returning individual slices of state
+// TODO: Consider adding support for subscribing to individual slices of state
 
 class Store {
     constructor() {
@@ -17,7 +16,7 @@ class Store {
     }
 
     subscribe(cb) {
-        // make sure no duplicates
+        // Make sure no duplicates
         this.unsubscribe(cb);
 
         this.subscribers.push(cb);
@@ -48,6 +47,7 @@ class Store {
 
 const store = new Store();
 
+// Dev debug
 if(window) {
     window.store = store;
 }
