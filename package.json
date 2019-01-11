@@ -3,11 +3,14 @@
   "version": "0.0.1",
   "private": true,
   "dependencies": {
-    "emfactor-client-web": "file:client-web"
+    "emfactor-client-web": "file:client-web",
+    "emfactor-client-core": "file:client-core"
   },
   "scripts": {
     "start-web": "cd client-web && npm run start",
     "build-web": "cd client-web && npm run build",
-    "test-web": "cd client-web && npm run test"
+    "test-web": "cd client-web && npm run test",
+    "start-core": "cd client-core && npm start",
+    "build-core": "cd client-core && npm build"
   }
 }

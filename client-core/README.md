@@ -14,13 +14,7 @@ served by living in the components/hooks themselves.
 
 **Actions**
 
-Call these to trigger actions. Check `/actions/index` for a master list of actions. You can import three ways
-
-Individual action  
-`import { login } from 'emfactor-client-core/actions'`  
-Grouped actions  
-`import * as actions from 'emfactor-client-core/actions'`  
-`import { actions } from 'emfactor-client-core'`  
+Call these to trigger actions. Check `/actions/index` for a master list of actions.
 
 
 **Selectors**

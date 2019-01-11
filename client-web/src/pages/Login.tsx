@@ -2,7 +2,7 @@ import React, { useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite';
 
 import useFormInput from '../hooks/useFormInput';
-import { login } from 'emfactor-client-core/actions';
+import { actions } from 'emfactor-client-core';
 
 import StoreContext from '../StoreContext';
 
@@ -26,7 +26,7 @@ const Login = () => {
             value={password.value}
             onChange={password.onChange}
         />
-        <button onClick={() => login(employeeId.value, password.value)}>Login</button>
+        <button onClick={() => actions.login(employeeId.value, password.value)}>Login</button>
     </div>;
 };
 

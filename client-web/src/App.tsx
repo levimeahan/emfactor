@@ -5,7 +5,7 @@ import Login from './pages/Login';
 import Header from './components/Header';
 import AppRouter from './AppRouter';
 import StoreContext from './StoreContext';
-import { userLoggedIn } from 'emfactor-client-core/selectors';
+import { selectors } from 'emfactor-client-core';
 import { colors } from './themes/default';
 
 
@@ -14,7 +14,7 @@ function App() {
 
     return <div className={css(styles.appContainer)}>
         <Header />
-        {userLoggedIn(state) ?
+        {selectors.userLoggedIn(state) ?
             <AppRouter />
             :
             <Login />
