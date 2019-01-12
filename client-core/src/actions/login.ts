@@ -23,10 +23,16 @@ export default function login(employeeId, password) {
 /* REDUCERS - Do not perform side effects inside */
 
 const loginSuccess = (prevState, employeeId) => {
-    return { ...prevState, userEmployeeId: employeeId };
+    return {
+        ...prevState,
+        app: { ...prevState.app, userEmployeeId: employeeId },
+    };
 };
 
 const loginFailure = (prevState, errorMessage) => {
     // TODO: Make this update error message and decide how to display it
-    return { ...prevState, errorMessage: errorMessage };
+    return {
+        ...prevState,
+        app: { ...prevState.app, errorMessage: errorMessage }
+    };
 };

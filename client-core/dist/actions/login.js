@@ -27,9 +27,9 @@ export default function login(employeeId, password) {
 }
 /* REDUCERS - Do not perform side effects inside */
 var loginSuccess = function (prevState, employeeId) {
-    return __assign({}, prevState, { userEmployeeId: employeeId });
+    return __assign({}, prevState, { app: __assign({}, prevState.app, { userEmployeeId: employeeId }) });
 };
 var loginFailure = function (prevState, errorMessage) {
     // TODO: Make this update error message and decide how to display it
-    return __assign({}, prevState, { errorMessage: errorMessage });
+    return __assign({}, prevState, { app: __assign({}, prevState.app, { errorMessage: errorMessage }) });
 };
