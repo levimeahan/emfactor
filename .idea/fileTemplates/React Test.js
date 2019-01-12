@@ -1,9 +1,9 @@
 import React from 'react';
 import { render } from 'react-testing-library';
 
-import App from '../App';
+import ${NAME} from '../${NAME}';
 
 it('renders', () => {
-    const { getByText } = render(<App />);
+    const { getByText } = render(<${NAME} />);
 });
 
