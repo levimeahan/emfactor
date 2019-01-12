@@ -4,7 +4,7 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 
 import {colors} from "../themes/default";
 
-const Menu = ({ routes, containerStyle }) => {
+const NavMenu = ({ routes, containerStyle }) => {
     return <nav className={css(styles.menuContainer, containerStyle)}>
         <ul className={css(styles.menu)}>
             {routes.map((route, i) => (
@@ -48,4 +48,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default Menu;
+export default NavMenu;

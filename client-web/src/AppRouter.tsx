@@ -2,13 +2,13 @@ import React from 'react';
 import { BrowserRouter as Router, Link, Route, Switch } from 'react-router-dom';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
-import Menu from './components/Menu'
+import NavMenu from './components/NavMenu'
 import { routes } from './routes';
 
 const AppRouter = () => {
     return <Router>
         <div className={css(styles.container)}>
-            <Menu routes={routes} containerStyle={styles.menuContainer} />
+            <NavMenu routes={routes} containerStyle={styles.navMenuContainer} />
             <div className={css(styles.appContent)}>
                 <Switch>
                     {routes.map((route, i) => (
@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
     },
-    menuContainer: {
+    navMenuContainer: {
 
     },
     appContent: {

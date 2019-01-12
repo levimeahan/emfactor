@@ -13,7 +13,7 @@ function App() {
     const state = useContext(StoreContext);
 
     return <div className={css(styles.appContainer)}>
-        <Header />
+        <Header userLoggedIn={selectors.userLoggedIn(state)} />
         {selectors.userLoggedIn(state) ?
             <AppRouter />
             :

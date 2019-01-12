@@ -2,11 +2,17 @@ import React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 import {colors} from "../themes/default";
 
-const Header = () => {
+import UserMenu from './UserMenu';
+
+const Header = ({ userLoggedIn }) => {
     return <div className={css(styles.headerContainer)}>
         <h1 className={css(styles.logo)}>Emfactor</h1>
+        {userLoggedIn ?
+            <UserMenu />
+        : null}
     </div>;
 };
+
 
 const styles = StyleSheet.create({
     headerContainer: {
@@ -14,6 +20,7 @@ const styles = StyleSheet.create({
         alignSelf: 'stretch',
         display: 'flex',
         flexDirection: 'row',
+        alignItems: 'center',
         justifyContent: 'space-between',
         padding: '5px'
     },
