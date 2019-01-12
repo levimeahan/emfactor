@@ -1,2 +1,3 @@
 import login from './login';
-export { login };
+import logout from './logout';
+export { login, logout };
