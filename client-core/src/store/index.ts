@@ -1,9 +1,17 @@
 // TODO: Prevent state mutation
 // TODO: Consider adding support for subscribing to individual slices of state
 
+import { State } from "./schema";
+import defaultState from '../defaultState';
+
 class Store {
+    state: State;
+    subscribers: Function[];
+    readonly defaultState: State;
+
     constructor() {
-        this.state = {};
+        this.defaultState = defaultState;
+        this.state = defaultState;
         this.subscribers = [];
     }
 
@@ -46,10 +54,5 @@ class Store {
 }
 
 const store = new Store();
-
-// Dev debug
-if(window) {
-    window.store = store;
-}
 
 export default store;

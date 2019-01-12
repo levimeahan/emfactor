@@ -1,8 +1,10 @@
 // TODO: Prevent state mutation
 // TODO: Consider adding support for subscribing to individual slices of state
+import defaultState from '../defaultState';
 var Store = /** @class */ (function () {
     function Store() {
-        this.state = {};
+        this.defaultState = defaultState;
+        this.state = defaultState;
         this.subscribers = [];
     }
     Store.prototype.initialize = function (initialState) {
@@ -43,8 +45,4 @@ var Store = /** @class */ (function () {
     return Store;
 }());
 var store = new Store();
-// Dev debug
-if (window) {
-    window.store = store;
-}
 export default store;

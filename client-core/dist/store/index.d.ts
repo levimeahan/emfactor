@@ -1,7 +1,11 @@
+import { State } from "./schema";
 declare class Store {
+    state: State;
+    subscribers: Function[];
+    readonly defaultState: State;
     constructor();
     initialize(initialState: any): void;
-    getState(): any;
+    getState(): State;
     subscribe(cb: any): void;
     unsubscribe(cb: any): void;
     updateSubscribers(): void;
