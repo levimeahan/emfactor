@@ -1,1 +1,1 @@
-export const userLoggedIn = (state) => state.userEmployeeId !== 0;
+export const userLoggedIn = (state) => state.app.userEmployeeId !== 0;

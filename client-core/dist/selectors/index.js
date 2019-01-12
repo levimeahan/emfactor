@@ -1,1 +1,1 @@
-export var userLoggedIn = function (state) { return state.userEmployeeId !== 0; };
+export var userLoggedIn = function (state) { return state.app.userEmployeeId !== 0; };
