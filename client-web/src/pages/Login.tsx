@@ -13,7 +13,7 @@ const Login = () => {
     const state = useContext(StoreContext);
 
     return <div className={css(styles.loginContainer)}>
-        <span>{state.errorMessage}</span>
+        <span role='error-message'>{state.app.errorMessage}</span>
         <input
             type='number'
             placeholder='Employee ID'
