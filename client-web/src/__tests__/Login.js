@@ -3,15 +3,12 @@ import {
     render,
     fireEvent,
     waitForElement,
-    waitForDomChange
 } from 'react-testing-library';
+import changeFormInput from '../testUtils/changeFormInput';
 
 import { store } from 'emfactor-client-core';
 
-import StoreProvider from '../StoreProvider';
 import App from '../App';
-
-import { actions } from 'emfactor-client-core';
 
 store.initialize({
     ...store.defaultState,
@@ -19,11 +16,7 @@ store.initialize({
 });
 
 const setup = () => {
-    let renderResult = render(
-        <StoreProvider>
-            <App />
-        </StoreProvider>
-    );
+    let renderResult = render(<App />);
 
     let employeeIdInput = renderResult.getByPlaceholderText('Employee ID');
     let passwordInput = renderResult.getByPlaceholderText('Password');
@@ -31,22 +24,12 @@ const setup = () => {
     return { renderResult, employeeIdInput, passwordInput };
 };
 
-const changeFormInput = async (input, newValue) => {
-    fireEvent.change(input, {
-        target: {
-            value: newValue
-        }
-    });
-
-    return waitForElement(() => input);
-};
-
 it('renders employee id and password fields', () => {
     let { renderResult, employeeIdInput, passwordInput } = setup();
 });
 
 it('successfully registers changes to employee ID and password fields', async () => {
-    let {renderResult, employeeIdInput, passwordInput} = setup();
+    let { renderResult, employeeIdInput, passwordInput } = setup();
 
     await changeFormInput(employeeIdInput, 1);
     expect(employeeIdInput.value).toBe("1");
@@ -56,7 +39,7 @@ it('successfully registers changes to employee ID and password fields', async ()
 });
 
 it('shows error message on failed login', async () => {
-    let {renderResult, employeeIdInput, passwordInput} = setup();
+    let { renderResult, employeeIdInput, passwordInput } = setup();
 
     await changeFormInput(employeeIdInput, 1);
     await changeFormInput(passwordInput, 'bananas2');
@@ -71,7 +54,7 @@ it('shows error message on failed login', async () => {
 });
 
 it('logs in successfully', async () => {
-    let {renderResult, employeeIdInput, passwordInput} = setup();
+    let { renderResult, employeeIdInput, passwordInput } = setup();
 
     await changeFormInput(employeeIdInput, 1);
     await changeFormInput(passwordInput, 'bananas');
@@ -82,7 +65,7 @@ it('logs in successfully', async () => {
 
     try {
         await waitForElement(() => renderResult.getByText('Logout'), { timeout: 1000 });
-    } catch(e) {
+    } catch (e) {
         let errorMessage = renderResult.getByRole('error-message');
         throw new Error('Login timed out - ' + errorMessage.innerHTML);
     }
