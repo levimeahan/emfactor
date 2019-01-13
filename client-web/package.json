@@ -9,6 +9,7 @@
     "@types/react": "^16.7.17",
     "@types/react-dom": "^16.0.11",
     "aphrodite": "^2.2.3",
+    "axios": "^0.18.0",
     "emfactor-client-core": "file:../client-core",
     "jest-dom": "^3.0.0",
     "react": "^16.7.0-alpha.2",

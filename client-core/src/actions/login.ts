@@ -1,23 +1,33 @@
-import store from '../store/index';
+import store from '../store';
+import network from '../network';
+
+import { Employee } from '../store/schema';
+
+interface LoginResponse {
+    loginOk: boolean,
+    errorMessage: string,
+    employee?: Employee
+}
 
 export default function login(employeeId, password) {
     employeeId = parseInt(employeeId);
 
     // TODO: Make API call and get results, pass to success or failure reducer
+    let result = network.post('/login', { employeeId, password });
 
-    /* Placeholder logic to test success/failure cases */
+    result.then((response: LoginResponse) => {
+        if(response.loginOk) {
+            store.dispatch(loginSuccess, response.employee.id);
+        }
+        else {
+            store.dispatch(loginFailure, response.errorMessage);
+        }
+    })
+    .catch((error) => {
+        store.dispatch(loginFailure, JSON.stringify(error));
+    });
 
-    if(employeeId !== 1) {
-        store.dispatch(loginFailure, 'Invalid user id!');
-        return;
-    }
 
-    if(password === 'bananas') {
-        store.dispatch(loginSuccess, employeeId);
-    }
-    else {
-        store.dispatch(loginFailure, 'Invalid password!');
-    }
 }
 
 /* REDUCERS - Do not perform side effects inside */
@@ -25,7 +35,11 @@ export default function login(employeeId, password) {
 const loginSuccess = (prevState, employeeId) => {
     return {
         ...prevState,
-        app: { ...prevState.app, userEmployeeId: employeeId },
+        app: {
+            ...prevState.app,
+            userEmployeeId: employeeId,
+            errorMessage: '',
+        },
     };
 };
 

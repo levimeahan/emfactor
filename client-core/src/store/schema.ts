@@ -1,12 +1,12 @@
 
-interface Employee {
+export interface Employee {
     id: number;
     firstName: string;
     lastName: string;
     roles: number[];
 }
 
-interface Role {
+export interface Role {
     id: number;
     name: string;
     subRoles: number[];
@@ -16,7 +16,7 @@ enum Day {
     Mon = 1, Tue, Wed, Thu, Fri, Sat, Sun
 }
 
-interface Shift {
+export interface Shift {
     id: number;
     dayOfTheWeek: Day;
     name: string;
@@ -25,14 +25,14 @@ interface Shift {
     allowedRoles: number[];
 }
 
-interface ScheduledShift {
+export interface ScheduledShift {
     id: number;
     shiftId: number;
     employeeId: number;
     draft: boolean;
 }
 
-interface Availability {
+export interface Availability {
     id: number;
     employeeId: number;
     final: boolean;
@@ -47,7 +47,7 @@ interface Availability {
     },
 }
 
-interface TimeOffRequest {
+export interface TimeOffRequest {
     id: number;
     employeeId: number;
     startDate: number;
@@ -59,7 +59,7 @@ interface TimeOffRequest {
     finalizedTime: number;
 }
 
-interface ShiftSwapRequest {
+export interface ShiftSwapRequest {
     id: number;
     requestingEmployeeId: number;
     replacementEmployeeId: number;
@@ -71,7 +71,7 @@ interface ShiftSwapRequest {
     finalizedTime: number;
 }
 
-interface AvailabilityChangeRequest {
+export interface AvailabilityChangeRequest {
     id: number;
     employeeId: number;
     newAvailability: number;
@@ -81,7 +81,7 @@ interface AvailabilityChangeRequest {
     finalizedTime: number;
 }
 
-interface Event {
+export interface Event {
     id: number;
     creatorId: number;
     createdTime: number;
@@ -92,7 +92,7 @@ interface Event {
     description: string;
 }
 
-interface Notification {
+export interface Notification {
     id: number;
     employeeId: number;
     relatedEntityType: string;

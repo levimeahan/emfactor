@@ -2,6 +2,9 @@
 <project version="4">
   <component name="TypeScriptCompiler">
     <option name="enableServiceForProjectsWithoutConfig" value="true" />
+    <option name="recompileOnChanges" value="true" />
+    <option name="typeScriptCompilerParams" value="-p &quot;C:\Projects\emfactor\client-core\tsconfig.json&quot;" />
+    <option name="scopeName" value="Client Core" />
     <option name="showAllErrors" value="true" />
   </component>
 </project>

@@ -10,12 +10,12 @@ import { store } from 'emfactor-client-core';
 
 import App from '../App';
 
-store.initialize({
-    ...store.defaultState,
-    app: { ...store.defaultState.app, userEmployeeId: 0 }
-});
-
 const setup = () => {
+    store.initialize({
+        ...store.defaultState,
+        app: { ...store.defaultState.app, userEmployeeId: 0 }
+    });
+
     let renderResult = render(<App />);
 
     let employeeIdInput = renderResult.getByPlaceholderText('Employee ID');
@@ -38,7 +38,7 @@ it('successfully registers changes to employee ID and password fields', async ()
     expect(passwordInput.value).toBe("bananas");
 });
 
-it('shows error message on failed login', async () => {
+it('denies invalid login credentials and shows error', async () => {
     let { renderResult, employeeIdInput, passwordInput } = setup();
 
     await changeFormInput(employeeIdInput, 1);
@@ -49,6 +49,8 @@ it('shows error message on failed login', async () => {
     fireEvent.click(submitButton);
 
     let errorMessage = await waitForElement(() => renderResult.getByRole('error-message'));
+
+    expect(store.getState().app.userEmployeeId).toBe(0);
 
     expect(errorMessage.innerHTML).toBe('Invalid password!');
 });
