@@ -1,4 +1,4 @@
-import { Employee } from "../store/schema";
+import { Employee } from "../types";
 export default function (data: any): {
     loginOk: boolean;
     errorMessage: string;

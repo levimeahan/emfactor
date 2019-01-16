@@ -12,7 +12,7 @@ export interface Role {
     subRoles: number[];
 }
 
-enum Day {
+declare enum Day {
     Mon = 1, Tue, Wed, Thu, Fri, Sat, Sun
 }
 

@@ -1,6 +1,6 @@
 import database from "./database";
-import validate from "validate.js";
-import {Employee} from "../store/schema";
+import { validate } from "validate.js";
+import {Employee} from "../types";
 
 interface LoginResponse {
     loginOk: boolean;

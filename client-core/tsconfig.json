@@ -6,7 +6,6 @@
     "allowSyntheticDefaultImports": true,
     "strict": false,
     "forceConsistentCasingInFileNames": true,
-    "declaration": true,
     "module": "esnext",
     "moduleResolution": "node",
     "outDir": "./dist",

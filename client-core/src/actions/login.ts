@@ -1,7 +1,7 @@
 import store from '../store';
 import network from '../network';
 
-import { Employee } from '../store/schema';
+import { Employee } from '../types';
 
 interface LoginResponse {
     loginOk: boolean,

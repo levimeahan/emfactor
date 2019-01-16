@@ -1,10 +1,10 @@
-import {ROLE_EMPLOYEE} from "./roles";
-import { State } from './types';
-
-const defaultState: State = {
+"use strict";
+exports.__esModule = true;
+var roles_1 = require("./roles");
+var defaultState = {
     app: {
         userEmployeeId: 1,
-        errorMessage: '',
+        errorMessage: ''
     },
     employees: {
         byId: {
@@ -12,10 +12,10 @@ const defaultState: State = {
                 id: 1,
                 firstName: 'Levi',
                 lastName: 'Meahan',
-                roles: [ROLE_EMPLOYEE]
-            },
+                roles: [roles_1.ROLE_EMPLOYEE]
+            }
         },
-        allIds: [1],
+        allIds: [1]
     },
     roles: {
         byId: {
@@ -25,40 +25,39 @@ const defaultState: State = {
                 subRoles: []
             }
         },
-        allIds: [1],
+        allIds: [1]
     },
     shifts: {
         byId: {},
-        allIds: [],
+        allIds: []
     },
     scheduledShifts: {
         byId: {},
-        allIds: [],
+        allIds: []
     },
     availabilities: {
         byId: {},
-        allIds: [],
+        allIds: []
     },
     timeOffRequests: {
         byId: {},
-        allIds: [],
+        allIds: []
     },
     shiftSwapRequests: {
         byId: {},
-        allIds: [],
+        allIds: []
     },
     availabilityChangeRequests: {
         byId: {},
-        allIds: [],
+        allIds: []
     },
     events: {
         byId: {},
-        allIds: [],
+        allIds: []
     },
     notifications: {
         byId: {},
-        allIds: [],
+        allIds: []
     }
 };
-
-export default defaultState;
+exports["default"] = defaultState;

@@ -1,3 +1,3 @@
-import { State } from './store/schema';
+import { State } from './types';
 declare const defaultState: State;
 export default defaultState;

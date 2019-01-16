@@ -1,4 +1,4 @@
-import { State } from "./schema";
+import { State } from "../types";
 declare class Store {
     state: State;
     subscribers: Function[];

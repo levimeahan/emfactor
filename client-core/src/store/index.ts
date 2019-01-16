@@ -1,7 +1,7 @@
 // TODO: Prevent state mutation
 // TODO: Consider adding support for subscribing to individual slices of state
 
-import { State } from "./schema";
+import { State } from "../types";
 import defaultState from '../defaultState';
 
 class Store {

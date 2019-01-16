@@ -1,4 +1,4 @@
-import { State, Employee } from '../store/schema';
+import { State, Employee } from '../types';
 interface DbEmployee extends Employee {
     password: string;
 }
