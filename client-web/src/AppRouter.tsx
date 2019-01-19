@@ -10,11 +10,13 @@ const AppRouter = () => {
         <div className={css(styles.container)}>
             <NavMenu routes={routes} containerStyle={styles.navMenuContainer} />
             <div className={css(styles.appContent)}>
-                <Switch>
-                    {routes.map((route, i) => (
-                        <Route key={i} path={route.path} component={route.component} />
-                    ))}
-                </Switch>
+                <React.Suspense fallback={<div>Loading...</div>}>
+                    <Switch>
+                        {routes.map((route, i) => (
+                            <Route key={i} path={route.path} component={route.component} />
+                        ))}
+                    </Switch>
+                </React.Suspense>
             </div>
         </div>
     </Router>;

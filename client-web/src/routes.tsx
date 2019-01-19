@@ -39,15 +39,13 @@ Pending Requests
 
 */
 
-import Schedule from './pages/Schedule';
-
-
-const Messages = () => ( <h2>Messages</h2> );
-const Notifications = () => ( <h2>Notifications</h2> );
-const Policies = () => ( <h2>Policies</h2> );
-const Duties = () => ( <h2>Duties</h2> );
-const ChangeAvailability = () => ( <h2>ChangeAvailability</h2> );
-const RequestTimeOff = () => ( <h2>RequestTimeOff</h2> );
+const Schedule = React.lazy(() => import('./pages/Schedule'));
+const Messages = React.lazy(() => import('./pages/Messages'));
+const Notifications = React.lazy(() => import('./pages/Notifications'));
+const Policies = React.lazy(() => import('./pages/Policies'));
+const Duties = React.lazy(() => import('./pages/Duties'));
+const ChangeAvailability = React.lazy(() => import('./pages/ChangeAvailability'));
+const RequestTimeOff = React.lazy(() => import('./pages/RequestTimeOff'));
 
 export const routes = [
     {
