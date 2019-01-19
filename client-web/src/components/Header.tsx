@@ -16,13 +16,14 @@ const Header = ({ userLoggedIn }) => {
 
 const styles = StyleSheet.create({
     headerContainer: {
-        background: colors.primaryHeaderBg,
+        background: colors.background.tertiary,
         alignSelf: 'stretch',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
-        padding: '5px'
+        padding: '5px',
+        borderBottom: `1px solid ${colors.background.tertiaryDark}`
     },
     logo: {
         margin: '3px 5px',

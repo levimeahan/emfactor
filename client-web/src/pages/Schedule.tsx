@@ -1,41 +1,155 @@
 import React from 'react';
+import { StyleSheet, css } from 'aphrodite/no-important';
 
-import { Shift, Days } from 'emfactor-client-core';
+import { ScheduleDays, ScheduleDayShift, Shift } from 'emfactor-client-core';
 
-const shifts: Shift[] = [
+import ScheduleDay from '../components/ScheduleDay';
+
+let baseShifts = [
     {
         id: 1,
-        dayOfTheWeek: 1,
-        name: 'Swing',
         startTime: 0,
-        endTime: 0,
-        allowedRoles: [],
+        endTime: 8,
+        name: 'Reg 1',
+        employeeId: 1,
+        employeeName: 'Levi'
     },
     {
         id: 1,
-        dayOfTheWeek: 2,
-        name: 'Swing',
         startTime: 0,
-        endTime: 0,
-        allowedRoles: [],
+        endTime: 8,
+        name: 'Reg 2',
+        employeeId: 1,
+        employeeName: 'Kristihan'
+    },
+
+    {
+        id: 1,
+        startTime: 8,
+        endTime: 16,
+        name: 'Reg 1',
+        employeeId: 2,
+        employeeName: 'Teresa',
     },
     {
         id: 1,
-        dayOfTheWeek: 3,
-        name: 'Swing',
-        startTime: 0,
-        endTime: 0,
-        allowedRoles: [],
+        startTime: 8,
+        endTime: 16,
+        name: 'Reg 2',
+        employeeId: 2,
+        employeeName: 'Jenova',
+    },
+
+
+    {
+        id: 1,
+        startTime: 16,
+        endTime: 24,
+        name: 'Reg 1',
+        employeeId: 3,
+        employeeName: 'Annette',
+    },
+    {
+        id: 1,
+        startTime: 16,
+        endTime: 24,
+        name: 'Reg 2',
+        employeeId: 3,
+        employeeName: 'Malou',
     }
 ];
 
-const Schedule = () => {
+let scheduleWeekDays: ScheduleDays = {
+    byId: {
+        1: {
+            name: 'Monday',
+            date: '11/12',
+            shifts: [
+                ...baseShifts
+            ]
+        },
+        2: {
+            name: 'Tuesday',
+            date: '11/13',
+            shifts: [
+                ...baseShifts
+            ]
+        },
+        3: {
+            name: 'Wednesday',
+            date: '11/14',
+            shifts: [
+                ...baseShifts
+            ]
+        },
+        4: {
+            name: 'Thursday',
+            date: '11/15',
+            shifts: [
+                ...baseShifts
+            ]
+        },
+        5: {
+            name: 'Friday',
+            date: '11/16',
+            shifts: [
+                ...baseShifts
+            ]
+        },
+        6: {
+            name: 'Saturday',
+            date: '11/17',
+            shifts: [
+                ...baseShifts
+            ]
+        },
+        7: {
+            name: 'Sunday',
+            date: '11/18',
+            shifts: [
+                ...baseShifts
+            ]
+        },
+    },
+    allIds: [1, 2, 3, 4, 5, 6, 7]
+};
 
-    return <div>
-        {Object.keys(Days).map((dayKey, i) => {
-            return <span key={i}>{dayKey}{Days[dayKey]}</span>;
-        })}
+
+const Schedule = () => {
+    return <div className={css(styles.container)}>
+        {scheduleWeekDays.allIds.map((day) => (
+            <div key={day} className={css(styles.dayContainer)}>
+                <ScheduleDay
+                    name={scheduleWeekDays.byId[day].name}
+                    date={scheduleWeekDays.byId[day].date}
+                    shifts={scheduleWeekDays.byId[day].shifts}
+                    headerStyle={styles.dayHeaderContainer}
+                />
+            </div>
+        ))}
     </div>;
 };
+
+
+const styles = StyleSheet.create({
+    container: {
+        alignSelf: 'stretch',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'flex-start',
+        alignItems: 'stretch',
+        padding: '5px',
+    },
+    dayContainer: {
+        display: 'flex',
+        minHeight: '76px',
+        margin: '5px',
+        background: 'rgba(255,255,255,0.2)'
+    },
+    dayHeaderContainer: {
+        width: '6em'
+    },
+});
+
 
 export default Schedule;
