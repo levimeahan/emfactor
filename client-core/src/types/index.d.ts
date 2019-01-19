@@ -1,4 +1,4 @@
-
+/* SERVER ENTITY TYPES */
 export interface Employee {
     id: number;
     firstName: string;
@@ -25,11 +25,17 @@ export interface Shift {
     allowedRoles: number[];
 }
 
+export interface ScheduleWeek {
+    id: number;
+    startTimestamp: number;
+    draft: boolean;
+}
+
 export interface ScheduledShift {
     id: number;
     shiftId: number;
     employeeId: number;
-    draft: boolean;
+    scheduleWeek: number;
 }
 
 export interface Availability {
@@ -37,13 +43,13 @@ export interface Availability {
     employeeId: number;
     final: boolean;
     dayHours: {
-        1: number[],
-        2: number[],
-        3: number[],
-        4: number[],
-        5: number[],
-        6: number[],
-        7: number[],
+        mon: number[],
+        tue: number[],
+        wed: number[],
+        thu: number[],
+        fri: number[],
+        sat: number[],
+        sun: number[],
     },
 }
 
@@ -102,6 +108,41 @@ export interface Notification {
     body: string;
 }
 
+/* CLIENT-EXCLUSIVE TYPES */
+
+/*
+    A union type that bridges the key info from Shift and employee info from ScheduledShift together in a UI-usable
+    package. Intended to be stored in a day's data so that day/date do not need to be stored here
+ */
+export interface ScheduleDayShift {
+    id: number;
+    name: string;
+    startTime: number;
+    endTime: number;
+    employeeId: number;
+    employeeName: string;
+}
+
+export interface ScheduleDay {
+    name: string;
+    date: string;
+    shifts: ScheduleDayShift[];
+}
+
+export interface ScheduleDays {
+    byId: {
+        1: ScheduleDay,
+        2: ScheduleDay,
+        3: ScheduleDay,
+        4: ScheduleDay,
+        5: ScheduleDay,
+        6: ScheduleDay,
+        7: ScheduleDay,
+    },
+    allIds: [1, 2, 3, 4, 5, 6, 7]
+}
+
+
 /* MASTER INTERFACE */
 
 export interface State {
@@ -130,6 +171,12 @@ export interface State {
     scheduledShifts: {
         byId: {
             [key: number]: ScheduledShift
+        },
+        allIds: number[],
+    },
+    scheduleWeeks: {
+        byId: {
+            [key: number]: ScheduleWeek
         },
         allIds: number[],
     },

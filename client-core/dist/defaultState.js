@@ -33,6 +33,10 @@ var defaultState = {
         byId: {},
         allIds: [],
     },
+    scheduleWeeks: {
+        byId: {},
+        allIds: [],
+    },
     availabilities: {
         byId: {},
         allIds: [],

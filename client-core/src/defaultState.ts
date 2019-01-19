@@ -35,6 +35,10 @@ const defaultState: State = {
         byId: {},
         allIds: [],
     },
+    scheduleWeeks: {
+        byId: {},
+        allIds: [],
+    },
     availabilities: {
         byId: {},
         allIds: [],
