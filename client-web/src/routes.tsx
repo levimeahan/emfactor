@@ -39,48 +39,83 @@ Pending Requests
 
 */
 
-const Schedule = React.lazy(() => import('./pages/Schedule'));
-const Messages = React.lazy(() => import('./pages/Messages'));
-const Notifications = React.lazy(() => import('./pages/Notifications'));
-const Policies = React.lazy(() => import('./pages/Policies'));
-const Duties = React.lazy(() => import('./pages/Duties'));
-const ChangeAvailability = React.lazy(() => import('./pages/ChangeAvailability'));
-const RequestTimeOff = React.lazy(() => import('./pages/RequestTimeOff'));
+const Schedule = () => import('./pages/Schedule');
+const Messages = () => import('./pages/Messages');
+const Notifications = () => import('./pages/Notifications');
+const Policies = () => import('./pages/Policies');
+const Duties = () => import('./pages/Duties');
+const ChangeAvailability = () => import('./pages/ChangeAvailability');
+const RequestTimeOff = () => import('./pages/RequestTimeOff');
 
-export const routes = [
+const DevTools = () => import('./pages/DevTools');
+
+const Employees = () => import('./managerPages/Employees');
+const Shifts = () => import('./managerPages/Shifts');
+const PendingRequests = () => import('./managerPages/PendingRequests');
+
+interface PageRoute {
+    path: string;
+    componentFactory: () => Promise<{ default: React.ComponentType<any>; }>;
+    name: string;
+}
+
+export const routes: PageRoute[] = [
     {
         path: '/schedule',
-        component: Schedule,
+        componentFactory: Schedule,
         name: 'Schedule',
     },
     {
         path: '/messages',
-        component: Messages,
+        componentFactory: Messages,
         name: 'Messages',
     },
     {
         path: '/notifications',
-        component: Notifications,
+        componentFactory: Notifications,
         name: 'Notifications',
     },
     {
         path: '/change-availability',
-        component: ChangeAvailability,
+        componentFactory: ChangeAvailability,
         name: 'Change Availability',
     },
     {
         path: '/request-time-off',
-        component: RequestTimeOff,
+        componentFactory: RequestTimeOff,
         name: 'Request Time Off',
     },
     {
         path: '/policies',
-        component: Policies,
+        componentFactory: Policies,
         name: 'Policies',
     },
     {
         path: '/duties',
-        component: Duties,
+        componentFactory: Duties,
         name: 'Duties',
+    },
+    {
+        path: '/dev-tools',
+        componentFactory: DevTools,
+        name: 'Dev Tools',
+    }
+];
+
+export const managerRoutes: PageRoute[] = [
+    {
+        path: '/employees',
+        componentFactory: Employees,
+        name: 'Employees',
+    },
+    {
+        path: '/shifts',
+        componentFactory: Shifts,
+        name: 'Shifts',
+    },
+    {
+        path: '/pending-requests',
+        componentFactory: PendingRequests,
+        name: 'PendingRequests',
     },
 ];
