@@ -7,9 +7,9 @@ export const colors = {
         dark: '#b0b0b0',
     },
     background: {
-        primary: "#282c34",
-        primaryDark: "",
-        primaryLight: "",
+        primary: "#21252d",
+        primaryDark: "#191923",
+        primaryLight: "#282e37",
         secondary: "#363941",
         secondaryDark: "#2C2F37",
         secondaryLight: "#3f434b",
