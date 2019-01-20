@@ -1,3 +1,7 @@
+type DeepReadonly<T> = {
+    readonly [P in keyof T]: DeepReadonly<T[P]>
+};
+
 /* SERVER ENTITY TYPES */
 export interface Employee {
     id: number;
@@ -145,7 +149,7 @@ export interface ScheduleDays {
 
 /* MASTER INTERFACE */
 
-export interface State {
+interface Schema {
     app: {
         userEmployeeId: number,
         errorMessage: string,
@@ -217,3 +221,5 @@ export interface State {
         allIds: number[],
     }
 }
+
+export type State = DeepReadonly<Schema>;

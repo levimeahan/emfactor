@@ -1,11 +1,10 @@
-// TODO: Prevent state mutation
 // TODO: Consider adding support for subscribing to individual slices of state
 
 import { State } from "../types";
 import defaultState from '../defaultState';
 
 class Store {
-    state: State;
+    private state: State;
     subscribers: Function[];
     readonly defaultState: State;
 
