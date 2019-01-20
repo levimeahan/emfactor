@@ -1,4 +1,4 @@
-import { ROLE_EMPLOYEE } from "./roles";
+import { ROLE_EMPLOYEE, ROLE_MANAGER } from "./roles";
 var defaultState = {
     app: {
         userEmployeeId: 1,
@@ -10,7 +10,7 @@ var defaultState = {
                 id: 1,
                 firstName: 'Levi',
                 lastName: 'Meahan',
-                roles: [ROLE_EMPLOYEE]
+                roles: [ROLE_EMPLOYEE, ROLE_MANAGER]
             },
         },
         allIds: [1],

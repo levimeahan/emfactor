@@ -1,4 +1,4 @@
-import {ROLE_EMPLOYEE} from "./roles";
+import {ROLE_EMPLOYEE, ROLE_MANAGER} from "./roles";
 import { State } from './types';
 
 const defaultState: State = {
@@ -12,7 +12,7 @@ const defaultState: State = {
                 id: 1,
                 firstName: 'Levi',
                 lastName: 'Meahan',
-                roles: [ROLE_EMPLOYEE]
+                roles: [ROLE_EMPLOYEE, ROLE_MANAGER]
             },
         },
         allIds: [1],
