@@ -21,6 +21,7 @@ var database = {
     roles: defaultState.roles,
     shifts: defaultState.shifts,
     scheduledShifts: defaultState.scheduledShifts,
+    scheduleWeeks: defaultState.scheduleWeeks,
     availabilities: defaultState.availabilities,
     timeOffRequests: defaultState.timeOffRequests,
     shiftSwapRequests: defaultState.shiftSwapRequests,
