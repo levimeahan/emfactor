@@ -1,1 +1,2 @@
-export var userLoggedIn = function (state) { return state.app.userEmployeeId !== 0; };
+import { userLoggedIn, userIsManager } from './user';
+export { userLoggedIn, userIsManager };
