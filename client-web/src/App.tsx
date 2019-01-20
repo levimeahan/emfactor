@@ -1,11 +1,11 @@
 import React from 'react';
 
-import StoreProvider from "./StoreProvider";
+import StateProvider from "./StateProvider";
 import AppIndex from './AppIndex';
 
 function App() {
-    return <StoreProvider>
+    return <StateProvider>
         <AppIndex />
-    </StoreProvider>;
+    </StateProvider>;
 }
 export default App;

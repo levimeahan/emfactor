@@ -4,13 +4,13 @@ import { StyleSheet, css } from 'aphrodite';
 import useFormInput from '../hooks/useFormInput';
 import { actions } from 'emfactor-client-core';
 
-import StoreContext from '../StoreContext';
+import StateContext from '../StateContext';
 
 const Login = () => {
     const employeeId = useFormInput('');
     const password = useFormInput('');
 
-    const state = useContext(StoreContext);
+    const state = useContext(StateContext);
 
     return <div className={css(styles.loginContainer)}>
         <span role='error-message'>{state.app.errorMessage}</span>

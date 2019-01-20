@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import StoreContext from './StoreContext';
+import StateContext from './StateContext';
 
 import { store } from 'emfactor-client-core';
 
-function StoreProvider(props) {
+function StateProvider(props) {
     const [state, setState] = useState(store.getState());
 
     const receiveUpdate = (newState) => {
@@ -25,11 +25,11 @@ function StoreProvider(props) {
         [store]
     );
 
-    return <StoreContext.Provider value={state}>
+    return <StateContext.Provider value={state}>
         {props.children}
-    </StoreContext.Provider>;
+    </StateContext.Provider>;
 }
 
 
 
-export default StoreProvider;
+export default StateProvider;
