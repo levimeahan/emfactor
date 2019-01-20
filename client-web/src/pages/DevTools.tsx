@@ -40,13 +40,23 @@ const load = () => {
     }
 };
 
+const logState = () => {
+    console.log(store.getState());
+};
+
+const Button = ({ children, ...rest }) => (
+    <button className={css(styles.button)} {...rest}>{children}</button>
+);
+
 const DevTools = () => {
     return <div className={css(styles.container)}>
         <h3 className={css(styles.header)}>Local Storage</h3>
         <span className={css(styles.label)}>(Open console for result info)</span>
-        <button className={css(styles.button)} onClick={save} disabled={!canUseStorage}>Save State</button>
-        <button className={css(styles.button)} onClick={load} disabled={!canUseStorage}>Load State</button>
+        <Button onClick={save} disabled={!canUseStorage}>Save State</Button>
+        <Button onClick={load} disabled={!canUseStorage}>Load State</Button>
 
+        <h3>State</h3>
+        <Button onClick={logState}>Log to Console</Button>
     </div>;
 };
 
