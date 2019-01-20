@@ -1,4 +1,3 @@
-// TODO: Prevent state mutation
 // TODO: Consider adding support for subscribing to individual slices of state
 import defaultState from '../defaultState';
 var Store = /** @class */ (function () {

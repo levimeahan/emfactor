@@ -1,1 +1,9 @@
-export const userLoggedIn = (state) => state.app.userEmployeeId !== 0;
+import {
+    userLoggedIn,
+    userIsManager
+} from './user';
+
+export {
+    userLoggedIn,
+    userIsManager
+}
