@@ -12,22 +12,20 @@ var __assign = (this && this.__assign) || function () {
 import store from '../store';
 import network from '../network';
 import changeErrorMessage from '../reducers/changeErrorMessage';
-export default function login(employeeId, password) {
-    employeeId = parseInt(employeeId);
-    network.post('/login', { employeeId: employeeId, password: password })
+export default function addEmployee(firstName, lastName, isManager, success) {
+    network.post('/employees/add', { firstName: firstName, lastName: lastName, isManager: isManager })
         .then(function (response) {
-        var loginResponse = response;
-        if (loginResponse.loginOk) {
-            store.dispatch(loginSuccess, loginResponse.employee.id);
+        var empResponse = response;
+        if (empResponse.success) {
+            store.dispatch(addEmployeeSuccess, empResponse.employees);
+            success();
         }
         else {
-            store.dispatch(changeErrorMessage, loginResponse.errorMessage);
+            store.dispatch(changeErrorMessage, empResponse.errorMessage);
         }
     })
         .catch(function (error) {
         store.dispatch(changeErrorMessage, JSON.stringify(error));
     });
 }
-var loginSuccess = function (prevState, employeeId) {
-    return __assign({}, prevState, { app: __assign({}, prevState.app, { userEmployeeId: employeeId, errorMessage: '' }) });
-};
+var addEmployeeSuccess = function (prevState, employees) { return (__assign({}, prevState, { app: __assign({}, prevState.app, { errorMessage: '' }), employees: __assign({}, employees) })); };

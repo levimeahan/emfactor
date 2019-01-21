@@ -4,6 +4,8 @@ import network from '../network';
 import { Reducer } from '../types';
 import { LoginResponse } from "../types/serverResponses";
 
+import changeErrorMessage from '../reducers/changeErrorMessage';
+
 export default function login(employeeId, password) {
     employeeId = parseInt(employeeId);
 
@@ -15,11 +17,11 @@ export default function login(employeeId, password) {
                 store.dispatch(loginSuccess, loginResponse.employee.id);
             }
             else {
-                store.dispatch(loginFailure, loginResponse.errorMessage);
+                store.dispatch(changeErrorMessage, loginResponse.errorMessage);
             }
         })
         .catch((error) => {
-            store.dispatch(loginFailure, JSON.stringify(error));
+            store.dispatch(changeErrorMessage, JSON.stringify(error));
         });
 }
 
@@ -31,14 +33,5 @@ const loginSuccess: Reducer = (prevState, employeeId) => {
             userEmployeeId: employeeId,
             errorMessage: '',
         },
-    };
-};
-
-const loginFailure: Reducer = (prevState, errorMessage) => {
-    return {
-        ...prevState,
-        app: {
-            ...prevState.app, errorMessage: errorMessage
-        }
     };
 };

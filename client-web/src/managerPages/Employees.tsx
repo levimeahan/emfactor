@@ -13,19 +13,19 @@ import { colors, linkStyles } from '../themes/default';
 const Employees = ({ match }) => {
     return <div className={css(styles.MEContainer)} data-testid="manageEmployeesPage">
         <Route exact path={match.path} render={props => (
-            <Index path={match.path} {...props} />
+            <Index basePath={match.path} {...props} />
         )} />
         <Route path={match.path + '/add'} render={props => (
-            <AddEmployee path={match.path} {...props} />
+            <AddEmployee basePath={match.path} {...props} />
         )} />
     </div>;
 };
 
-const Index = ({ path }) => {
+const Index = ({ basePath }) => {
     const state = useContext(StateContext);
 
     return <React.Fragment>
-        <Link to={path + '/add'} className={css(linkStyles.standard)}>Add New Employee</Link>
+        <Link to={basePath + '/add'} className={css(linkStyles.standard)}>Add New Employee</Link>
         <h3>Employees</h3>
         <EmployeeList employees={selectors.employeeArray(state)} />
     </React.Fragment>;

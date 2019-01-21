@@ -16,7 +16,7 @@ var database = {
         byId: {
             1: __assign({}, defaultState.employees.byId[1], { password: 'bananas' })
         },
-        allIds: []
+        allIds: [1]
     },
     roles: defaultState.roles,
     shifts: defaultState.shifts,
@@ -28,5 +28,26 @@ var database = {
     availabilityChangeRequests: defaultState.availabilityChangeRequests,
     events: defaultState.events,
     notifications: defaultState.notifications,
+};
+export var updateDbFromStoreState = function (state) {
+    database.app = __assign({}, state.app);
+    var employees = {};
+    Object.values(state.employees.byId).forEach(function (employee) {
+        employees[employee.id] = __assign({}, employee, { password: 'bananas' });
+    });
+    database.employees = {
+        byId: employees,
+        allIds: state.employees.allIds.slice()
+    };
+    database.roles = __assign({}, state.roles);
+    database.shifts = __assign({}, state.shifts);
+    database.scheduledShifts = __assign({}, state.scheduledShifts);
+    database.scheduleWeeks = __assign({}, state.scheduleWeeks);
+    database.availabilities = __assign({}, state.availabilities);
+    database.timeOffRequests = __assign({}, state.timeOffRequests);
+    database.shiftSwapRequests = __assign({}, state.shiftSwapRequests);
+    database.availabilityChangeRequests = __assign({}, state.availabilityChangeRequests);
+    database.events = __assign({}, state.events);
+    database.notifications = __assign({}, state.notifications);
 };
 export default database;

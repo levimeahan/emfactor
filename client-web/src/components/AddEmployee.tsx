@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
 import { Link } from 'react-router-dom';
@@ -10,22 +10,33 @@ import useFormCheckbox from '../hooks/useFormCheckbox';
 import FormInput from '../components/FormInput';
 import FormCheckbox from "./FormCheckbox";
 
-const AddEmployee = ({ path }) => {
+import { actions } from 'emfactor-client-core';
+import StateContext from "../StateContext";
+
+const AddEmployee = ({ basePath, history }) => {
+    const state = useContext(StateContext);
     const firstName = useFormInput('');
     const lastName = useFormInput('');
     const roles = {
         manager: useFormCheckbox(false)
     };
 
+    const submit = () => {
+        actions.addEmployee(firstName.value, lastName.value, roles.manager.value, () => {
+            history.push(basePath);
+        });
+    };
+
     return <React.Fragment>
-        <Link to={path} className={css(linkStyles.standard)}>&lt; Back</Link>
+        <Link to={basePath} className={css(linkStyles.standard)}>&lt; Back</Link>
         <h3>Add New Employee</h3>
+        <span data-testid="errorMessage">{state.app.errorMessage}</span>
 
         <FormInput name='firstName' label='First Name' manager={firstName} />
         <FormInput name='lastName' label='Last Name' manager={lastName} />
         <FormCheckbox name='roles-manager' label='Manager' manager={roles.manager} />
 
-        <button onClick={() => console.log('hi', firstName.value, lastName.value, roles.manager.value)}>Submit</button>
+        <button onClick={submit}>Submit</button>
     </React.Fragment>;
 };
 

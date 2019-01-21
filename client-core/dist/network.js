@@ -44,11 +44,9 @@ var Network = /** @class */ (function () {
     }
     Network.prototype.post = function (url, data) {
         return __awaiter(this, void 0, void 0, function () {
-            var response;
             return __generator(this, function (_a) {
                 try {
-                    response = mockServer(url, data);
-                    return [2 /*return*/, response];
+                    return [2 /*return*/, mockServer(url, data)];
                 }
                 catch (e) {
                     this.errors.push(e);
