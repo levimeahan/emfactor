@@ -33,6 +33,7 @@ const load = () => {
         let state = JSON.parse(storedState);
 
         store.initialize(state);
+        store.updateSubscribers();
 
         console.log('Loaded!', state);
     } catch(e) {
@@ -40,6 +41,11 @@ const load = () => {
     }
 };
 
+const resetState = () => {
+    store.initialize(store.defaultState);
+    store.updateSubscribers();
+    console.log('Reset!', store.getState());
+};
 const logState = () => {
     console.log(store.getState());
 };
@@ -56,6 +62,7 @@ const DevTools = () => {
         <Button onClick={load} disabled={!canUseStorage}>Load State</Button>
 
         <h3>State</h3>
+        <Button onClick={resetState}>Reset to Default</Button>
         <Button onClick={logState}>Log to Console</Button>
     </div>;
 };
@@ -76,7 +83,9 @@ const styles = StyleSheet.create({
         color: colors.text.medium,
     },
     button: {
-        margin: '5px',
+        minWidth: '110px',
+        margin: '6px',
+        padding: '3px 2px',
         cursor: 'pointer',
     }
 });
