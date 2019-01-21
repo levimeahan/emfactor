@@ -6,29 +6,31 @@ import { actions } from 'emfactor-client-core';
 
 import StateContext from '../StateContext';
 
+import FormInput from '../components/FormInput';
+
 const Login = () => {
     const employeeId = useFormInput('');
     const password = useFormInput('');
 
     const state = useContext(StateContext);
 
-    return <div className={css(styles.loginContainer)}>
-        <span role='error-message'>{state.app.errorMessage}</span>
-        <input
+    return <div className={css(styles.loginContainer)} data-testid="loginPage">
+        <span data-testid="errorMessage">{state.app.errorMessage}</span>
+        <FormInput
             type='number'
-            role='employee-id'
-            placeholder='Employee ID'
-            value={employeeId.value}
-            onChange={employeeId.onChange}
+            name='employeeId'
+            label='Employee ID'
+            manager={employeeId}
         />
-        <input
+        <FormInput
             type='password'
-            role='password'
-            placeholder='Password'
-            value={password.value}
-            onChange={password.onChange}
+            name='password'
+            label='Password'
+            manager={password}
         />
-        <button onClick={() => actions.login(employeeId.value, password.value)}>Login</button>
+        <button
+            title='login'
+            onClick={() => actions.login(employeeId.value, password.value)}>Login</button>
     </div>;
 };
 

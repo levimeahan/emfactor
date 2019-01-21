@@ -116,7 +116,7 @@ let scheduleWeekDays: ScheduleDays = {
 
 
 const Schedule = () => {
-    return <div className={css(styles.container)}>
+    return <div className={css(styles.container)} data-testid="schedulePage">
         {scheduleWeekDays.allIds.map((day) => (
             <div key={day} className={css(styles.dayContainer)}>
                 <ScheduleDay
