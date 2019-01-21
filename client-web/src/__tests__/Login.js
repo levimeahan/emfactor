@@ -4,7 +4,7 @@ import {
     fireEvent,
     waitForElement,
 } from 'react-testing-library';
-import changeFormInput from '../testUtils/changeFormInput';
+import changeFormInput from '../__testUtils/changeFormInput';
 
 import { store } from 'emfactor-client-core';
 

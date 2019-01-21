@@ -6,12 +6,12 @@ import {
     getByText
 } from 'react-testing-library';
 
-import changeFormInput from '../testUtils/changeFormInput';
+import changeFormInput from '../__testUtils/changeFormInput';
 
 import { store } from 'emfactor-client-core';
 
 import App from '../App';
-import clickNavMenuLink from "../testUtils/clickNavMenuLink";
+import clickNavMenuLink from "../__testUtils/clickNavMenuLink";
 
 const setup = () => {
     store.initialize({
