@@ -223,3 +223,5 @@ interface Schema {
 }
 
 export type State = DeepReadonly<Schema>;
+
+export type Reducer = (prevState: State, ...rest) => State;

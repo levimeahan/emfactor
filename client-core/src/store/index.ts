@@ -1,6 +1,6 @@
 // TODO: Consider adding support for subscribing to individual slices of state
 
-import { State } from "../types";
+import { State, Reducer } from "../types";
 import defaultState from '../defaultState';
 
 class Store {
@@ -46,7 +46,7 @@ class Store {
      * @param reducer
      * @param params
      */
-    dispatch(reducer, ...params) {
+    dispatch(reducer: Reducer, ...params) {
         this.state = reducer(this.state, ...params);
         this.updateSubscribers();
     }
