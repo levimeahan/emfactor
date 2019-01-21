@@ -12,11 +12,9 @@ class Network {
         this.errors = [];
     }
 
-    async post(url, data) {
+    async post(url: string, data: object) {
         try {
-            let response = mockServer(url, data);
-
-            return response;
+            return mockServer(url, data);
         } catch(e) {
             this.errors.push(e);
             throw new Error(e);

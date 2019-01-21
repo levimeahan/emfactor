@@ -1,13 +1,10 @@
 import database from "./database";
 import { validate } from "validate.js";
-import {Employee} from "../types";
 
-interface LoginResponse {
-    loginOk: boolean;
-    employee: Employee;
-}
+import { Employee } from "../types";
+import { LoginResponse } from "../types/serverResponses";
 
-export default function(data) {
+export default function(urlSegments, data): LoginResponse {
     let errors = validate(data, {
         employeeId: {
             presence: true,
@@ -21,13 +18,15 @@ export default function(data) {
         return {
             loginOk: false,
             errorMessage: JSON.stringify(errors),
+            employee: null,
         }
     }
 
     if(!database.employees.byId.hasOwnProperty(data.employeeId)) {
         return {
             loginOk: false,
-            errorMessage: "Invalid employee!"
+            errorMessage: "Invalid employee!",
+            employee: null,
         }
     }
 
@@ -36,13 +35,14 @@ export default function(data) {
     if(employee.password !== data.password) {
         return {
             loginOk: false,
-            errorMessage: 'Invalid password!'
+            errorMessage: 'Invalid password!',
+            employee: null,
         };
     }
 
     return {
         loginOk: true,
-        errorMessage: '',
+        errorMessage: null,
         employee: <Employee> {
             id: employee.id,
             firstName: employee.firstName,

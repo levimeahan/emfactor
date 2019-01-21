@@ -1,38 +1,29 @@
 import store from '../store';
 import network from '../network';
 
-import { Employee } from '../types';
-
-interface LoginResponse {
-    loginOk: boolean,
-    errorMessage: string,
-    employee?: Employee
-}
+import { Reducer } from '../types';
+import { LoginResponse } from "../types/serverResponses";
 
 export default function login(employeeId, password) {
     employeeId = parseInt(employeeId);
 
-    // TODO: Make API call and get results, pass to success or failure reducer
-    let result = network.post('/login', { employeeId, password });
+    network.post('/login', { employeeId, password })
+        .then((response) => {
+            let loginResponse = response as LoginResponse;
 
-    result.then((response: LoginResponse) => {
-        if(response.loginOk) {
-            store.dispatch(loginSuccess, response.employee.id);
-        }
-        else {
-            store.dispatch(loginFailure, response.errorMessage);
-        }
-    })
-    .catch((error) => {
-        store.dispatch(loginFailure, JSON.stringify(error));
-    });
-
-
+            if(loginResponse.loginOk) {
+                store.dispatch(loginSuccess, loginResponse.employee.id);
+            }
+            else {
+                store.dispatch(loginFailure, loginResponse.errorMessage);
+            }
+        })
+        .catch((error) => {
+            store.dispatch(loginFailure, JSON.stringify(error));
+        });
 }
 
-/* REDUCERS - Do not perform side effects inside */
-
-const loginSuccess = (prevState, employeeId) => {
+const loginSuccess: Reducer = (prevState, employeeId) => {
     return {
         ...prevState,
         app: {
@@ -43,10 +34,11 @@ const loginSuccess = (prevState, employeeId) => {
     };
 };
 
-const loginFailure = (prevState, errorMessage) => {
-    // TODO: Make this update error message and decide how to display it
+const loginFailure: Reducer = (prevState, errorMessage) => {
     return {
         ...prevState,
-        app: { ...prevState.app, errorMessage: errorMessage }
+        app: {
+            ...prevState.app, errorMessage: errorMessage
+        }
     };
 };

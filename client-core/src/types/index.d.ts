@@ -2,6 +2,13 @@ type DeepReadonly<T> = {
     readonly [P in keyof T]: DeepReadonly<T[P]>
 };
 
+export type EntityCollection<T> = {
+    byId: {
+        [key: number]: T
+    },
+    allIds: number[],
+};
+
 /* SERVER ENTITY TYPES */
 export interface Employee {
     id: number;
@@ -154,72 +161,17 @@ interface Schema {
         userEmployeeId: number,
         errorMessage: string,
     },
-    employees: {
-        byId: {
-            [key: number]: Employee
-        },
-        allIds: number[],
-    },
-    roles: {
-        byId: {
-            [key: number]: Role
-        },
-        allIds: number[],
-    },
-    shifts: {
-        byId: {
-            [key: number]: Shift
-        },
-        allIds: number[],
-    },
-    scheduledShifts: {
-        byId: {
-            [key: number]: ScheduledShift
-        },
-        allIds: number[],
-    },
-    scheduleWeeks: {
-        byId: {
-            [key: number]: ScheduleWeek
-        },
-        allIds: number[],
-    },
-    availabilities: {
-        byId: {
-            [key: number]: Availability
-        },
-        allIds: number[],
-    },
-    timeOffRequests: {
-        byId: {
-            [key: number]: TimeOffRequest
-        },
-        allIds: number[],
-    },
-    shiftSwapRequests: {
-        byId: {
-            [key: number]: ShiftSwapRequest
-        },
-        allIds: number[],
-    },
-    availabilityChangeRequests: {
-        byId: {
-            [key: number]: AvailabilityChangeRequest
-        },
-        allIds: number[],
-    },
-    events: {
-        byId: {
-            [key: number]: Event
-        },
-        allIds: number[],
-    },
-    notifications: {
-        byId: {
-            [key: number]: Notification
-        },
-        allIds: number[],
-    }
+    employees: EntityCollection<Employee>,
+    roles: EntityCollection<Role>,
+    shifts: EntityCollection<Shift>,
+    scheduledShifts: EntityCollection<ScheduledShift>,
+    scheduleWeeks: EntityCollection<ScheduleWeek>,
+    availabilities: EntityCollection<Availability>,
+    timeOffRequests: EntityCollection<TimeOffRequest>,
+    shiftSwapRequests: EntityCollection<ShiftSwapRequest>,
+    availabilityChangeRequests: EntityCollection<AvailabilityChangeRequest>,
+    events: EntityCollection<Event>,
+    notifications: EntityCollection<Notification>,
 }
 
 export type State = DeepReadonly<Schema>;
