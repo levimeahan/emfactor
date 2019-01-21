@@ -18,8 +18,8 @@ const setup = () => {
 
     let renderResult = render(<App />);
 
-    let employeeIdInput = renderResult.getByPlaceholderText('Employee ID');
-    let passwordInput = renderResult.getByPlaceholderText('Password');
+    let employeeIdInput = renderResult.getByRole('employee-id');
+    let passwordInput = renderResult.getByRole('password');
 
     return { renderResult, employeeIdInput, passwordInput };
 };

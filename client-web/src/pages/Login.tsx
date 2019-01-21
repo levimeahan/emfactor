@@ -16,12 +16,14 @@ const Login = () => {
         <span role='error-message'>{state.app.errorMessage}</span>
         <input
             type='number'
+            role='employee-id'
             placeholder='Employee ID'
             value={employeeId.value}
             onChange={employeeId.onChange}
         />
         <input
             type='password'
+            role='password'
             placeholder='Password'
             value={password.value}
             onChange={password.onChange}
