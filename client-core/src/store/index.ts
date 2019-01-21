@@ -14,7 +14,7 @@ class Store {
         this.subscribers = [];
     }
 
-    initialize(initialState) {
+    initialize(initialState: State) {
         this.state = initialState;
     }
 
