@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 
-export default function useFormInput(defaultValue: string) {
+import { InputStateManager } from "../types";
+
+export default function useFormInput(defaultValue: string): InputStateManager {
     const [value, setValue] = useState(defaultValue);
 
     return {
