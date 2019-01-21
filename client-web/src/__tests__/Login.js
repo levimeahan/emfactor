@@ -18,8 +18,8 @@ const setup = () => {
 
     let renderResult = render(<App />);
 
-    let employeeIdInput = renderResult.getByRole('employee-id');
-    let passwordInput = renderResult.getByRole('password');
+    let employeeIdInput = renderResult.getByLabelText('Employee ID');
+    let passwordInput = renderResult.getByLabelText('Password');
 
     return { renderResult, employeeIdInput, passwordInput };
 };
@@ -48,11 +48,11 @@ it('denies invalid login credentials and shows error', async () => {
 
     fireEvent.click(submitButton);
 
-    let errorMessage = await waitForElement(() => renderResult.getByRole('error-message'));
+    let errorMessage = await waitForElement(() => renderResult.getByTestId('errorMessage'));
 
     expect(store.getState().app.userEmployeeId).toBe(0);
 
-    expect(errorMessage.innerHTML).toBe('Invalid password!');
+    expect(errorMessage.innerHTML).toMatch(/password/i);
 });
 
 it('logs in successfully', async () => {
@@ -68,7 +68,7 @@ it('logs in successfully', async () => {
     try {
         await waitForElement(() => renderResult.getByText('Logout'), { timeout: 1000 });
     } catch (e) {
-        let errorMessage = renderResult.getByRole('error-message');
+        let errorMessage = renderResult.getByTestId('errorMessage');
         throw new Error('Login timed out - ' + errorMessage.innerHTML);
     }
 

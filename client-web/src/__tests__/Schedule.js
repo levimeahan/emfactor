@@ -3,12 +3,15 @@ import {
     render,
     fireEvent,
     waitForElement,
+    getByText
 } from 'react-testing-library';
+
 import changeFormInput from '../testUtils/changeFormInput';
 
 import { store } from 'emfactor-client-core';
 
 import App from '../App';
+import clickNavMenuLink from "../testUtils/clickNavMenuLink";
 
 const setup = () => {
     store.initialize({
@@ -21,19 +24,25 @@ const setup = () => {
 
     let renderResult = render(<App/>);
 
-    fireEvent.click(renderResult.getByText('Schedule'));
+    clickNavMenuLink(renderResult.container, 'Schedule');
 
     return renderResult;
 };
 
-it('renders all 7 days', () => {
-    const { getByText } = setup();
+it('renders all 7 days', async () => {
+    const { getByText, getByTestId, container } = setup();
+
+    clickNavMenuLink(container, 'Schedule');
+
+    const schedule = await waitForElement(() =>
+        getByTestId('schedulePage')
+    );
 
     let daysFound = 0;
-    let days = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+    let days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
     days.forEach((day) => {
-        if(getByText(day, { exact: false })) {
+        if(getByText(day)) {
             daysFound++;
         }
     });
