@@ -1,3 +1,5 @@
+import { StyleSheet } from 'aphrodite/no-important';
+
 export const colors = {
     text: {
         bright: '#f0f0f0',
@@ -5,6 +7,10 @@ export const colors = {
         medium: '#d0d0d0',
         semiDark: '#c0c0c0',
         dark: '#b0b0b0',
+    },
+    links: {
+        primary: '#5a5ada',
+        primaryHover: '#6a6af0',
     },
     background: {
         primary: "#21252d",
@@ -31,3 +37,14 @@ export const colors = {
 export const sizes = {
     primaryFont: 16,
 };
+
+export const linkStyles = StyleSheet.create({
+    standard: {
+        color: colors.links.primary,
+        transition: 'color linear 75ms',
+        textDecoration: 'none',
+        ':hover': {
+            color: colors.links.primaryHover,
+        },
+    },
+});
