@@ -28,9 +28,7 @@ const Login = () => {
             label='Password'
             manager={password}
         />
-        <button
-            title='login'
-            onClick={() => actions.login(employeeId.value, password.value)}>Login</button>
+        <button onClick={() => actions.login(employeeId.value, password.value)}>Login</button>
     </div>;
 };
 
