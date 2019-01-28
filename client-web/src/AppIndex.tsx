@@ -4,13 +4,15 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import Login from './pages/Login';
 import Header from './components/Header';
 import AppRouter from './AppRouter';
-import StateContext from './StateContext';
 import { selectors } from 'emfactor-client-core';
+
+import useAppState from './hooks/useAppState';
+
 import { colors } from './themes/default';
 
 
 function AppIndex() {
-    const state = useContext(StateContext);
+    const state = useAppState();
 
     return <div className={css(styles.appContainer)}>
         <Header userLoggedIn={selectors.userLoggedIn(state)} />

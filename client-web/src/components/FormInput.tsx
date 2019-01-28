@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, css} from 'aphrodite/no-important';
+import { StyleSheet, css, CSSProperties } from 'aphrodite/no-important';
 import {InputStateManager} from "../types";
 
 interface FormInputProps {
@@ -7,10 +7,11 @@ interface FormInputProps {
     name: string;
     label: string;
     labelType: 'label'|'placeholder';
-    manager: InputStateManager
+    manager: InputStateManager,
+    styles?: object,
 }
 
-const FormInput = ({ name, label, labelType, type, manager }: FormInputProps) => (
+const FormInput = ({ name, label, labelType, type, manager, styles }: FormInputProps) => (
     <React.Fragment>
         {labelType === 'label' ?
             <label htmlFor={name}>{label}</label>
@@ -21,12 +22,14 @@ const FormInput = ({ name, label, labelType, type, manager }: FormInputProps) =>
             placeholder={labelType === 'placeholder' ? label : null}
             value={manager.value}
             onChange={manager.onChange}
+            className={styles ? css(styles) : ''}
         />
     </React.Fragment>
 );
 FormInput.defaultProps = {
     type: 'text',
-    labelType: 'label'
+    labelType: 'label',
+    styles: null,
 };
 
 const styles = StyleSheet.create({});

@@ -18,6 +18,7 @@ export type Event = types.Event;
 export type Notification = types.Notification;
 
 // Client-types
+export type State = types.State;
 export type ScheduleDayShift = types.ScheduleDayShift;
 export type ScheduleDay = types.ScheduleDay;
 export type ScheduleDays = types.ScheduleDays;

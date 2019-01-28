@@ -1,16 +1,20 @@
 import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
-import ScheduledShift from "./ScheduledShift";
+import ScheduleShift from "./ScheduleShift";
 
-const ScheduleRow = ({ shifts }) => {
+import { actions } from 'emfactor-client-core';
+
+const ScheduleRow = ({ shifts, templateMode }) => {
     return <div className={css(styles.rowContainer)}>
         {shifts.map((shift, i) => (
-            <ScheduledShift
+            <ScheduleShift
                 key={i}
                 name={shift.name}
                 startTime={shift.startTime}
                 endTime={shift.endTime}
-                employeeName={shift.employeeName}
+                employeeName={templateMode ? shift.employeeName : null}
+                templateMode={templateMode}
+                update={(data) => actions.editShift(shift.id, data)}
             />
         ))}
     </div>;

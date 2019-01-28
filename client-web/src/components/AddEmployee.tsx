@@ -6,15 +6,15 @@ import { linkStyles } from '../themes/default';
 
 import useFormInput from '../hooks/useFormInput';
 import useFormCheckbox from '../hooks/useFormCheckbox';
+import useAppState from '../hooks/useAppState';
 
 import FormInput from '../components/FormInput';
 import FormCheckbox from "./FormCheckbox";
 
 import { actions } from 'emfactor-client-core';
-import StateContext from "../StateContext";
 
 const AddEmployee = ({ basePath, history }) => {
-    const state = useContext(StateContext);
+    const state = useAppState();
     const firstName = useFormInput('');
     const lastName = useFormInput('');
     const roles = {

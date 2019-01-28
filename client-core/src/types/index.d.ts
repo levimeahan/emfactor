@@ -29,7 +29,7 @@ declare enum Day {
 
 export interface Shift {
     id: number;
-    dayOfTheWeek: Day;
+    day: Day;
     name: string;
     startTime: number;
     endTime: number;

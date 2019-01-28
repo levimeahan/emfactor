@@ -4,7 +4,7 @@ import { Route, Link } from 'react-router-dom';
 
 import { selectors } from 'emfactor-client-core';
 
-import StateContext from '../StateContext';
+import useAppState from '../hooks/useAppState';
 import AddEmployee from '../components/AddEmployee';
 import EmployeeList from '../components/EmployeeList';
 
@@ -22,7 +22,7 @@ const Employees = ({ match }) => {
 };
 
 const Index = ({ basePath }) => {
-    const state = useContext(StateContext);
+    const state = useAppState();
 
     return <React.Fragment>
         <Link to={basePath + '/add'} className={css(linkStyles.standard)}>Add New Employee</Link>

@@ -4,7 +4,7 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 
 import { selectors } from 'emfactor-client-core';
 
-import StateContext from './StateContext';
+import useAppState from './hooks/useAppState';
 import NavMenu from './components/NavMenu'
 import { routes, managerRoutes } from './routes';
 import {colors} from "./themes/default";
@@ -19,7 +19,7 @@ const preloadRoutes = () => {
 };
 
 const AppRouter = () => {
-    const state = useContext(StateContext);
+    const state = useAppState();
 
     useEffect(preloadRoutes, []);
 
