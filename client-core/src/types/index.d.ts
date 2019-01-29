@@ -27,6 +27,8 @@ declare enum Day {
     Mon = 1, Tue, Wed, Thu, Fri, Sat, Sun
 }
 
+export type DayNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+
 export interface Shift {
     id: number;
     day: Day;

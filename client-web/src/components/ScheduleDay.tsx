@@ -3,12 +3,12 @@ import {StyleSheet, css} from 'aphrodite/no-important';
 
 import ScheduleDayShifts from './ScheduleDayShifts';
 
-const ScheduleDay = ({ name, date, shifts, headerStyle, templateMode }) => {
+const ScheduleDay = ({ name, date, shifts, headerStyle, templateMode, addShift }) => {
     return <div className={css(styles.container)}>
         <div className={css(styles.header, headerStyle)}>
             <span className={css(styles.dayName)}>{name}</span>
             {templateMode ?
-                <span>Add Shift</span>
+                <button onClick={addShift}>Add Shift</button>
                 :
                 <span className={css(styles.date)}>{date}</span>
             }
@@ -21,6 +21,7 @@ const ScheduleDay = ({ name, date, shifts, headerStyle, templateMode }) => {
 };
 ScheduleDay.defaultProps = {
     templateMode: false,
+    addShift: () => {},
 };
 
 const styles = StyleSheet.create({

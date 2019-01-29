@@ -4,6 +4,8 @@ import { EmployeesResponse } from "../types/serverResponses";
 import store from '../store';
 
 import database, { updateDbFromStoreState } from './database';
+import getNextCollectionId from './getNextCollectionId';
+
 import {ROLE_EMPLOYEE, ROLE_MANAGER} from "../roles";
 
 interface AddEmployeeData {
@@ -40,13 +42,7 @@ export default function addEmployee(data: AddEmployeeData): EmployeesResponse {
 
     updateDbFromStoreState(store.getState());
 
-    let empId;
-    if(database.employees.allIds.length < 1) {
-        empId = 1;
-    }
-    else {
-        empId = database.employees.allIds.slice(-1)[0] + 1;
-    }
+    let empId = getNextCollectionId(database.employees);
 
     let roles = [ ROLE_EMPLOYEE ];
     if(data.isManager) {

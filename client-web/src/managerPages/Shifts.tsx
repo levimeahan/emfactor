@@ -124,6 +124,7 @@ const Shifts = () => {
                     shifts={selectors.shiftsByDay(state)[day]}
                     headerStyle={styles.dayHeaderContainer}
                     templateMode={true}
+                    addShift={() => actions.addShift(day)}
                 />
             </div>
         ))}
