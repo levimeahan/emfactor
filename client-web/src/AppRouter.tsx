@@ -9,6 +9,11 @@ import NavMenu from './components/NavMenu'
 import { routes, managerRoutes } from './routes';
 import {colors} from "./themes/default";
 
+// Lazy components must be set ahead of time to avoid new instances being created every render
+const addLazyComponent = route => ({ ...route, component: React.lazy(route.componentFactory) });
+const lazyRoutes = routes.map(addLazyComponent);
+const lazyManagerRoutes = managerRoutes.map(addLazyComponent);
+
 const preloadRoutes = () => {
     routes.map((route) => {
         route.componentFactory().then().catch();
@@ -37,13 +42,13 @@ const AppRouter = () => {
             <div className={css(styles.appContent)}>
                 <React.Suspense fallback={<div>Loading...</div>}>
                     <Switch>
-                        {routes.map((route, i) => (
-                            <Route key={i} path={route.path} component={React.lazy(route.componentFactory)} />
+                        {lazyRoutes.map((route, i) => (
+                            <Route key={i} path={route.path} component={route.component} />
                         ))}
                         {selectors.userIsManager(state) ?
                             <React.Fragment>
-                                {managerRoutes.map((route, i) => (
-                                    <Route key={i} path={route.path} component={React.lazy(route.componentFactory)} />
+                                {lazyManagerRoutes.map((route, i) => (
+                                    <Route key={i} path={route.path} component={route.component} />
                                 ))}
                             </React.Fragment>
                         : null}
