@@ -4,6 +4,7 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import { ScheduleDays, ScheduleDayShift, Shift } from 'emfactor-client-core';
 
 import ScheduleDay from '../components/ScheduleDay';
+import {colors} from "../themes/default";
 
 let baseShifts = [
     {
@@ -141,10 +142,7 @@ const styles = StyleSheet.create({
         padding: '5px',
     },
     dayContainer: {
-        display: 'flex',
-        minHeight: '76px',
         margin: '5px',
-        background: 'rgba(255,255,255,0.2)'
     },
     dayHeaderContainer: {
         width: '6em'

@@ -141,10 +141,7 @@ const styles = StyleSheet.create({
         padding: '5px',
     },
     dayContainer: {
-        display: 'flex',
-        minHeight: '76px',
         margin: '5px',
-        background: 'rgba(255,255,255,0.2)'
     },
     dayHeaderContainer: {
         width: '6em'

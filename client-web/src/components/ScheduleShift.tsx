@@ -3,10 +3,7 @@ import {StyleSheet, css} from 'aphrodite/no-important';
 
 import { colors, sizes } from '../themes/default';
 import FormInput from "./FormInput";
-
-const calcWidth = (startTime, endTime) => (
-    ((endTime - startTime) / 24) * 100
-);
+import calcShiftWidth from '../utils/calcShiftWidth';
 
 const formatTime = (hour) => {
     if(hour == 0 || hour == 24) {
@@ -45,7 +42,7 @@ const ScheduleShift = ({ name, startTime, endTime, employeeName, templateMode, u
 
     return <div
         className={css(styles.container)}
-        style={{ width: calcWidth(startTime, endTime) + '%' }}
+        style={{ width: calcShiftWidth(endTime - startTime) + '%' }}
         onClick={startEdit}
         onBlur={stopEdit}
     >
@@ -127,9 +124,11 @@ const ShiftEditView = ({startTime, endTime, name, employeeName, update}) => (
 
 const styles = StyleSheet.create({
     container: {
-        margin: '5px',
+        boxSizing: 'border-box',
+        padding: '4px',
         alignSelf: 'center',
         backgroundColor: '#3a3a3a',
+        border: '1px solid #303030',
     },
     shiftContent: {
         display: 'flex',

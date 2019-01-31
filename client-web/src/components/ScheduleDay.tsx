@@ -2,6 +2,7 @@ import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
 import ScheduleDayShifts from './ScheduleDayShifts';
+import {colors} from "../themes/default";
 
 const ScheduleDay = ({ name, date, shifts, headerStyle, templateMode, addShift }) => {
     return <div className={css(styles.container)}>
@@ -27,9 +28,11 @@ ScheduleDay.defaultProps = {
 const styles = StyleSheet.create({
     container: {
         display: 'flex',
+        minHeight: '60px',
         flexDirection: 'row',
         flexGrow: 1,
         alignSelf: 'stretch',
+        background: colors.background.secondaryLight,
     },
     header: {
         alignSelf: 'stretch',
