@@ -23,7 +23,7 @@ const formatTime = (hour) => {
 };
 
 const ScheduleShift = ({ name, startTime, endTime, employeeName, templateMode, update }) => {
-    const [editing, setEditing] = useState(true);
+    const [editing, setEditing] = useState(false);
 
     const startEdit = () => {
         if(!templateMode) {
@@ -47,7 +47,7 @@ const ScheduleShift = ({ name, startTime, endTime, employeeName, templateMode, u
         onBlur={stopEdit}
     >
         <div className={css(styles.shiftContent)}>
-            {editing ?
+            {templateMode ?
                 <ShiftEditView
                     startTime={startTime}
                     endTime={endTime}

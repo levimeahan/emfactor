@@ -8,66 +8,6 @@ import useAppState from '../hooks/useAppState';
 import ScheduleDay from '../components/ScheduleDay';
 import ErrorMessage from '../components/ErrorMessage';
 
-let baseShifts = {
-    1: {
-        id: 1,
-        day: 1,
-        startTime: 0,
-        endTime: 8,
-        name: 'Sunrise / Reg 1',
-        employeeId: 1,
-        employeeName: 'Levi'
-    },
-    2: {
-        id: 2,
-        day: 1,
-        startTime: 0,
-        endTime: 8,
-        name: 'Sunrise / Reg 2',
-        employeeId: 1,
-        employeeName: 'Kristihan'
-    },
-
-    3: {
-        id: 3,
-        day: 1,
-        startTime: 8,
-        endTime: 16,
-        name: 'Day / Reg 1',
-        employeeId: 2,
-        employeeName: 'Teresa',
-    },
-    4: {
-        id: 4,
-        day: 1,
-        startTime: 8,
-        endTime: 16,
-        name: 'Day / Reg 2',
-        employeeId: 2,
-        employeeName: 'Jenova',
-    },
-
-
-    5: {
-        id: 5,
-        day: 3,
-        startTime: 16,
-        endTime: 24,
-        name: 'Swing / Reg 1',
-        employeeId: 3,
-        employeeName: 'Annette',
-    },
-    6: {
-        id: 6,
-        day: 4,
-        startTime: 16,
-        endTime: 24,
-        name: 'Swing / Reg 2',
-        employeeId: 3,
-        employeeName: 'Malou',
-    }
-};
-
 let scheduleWeekDays: ScheduleDays = {
     byId: {
         1: {
@@ -109,22 +49,22 @@ let scheduleWeekDays: ScheduleDays = {
     allIds: [1, 2, 3, 4, 5, 6, 7]
 };
 
-
-
 const Shifts = () => {
     const state = useAppState();
 
+    const scheduleWeek = selectors.currentSchedule(state);
+
     return <div data-testid="manageShiftsPage">
         <ErrorMessage>{state.app.errorMessage}</ErrorMessage>
-        {scheduleWeekDays.allIds.map((day) => (
-            <div key={day} className={css(styles.dayContainer)}>
+        {scheduleWeek.dayIds.map((dayId) => (
+            <div key={dayId} className={css(styles.dayContainer)}>
                 <ScheduleDay
-                    name={scheduleWeekDays.byId[day].name}
-                    date={scheduleWeekDays.byId[day].date}
-                    shifts={selectors.shiftsByDay(state)[day]}
+                    name={scheduleWeek.days[dayId].name}
+                    date={scheduleWeek.days[dayId].date}
+                    shifts={scheduleWeek.days[dayId].shifts}
                     headerStyle={styles.dayHeaderContainer}
                     templateMode={true}
-                    addShift={() => actions.addShift(day)}
+                    addShift={() => actions.addShift(dayId)}
                 />
             </div>
         ))}
