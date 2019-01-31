@@ -1,14 +1,14 @@
 import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
-import { actions, ScheduleDayShift } from 'emfactor-client-core';
+import { actions, UIScheduleShift } from 'emfactor-client-core';
 
 import spreadShiftsToRows from '../utils/spreadShiftsToRows';
 
 import ScheduleRow from "./ScheduleRow";
 
 interface ScheduleDayShiftsProps {
-    shifts: ScheduleDayShift[];
+    shifts: UIScheduleShift[];
     templateMode: boolean;
 }
 

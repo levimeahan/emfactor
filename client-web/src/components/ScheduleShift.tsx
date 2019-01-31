@@ -5,35 +5,31 @@ import { colors, sizes } from '../themes/default';
 import FormInput from "./FormInput";
 import calcShiftWidth from '../utils/calcShiftWidth';
 
-const formatTime = (hour) => {
-    if(hour == 0 || hour == 24) {
-        return '12 AM';
-    }
+import arrayFromRange from "../utils/arrayFromRange";
+import formatHour from '../utils/formatHour';
 
-    if(hour == 12) {
-        return '12 PM';
-    }
+// Note - edit = changing the template of a shift, assign = changing who is assigned to the shift for a given week
+interface ScheduleShiftProps {
+    name: string;
+    startTime: number;
+    endTime: number;
+    employeeName: string;
+    mode: 'EDIT' | 'ASSIGN' | 'DISPLAY';
+    update: (newValues: { name?: string, startTime?: number, endTime?: number, employeeName?: string} ) => void;
+}
 
-    if(hour > 12) {
-        return `${hour - 12} PM`;
-    }
-    else {
-        return `${hour} AM`;
-    }
-};
-
-const ScheduleShift = ({ name, startTime, endTime, employeeName, templateMode, update }) => {
+const ScheduleShift = ({ name, startTime, endTime, employeeName, mode, update }: ScheduleShiftProps) => {
     const [editing, setEditing] = useState(false);
 
     const startEdit = () => {
-        if(!templateMode) {
+        if(mode !== 'EDIT') {
             return false;
         }
 
         // setEditing(true);
     };
     const stopEdit = () => {
-        if(!templateMode) {
+        if(mode !== 'EDIT') {
             return false;
         }
 
@@ -47,63 +43,101 @@ const ScheduleShift = ({ name, startTime, endTime, employeeName, templateMode, u
         onBlur={stopEdit}
     >
         <div className={css(styles.shiftContent)}>
-            {templateMode ?
-                <ShiftEditView
-                    startTime={startTime}
-                    endTime={endTime}
-                    name={name}
-                    employeeName={employeeName}
-                    update={update}
-                />
+            <div className={css(styles.time, styles.startTime)}>
+                {mode === 'EDIT' ?
+                    <ShiftTimeEdit
+                        time={startTime}
+                        label='Start: '
+                        onChange={newValue => update({ startTime: newValue })}
+                    />
                 :
-                <ShiftContentView
-                    startTime={startTime}
-                    endTime={endTime}
-                    name={name}
-                    employeeName={templateMode ? name : employeeName}
-                />
-            }
+                    <ShiftTimeDisplay time={startTime} />
+                }
+            </div>
+
+            <div className={css(styles.employeeName)}>
+                {mode === 'EDIT' ?
+                    <FormInput
+                        type='text'
+                        name='shiftName'
+                        label=''
+                        manager={{
+                            value: name,
+                            onChange: (e) => {
+                                if(mode === 'EDIT') {
+                                    update({ name: e.currentTarget.value })
+                                }
+                                else {
+                                    update({ employeeName: e.currentTarget.value })
+                                }
+                            },
+                        }}
+                        styles={styles.nameInput}
+                    />
+                : null}
+                {mode === 'ASSIGN' ?
+                    <span>Assign</span>
+                : null}
+                {mode === 'DISPLAY' ?
+                    <span>{name}</span>
+                : null}
+            </div>
+
+            <div className={css(styles.time, styles.endTime)}>
+                {mode === 'EDIT' ?
+                    <ShiftTimeEdit
+                        time={endTime}
+                        label='End: '
+                        onChange={newValue => update({ endTime: newValue })}
+                    />
+                    :
+                    <ShiftTimeDisplay time={startTime} />
+                }
+            </div>
         </div>
     </div>;
+};
+ScheduleShift.defaultProps = {
+    mode: 'DISPLAY',
 };
 
 const ShiftContentView = ({startTime, endTime, name, employeeName}) => (
     <React.Fragment>
-        <span className={css(styles.time, styles.startTime)}>{formatTime(startTime)}</span>
         <span className={css(styles.employeeName)}>{employeeName}</span>
-        <span className={css(styles.time, styles.endTime)}>{formatTime(endTime)}</span>
+        <span className={css(styles.time, styles.endTime)}>{formatHour(endTime)}</span>
     </React.Fragment>
 );
 
 
-let hours = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24];
+const hours = arrayFromRange(0, 24);
+
+const ShiftTimeDisplay = ({ time }) => (
+    <span>{formatHour(time)}</span>
+);
+
+const ShiftTimeEdit = ({ time, label, onChange }) => (
+    <React.Fragment>
+        <span>{label}</span>
+        <select
+            onBlur={(e) => {e.stopPropagation()}}
+            value={time}
+            onChange={e => onChange(parseInt(e.currentTarget.value))}
+        >
+            {hours.map((hour, i) => (
+                <option key={i} value={hour}>{hour}:00</option>
+            ))}
+        </select>
+    </React.Fragment>
+);
 
 const ShiftEditView = ({startTime, endTime, name, employeeName, update}) => (
     <React.Fragment>
         <div className={css(styles.startTime)}>
-            <span>Start: </span>
-            <select
-                onBlur={(e) => {e.stopPropagation()}}
-                value={startTime}
-                onChange={e => update({ startTime: parseInt(e.currentTarget.value) })}
-            >
-                {hours.map((hour, i) => (
-                    <option key={i} value={hour}>{hour}:00</option>
-                ))}
-            </select>
+            
         </div>
 
         <div className={css(styles.employeeName)}>
-            <FormInput
-                type='text'
-                name='shiftName'
-                label=''
-                manager={{
-                    value: name,
-                    onChange: (e) => { update({ name: e.currentTarget.value }) }
-                }}
-                styles={styles.nameInput}
-            />
+
         </div>
 
 

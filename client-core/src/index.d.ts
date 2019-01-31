@@ -19,7 +19,7 @@ export type Notification = types.Notification;
 
 // Client-types
 export type State = types.State;
-export type ScheduleDayShift = types.ScheduleDayShift;
-export type ScheduleDay = types.ScheduleDay;
-export type ScheduleDays = types.ScheduleDays;
+export type UIScheduleShift = types.UIScheduleShift;
+export type UIScheduleDay = types.UIScheduleDay;
+export type UIScheduleWeek = types.UIScheduleWeek;
 

@@ -18,7 +18,7 @@ const ScheduleRow = ({ shifts, templateMode }) => {
 
 
         if(timeElapsed > 0) {
-            renderItems.push(<Spacer time={timeElapsed} />)
+            renderItems.push(<Spacer key={'spacer' + i} time={timeElapsed} />)
         }
 
         renderItems.push(
@@ -28,13 +28,13 @@ const ScheduleRow = ({ shifts, templateMode }) => {
                 startTime={shift.startTime}
                 endTime={shift.endTime}
                 employeeName={templateMode ? shift.employeeName : null}
-                templateMode={templateMode}
+                mode={templateMode ? 'EDIT' : 'DISPLAY'}
                 update={(data) => actions.editShift(shift.id, data)}
             />
         );
     });
     if(shifts[shifts.length - 1].endTime < 24) {
-        renderItems.push(<Spacer time={24 - shifts[shifts.length - 1].endTime} />);
+        renderItems.push(<Spacer key={'spacer' + shifts.length} time={24 - shifts[shifts.length - 1].endTime} />);
     }
 
     return <div className={css(styles.rowContainer)}>
