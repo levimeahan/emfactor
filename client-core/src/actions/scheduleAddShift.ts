@@ -10,7 +10,7 @@ import {ShiftResponse} from "../types/serverResponses";
 export default function addShift(day) {
     network.post('/shifts/add', { day })
         .then((response) => {
-            let shiftResponse: ShiftResponse = response;
+            let shiftResponse = response as ShiftResponse;
 
             if(shiftResponse.success) {
                 store.dispatch(shiftAddSuccess, shiftResponse.shift);
