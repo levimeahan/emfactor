@@ -125,11 +125,12 @@ export interface Notification {
 
 /*
     A union type that bridges the key info from Shift and employee info from ScheduledShift together in a UI-usable
-    package. Intended to be stored in a day's data so that day/date do not need to be stored here
+    package.
  */
 export interface UIScheduleShift {
     id: number;
     name: string;
+    day: number;
     startTime: number;
     endTime: number;
     employeeId: number;

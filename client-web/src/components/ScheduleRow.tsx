@@ -2,10 +2,16 @@ import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 import ScheduleShift from "./ScheduleShift";
 
-import { actions } from 'emfactor-client-core';
+import { UIScheduleShift } from 'emfactor-client-core';
 import calcShiftWidth from "../utils/calcShiftWidth";
+import {ScheduleMode} from "../types";
 
-const ScheduleRow = ({ shifts, templateMode }) => {
+interface ScheduleRowProps {
+    shifts: UIScheduleShift[];
+    mode: ScheduleMode;
+}
+
+const ScheduleRow = ({ shifts, mode }: ScheduleRowProps) => {
     let renderItems = [];
     shifts.forEach((shift, i) => {
         let timeElapsed = 0;
@@ -24,12 +30,13 @@ const ScheduleRow = ({ shifts, templateMode }) => {
         renderItems.push(
             <ScheduleShift
                 key={i}
+                id={shift.id}
                 name={shift.name}
                 startTime={shift.startTime}
                 endTime={shift.endTime}
-                employeeName={templateMode ? shift.employeeName : null}
-                mode={templateMode ? 'EDIT' : 'DISPLAY'}
-                update={(data) => actions.editShift(shift.id, data)}
+                employeeId={shift.employeeId}
+                employeeName={shift.employeeName}
+                mode={mode}
             />
         );
     });

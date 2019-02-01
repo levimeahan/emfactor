@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
+import Select from 'react-select';
 
 import { colors, sizes } from '../themes/default';
 import FormInput from "./FormInput";
@@ -7,40 +8,42 @@ import calcShiftWidth from '../utils/calcShiftWidth';
 
 import arrayFromRange from "../utils/arrayFromRange";
 import formatHour from '../utils/formatHour';
+import useAppState from "../hooks/useAppState";
+
+import { actions, selectors } from 'emfactor-client-core';
+import {ScheduleMode} from "../types";
 
 // Note - edit = changing the template of a shift, assign = changing who is assigned to the shift for a given week
 interface ScheduleShiftProps {
+    id: number;
     name: string;
     startTime: number;
     endTime: number;
+    employeeId: number;
     employeeName: string;
-    mode: 'EDIT' | 'ASSIGN' | 'DISPLAY';
-    update: (newValues: { name?: string, startTime?: number, endTime?: number, employeeName?: string} ) => void;
+    mode: ScheduleMode;
 }
 
-const ScheduleShift = ({ name, startTime, endTime, employeeName, mode, update }: ScheduleShiftProps) => {
-    const [editing, setEditing] = useState(false);
+const ScheduleShift = ({
+   id, name, startTime, endTime, employeeId, employeeName, mode,
+}: ScheduleShiftProps) => {
+    const state = useAppState();
 
-    const startEdit = () => {
-        if(mode !== 'EDIT') {
-            return false;
-        }
-
-        // setEditing(true);
+    const update = (data) => {
+        actions.editShift(id, data)
     };
-    const stopEdit = () => {
-        if(mode !== 'EDIT') {
-            return false;
+    const assign = (newEmployeeId) => {
+        if(!newEmployeeId) {
+            actions.assignShift(id, 0);
         }
-
-        // setEditing(false);
+        else {
+            actions.assignShift(id, newEmployeeId)
+        }
     };
 
     return <div
         className={css(styles.container)}
         style={{ width: calcShiftWidth(endTime - startTime) + '%' }}
-        onClick={startEdit}
-        onBlur={stopEdit}
     >
         <div className={css(styles.shiftContent)}>
             <div className={css(styles.time, styles.startTime)}>
@@ -63,23 +66,24 @@ const ScheduleShift = ({ name, startTime, endTime, employeeName, mode, update }:
                         label=''
                         manager={{
                             value: name,
-                            onChange: (e) => {
-                                if(mode === 'EDIT') {
-                                    update({ name: e.currentTarget.value })
-                                }
-                                else {
-                                    update({ employeeName: e.currentTarget.value })
-                                }
-                            },
+                            onChange: (e) => update({ name: e.currentTarget.value }),
                         }}
                         styles={styles.nameInput}
                     />
                 : null}
                 {mode === 'ASSIGN' ?
-                    <span>Assign</span>
+                    <select
+                        value={employeeId ? employeeId : ''}
+                        onChange={e => e.currentTarget.value ? assign(e.currentTarget.value) : null}
+                    >
+                        <option value='0'>None</option>
+                        {getEmpOptions(state).map((option, i) =>
+                            <option key={i} value={option.value}>{option.label}</option>
+                        )}
+                    </select>
                 : null}
                 {mode === 'DISPLAY' ?
-                    <span>{name}</span>
+                    <span>{employeeName}</span>
                 : null}
             </div>
 
@@ -101,13 +105,11 @@ ScheduleShift.defaultProps = {
     mode: 'DISPLAY',
 };
 
-const ShiftContentView = ({startTime, endTime, name, employeeName}) => (
-    <React.Fragment>
-        <span className={css(styles.employeeName)}>{employeeName}</span>
-        <span className={css(styles.time, styles.endTime)}>{formatHour(endTime)}</span>
-    </React.Fragment>
+const getEmpOptions = (state) => (
+    selectors.employeeArray(state).map(emp => (
+        { value: emp.id, label: `${emp.firstName} ${emp.lastName}`}
+    ))
 );
-
 
 const hours = arrayFromRange(0, 24);
 
@@ -130,31 +132,6 @@ const ShiftTimeEdit = ({ time, label, onChange }) => (
     </React.Fragment>
 );
 
-const ShiftEditView = ({startTime, endTime, name, employeeName, update}) => (
-    <React.Fragment>
-        <div className={css(styles.startTime)}>
-            
-        </div>
-
-        <div className={css(styles.employeeName)}>
-
-        </div>
-
-
-        <div className={css(styles.endTime)}>
-            <span>End: </span>
-            <select
-                onBlur={(e) => {e.stopPropagation()}}
-                value={endTime}
-                onChange={e => update({ endTime: parseInt(e.currentTarget.value) })}
-            >
-                {hours.map((hour, i) => (
-                    <option key={i} value={hour}>{hour}:00</option>
-                ))}
-            </select>
-        </div>
-    </React.Fragment>
-);
 
 const styles = StyleSheet.create({
     container: {
@@ -195,6 +172,28 @@ const styles = StyleSheet.create({
 
     nameInput: {
         width: '150px',
+    },
+});
+
+const selectTheme = (theme) => ({
+    ...theme,
+    colors: {
+        ...theme.colors,
+        primary: '#1a3469',
+        primary25: '#515969',
+        primary50: '#1d3469',
+        primary75: '#344469',
+        neutral0: '#202020',
+        neutral5: '#252525',
+        neutral10: '#2a2a2a',
+        neutral20: '#2f2f2f',
+        neutral30: '#343434',
+        neutral40: '#393939',
+        neutral50: '#3e3e3e',
+        neutral60: '#434343',
+        neutral70: '#484848',
+        neutral80: '#4d4d4d',
+        neutral90: '#525252',
     },
 });
 

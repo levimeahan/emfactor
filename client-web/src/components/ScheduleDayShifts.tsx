@@ -4,15 +4,16 @@ import {StyleSheet, css} from 'aphrodite/no-important';
 import { actions, UIScheduleShift } from 'emfactor-client-core';
 
 import spreadShiftsToRows from '../utils/spreadShiftsToRows';
-
 import ScheduleRow from "./ScheduleRow";
+
+import { ScheduleMode } from '../types';
 
 interface ScheduleDayShiftsProps {
     shifts: UIScheduleShift[];
-    templateMode: boolean;
+    mode: ScheduleMode;
 }
 
-const ScheduleDayShifts = ({ shifts, templateMode }: ScheduleDayShiftsProps) => {
+const ScheduleDayShifts = ({ shifts, mode }: ScheduleDayShiftsProps) => {
     let rows = spreadShiftsToRows(shifts);
 
     return <div className={css(styles.sdsContainer)}>
@@ -20,7 +21,7 @@ const ScheduleDayShifts = ({ shifts, templateMode }: ScheduleDayShiftsProps) => 
             <ScheduleRow
                 key={i}
                 shifts={row}
-                templateMode={templateMode}
+                mode={mode}
             />
         ))}
     </div>;

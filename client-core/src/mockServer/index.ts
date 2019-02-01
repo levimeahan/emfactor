@@ -3,6 +3,7 @@ import addEmployee from './addEmployee';
 
 import addShift from './addShift';
 import editShift from './editShift';
+import assignShift from "./assignShift";
 
 const mockServer = (url, data) => {
     let urlSegments = url.split('/');
@@ -34,6 +35,8 @@ const mockServer = (url, data) => {
                     return addShift(data);
                 case 'edit':
                     return editShift(data);
+                case 'assign':
+                    return assignShift(data);
                 default:
                     throw new Error(`Invalid page: /shift/${urlSegments[1]}`);
             }

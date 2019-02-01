@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
 import { selectors } from 'emfactor-client-core';
@@ -8,9 +8,14 @@ import useAppState from '../hooks/useAppState';
 
 const Schedule = () => {
     const state = useAppState();
-    const scheduleWeek = selectors.currentSchedule(state);
+    const scheduleWeek = selectors.currentScheduleWeek(state);
+
+    const [editing, setEditing] = useState(false);
 
     return <div className={css(styles.container)} data-testid="schedulePage">
+        <div>
+            <button onClick={() => setEditing(!editing)}>Toggle Edit</button>
+        </div>
         {scheduleWeek.dayIds.map((dayId) => (
             <div key={dayId} className={css(styles.dayContainer)}>
                 <ScheduleDay
@@ -18,6 +23,7 @@ const Schedule = () => {
                     date={scheduleWeek.days[dayId].date}
                     shifts={scheduleWeek.days[dayId].shifts}
                     headerStyle={styles.dayHeaderContainer}
+                    mode={editing ? 'ASSIGN' : 'DISPLAY'}
                 />
             </div>
         ))}

@@ -3,8 +3,9 @@ import logout from './logout';
 
 import addEmployee from './employeeAdd';
 
-import editShift from './scheduleEditShift';
 import addShift from './scheduleAddShift';
+import editShift from './scheduleEditShift';
+import assignShift from './scheduleAssignShift';
 
 export {
     login,
@@ -12,6 +13,7 @@ export {
 
     addEmployee,
 
-    editShift,
     addShift,
+    editShift,
+    assignShift,
 };

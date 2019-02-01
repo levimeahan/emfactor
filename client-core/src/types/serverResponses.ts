@@ -1,4 +1,4 @@
-import { Employee, Shift, EntityCollection } from "./index";
+import {Employee, Shift, EntityCollection, ScheduledShift} from "./index";
 
 
 export interface LoginResponse {
@@ -17,4 +17,11 @@ export interface ShiftResponse {
     success: boolean;
     errorMessage: string;
     shift: Shift;
+}
+
+export interface ShiftAssignResponse {
+    success: boolean;
+    errorMessage: string;
+    isNew: boolean;
+    scheduledShift: ScheduledShift;
 }

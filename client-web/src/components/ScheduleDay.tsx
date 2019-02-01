@@ -1,14 +1,26 @@
 import React from 'react';
-import {StyleSheet, css} from 'aphrodite/no-important';
+import {StyleSheet, css, StyleDeclarationValue} from 'aphrodite/no-important';
+
+import { UIScheduleShift } from "emfactor-client-core";
 
 import ScheduleDayShifts from './ScheduleDayShifts';
 import {colors} from "../themes/default";
+import {ScheduleMode} from "../types";
 
-const ScheduleDay = ({ name, date, shifts, headerStyle, templateMode, addShift }) => {
+interface ScheduleDayProps {
+    name: string;
+    date: string;
+    shifts: UIScheduleShift[];
+    headerStyle: StyleDeclarationValue;
+    mode: ScheduleMode;
+    addShift: () => void;
+}
+
+const ScheduleDay = ({ name, date, shifts, headerStyle, mode, addShift }: ScheduleDayProps) => {
     return <div className={css(styles.container)}>
         <div className={css(styles.header, headerStyle)}>
             <span className={css(styles.dayName)}>{name}</span>
-            {templateMode ?
+            {mode === 'EDIT' ?
                 <button onClick={addShift}>Add Shift</button>
                 :
                 <span className={css(styles.date)}>{date}</span>
@@ -16,12 +28,12 @@ const ScheduleDay = ({ name, date, shifts, headerStyle, templateMode, addShift }
         </div>
         <ScheduleDayShifts
             shifts={shifts}
-            templateMode={templateMode}
+            mode={mode}
         />
     </div>;
 };
 ScheduleDay.defaultProps = {
-    templateMode: false,
+    mode: 'DISPLAY',
     addShift: () => {},
 };
 

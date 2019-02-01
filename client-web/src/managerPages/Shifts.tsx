@@ -11,7 +11,7 @@ import ErrorMessage from '../components/ErrorMessage';
 const Shifts = () => {
     const state = useAppState();
 
-    const scheduleWeek = selectors.currentSchedule(state);
+    const scheduleWeek = selectors.currentScheduleWeek(state);
 
     return <div data-testid="manageShiftsPage">
         <ErrorMessage>{state.app.errorMessage}</ErrorMessage>
@@ -22,7 +22,7 @@ const Shifts = () => {
                     date={scheduleWeek.days[dayId].date}
                     shifts={scheduleWeek.days[dayId].shifts}
                     headerStyle={styles.dayHeaderContainer}
-                    templateMode={true}
+                    mode='EDIT'
                     addShift={() => actions.addShift(dayId)}
                 />
             </div>
