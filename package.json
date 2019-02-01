@@ -1,7 +1,6 @@
 {
   "name": "emfactor",
-  "version": "0.0.1",
-  "private": true,
+  "version": "0.1.0",
   "dependencies": {
     "emfactor-client-web": "file:client-web",
     "emfactor-client-core": "file:client-core"
