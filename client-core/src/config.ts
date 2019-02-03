@@ -1,6 +1,6 @@
-export type DayNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+import { DayNumber } from './types';
 
-export const Days = {
+export const Days: { [key: string]: DayNumber } = {
     mon: 1,
     tue: 2,
     wed: 3,

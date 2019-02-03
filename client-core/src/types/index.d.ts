@@ -1,5 +1,3 @@
-import { DayNumber } from '../config';
-
 type DeepReadonly<T> = {
     readonly [P in keyof T]: DeepReadonly<T[P]>
 };
@@ -10,6 +8,8 @@ export type EntityCollection<T> = {
     },
     allIds: number[],
 };
+
+export type DayNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
 /* SERVER ENTITY TYPES */
 export interface Employee {
