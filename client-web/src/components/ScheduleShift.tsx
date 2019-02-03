@@ -95,7 +95,7 @@ const ScheduleShift = ({
                         onChange={newValue => update({ endTime: newValue })}
                     />
                     :
-                    <ShiftTimeDisplay time={startTime} />
+                    <ShiftTimeDisplay time={endTime} />
                 }
             </div>
         </div>
