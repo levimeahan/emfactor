@@ -1,9 +1,9 @@
 import { validate } from "validate.js";
 import { EmployeesResponse } from "../types/serverResponses";
+import defaultState from '../defaultState';
 
 import store from '../store';
 
-import database, { updateDbFromStoreState } from './database';
 import getNextCollectionId from './getNextCollectionId';
 
 import {ROLE_EMPLOYEE, ROLE_MANAGER} from "../roles";
@@ -40,25 +40,39 @@ export default function addEmployee(data: AddEmployeeData): EmployeesResponse {
 
     response.success = true;
 
-    updateDbFromStoreState(store.getState());
 
-    let empId = getNextCollectionId(database.employees);
+    const employees = { ...store.getState().employees };
+    let empId = getNextCollectionId(employees);
 
     let roles = [ ROLE_EMPLOYEE ];
     if(data.isManager) {
         roles.push(ROLE_MANAGER);
     }
 
-    database.employees.byId[empId] = {
-        id: empId,
-        firstName: data.firstName,
-        lastName: data.lastName,
-        password: 'bananas',
-        roles: roles,
-    };
-    database.employees.allIds.push(empId);
+    const tenToTwenty = '0'.repeat(9) + '1'.repeat(10) + '0'.repeat(5);
+    const notAvailable = '0'.repeat(24);
 
-    response.employees = database.employees;
+    response.employees = {
+        byId: {
+            ...employees.byId,
+            [empId]: {
+                id: empId,
+                firstName: data.firstName,
+                lastName: data.lastName,
+                availability: {
+                    mon: tenToTwenty,
+                    tue: notAvailable,
+                    wed: tenToTwenty,
+                    thu: notAvailable,
+                    fri: tenToTwenty,
+                    sat: notAvailable,
+                    sun: tenToTwenty,
+                },
+                roles: roles,
+            },
+        },
+        allIds: [ ...employees.allIds, empId ]
+    };
 
     return response;
 }

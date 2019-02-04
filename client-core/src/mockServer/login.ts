@@ -1,6 +1,6 @@
-import database from "./database";
 import { validate } from "validate.js";
 
+import store from '../store';
 import { Employee } from "../types";
 import { LoginResponse } from "../types/serverResponses";
 
@@ -22,7 +22,9 @@ export default function(urlSegments, data): LoginResponse {
         }
     }
 
-    if(!database.employees.byId.hasOwnProperty(data.employeeId)) {
+    const employees = store.getState().employees;
+
+    if(!employees.byId.hasOwnProperty(data.employeeId)) {
         return {
             loginOk: false,
             errorMessage: "Invalid employee!",
@@ -30,9 +32,9 @@ export default function(urlSegments, data): LoginResponse {
         }
     }
 
-    let employee = database.employees.byId[data.employeeId];
+    let employee = employees.byId[data.employeeId];
 
-    if(employee.password !== data.password) {
+    if(data.password !== 'bananas') {
         return {
             loginOk: false,
             errorMessage: 'Invalid password!',

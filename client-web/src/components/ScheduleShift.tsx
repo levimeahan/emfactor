@@ -77,7 +77,7 @@ const ScheduleShift = ({
                         onChange={e => e.currentTarget.value ? assign(e.currentTarget.value) : null}
                     >
                         <option value='0'>None</option>
-                        {getEmpOptions(state).map((option, i) =>
+                        {getEmpOptions(state, id).map((option, i) =>
                             <option key={i} value={option.value}>{option.label}</option>
                         )}
                     </select>
@@ -105,8 +105,8 @@ ScheduleShift.defaultProps = {
     mode: 'DISPLAY',
 };
 
-const getEmpOptions = (state) => (
-    selectors.employeeArray(state).map(emp => (
+const getEmpOptions = (state, shiftId) => (
+    selectors.availableEmployees(state, shiftId).map(emp => (
         { value: emp.id, label: `${emp.firstName} ${emp.lastName}`}
     ))
 );

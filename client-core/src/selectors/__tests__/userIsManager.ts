@@ -8,6 +8,15 @@ const employeeTemplate = {
     id: 1,
     firstName: 'John',
     lastName: 'Doe',
+    availability: {
+        mon: '',
+        tue: '',
+        wed: '',
+        thu: '',
+        fri: '',
+        sat: '',
+        sun: '',
+    },
 };
 
 const setupState: State = {

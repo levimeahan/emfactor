@@ -1,6 +1,9 @@
 import {ROLE_EMPLOYEE, ROLE_MANAGER} from "./roles";
 import { State } from './types';
 
+const eightToSixteen = '0'.repeat(8) + '1'.repeat(8) + '0'.repeat(8);
+const notAvailable = '0'.repeat(23);
+
 const defaultState: State = {
     app: {
         userEmployeeId: 1,
@@ -12,6 +15,15 @@ const defaultState: State = {
                 id: 1,
                 firstName: 'Levi',
                 lastName: 'Meahan',
+                availability: {
+                    mon: eightToSixteen,
+                    tue: eightToSixteen,
+                    wed: eightToSixteen,
+                    thu: eightToSixteen,
+                    fri: eightToSixteen,
+                    sat: notAvailable,
+                    sun: notAvailable,
+                },
                 roles: [ROLE_EMPLOYEE, ROLE_MANAGER]
             },
         },
@@ -88,10 +100,6 @@ const defaultState: State = {
         allIds: [],
     },
     scheduleWeeks: {
-        byId: {},
-        allIds: [],
-    },
-    availabilities: {
         byId: {},
         allIds: [],
     },

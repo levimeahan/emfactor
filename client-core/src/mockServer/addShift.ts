@@ -4,9 +4,7 @@ import { DayNumber } from '../types';
 
 import store from '../store';
 
-import database, { updateDbFromStoreState } from './database';
 import getNextCollectionId from './getNextCollectionId';
-
 
 interface AddShiftData {
     day: DayNumber;
@@ -35,22 +33,14 @@ export default function addShift(data: AddShiftData): ShiftResponse {
     }
 
     response.success = true;
-
-    updateDbFromStoreState(store.getState());
-
-    let newShift = {
-        id: getNextCollectionId(database.shifts),
+    response.shift = {
+        id: getNextCollectionId(store.getState().shifts),
         day: data.day,
         startTime: 0,
         endTime: 8,
         name: 'New Shift',
         allowedRoles: [],
     };
-
-    database.shifts.byId[newShift.id] = newShift;
-    database.shifts.allIds.push(newShift.id);
-
-    response.shift = newShift;
 
     return response;
 }

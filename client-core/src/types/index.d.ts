@@ -1,6 +1,6 @@
 type DeepReadonly<T> = {
     readonly [P in keyof T]: DeepReadonly<T[P]>
-};
+    };
 
 export type EntityCollection<T> = {
     byId: {
@@ -11,11 +11,22 @@ export type EntityCollection<T> = {
 
 export type DayNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
+interface Availability {
+    mon: string;
+    tue: string;
+    wed: string;
+    thu: string;
+    fri: string;
+    sat: string;
+    sun: string;
+}
+
 /* SERVER ENTITY TYPES */
 export interface Employee {
     id: number;
     firstName: string;
     lastName: string;
+    availability: Availability;
     roles: number[];
 }
 
@@ -47,21 +58,6 @@ export interface ScheduledShift {
     scheduleWeek: number;
 }
 
-export interface Availability {
-    id: number;
-    employeeId: number;
-    final: boolean;
-    dayHours: {
-        mon: number[],
-        tue: number[],
-        wed: number[],
-        thu: number[],
-        fri: number[],
-        sat: number[],
-        sun: number[],
-    },
-}
-
 export interface TimeOffRequest {
     id: number;
     employeeId: number;
@@ -89,7 +85,7 @@ export interface ShiftSwapRequest {
 export interface AvailabilityChangeRequest {
     id: number;
     employeeId: number;
-    newAvailability: number;
+    newHours: Availability;
     approved: boolean;
     finalized: boolean;
     finalizedBy: number;
@@ -168,7 +164,6 @@ interface Schema {
     shifts: EntityCollection<Shift>,
     scheduledShifts: EntityCollection<ScheduledShift>,
     scheduleWeeks: EntityCollection<ScheduleWeek>,
-    availabilities: EntityCollection<Availability>,
     timeOffRequests: EntityCollection<TimeOffRequest>,
     shiftSwapRequests: EntityCollection<ShiftSwapRequest>,
     availabilityChangeRequests: EntityCollection<AvailabilityChangeRequest>,

@@ -1,5 +1,3 @@
-import {State, Shift, UIScheduleWeek, UIScheduleShift} from '../types';
-
 import {
     userLoggedIn,
     userIsManager
@@ -9,12 +7,16 @@ import {
     currentScheduleWeek
 } from './schedule';
 
-export const employeeArray = (state: State) => (
-    state.employees.allIds.map(id => state.employees.byId[id])
-);
+import {
+    employeeArray,
+    availableEmployees,
+} from './employees';
 
 export {
     userLoggedIn,
     userIsManager,
-    currentScheduleWeek
+    currentScheduleWeek,
+
+    employeeArray,
+    availableEmployees,
 }

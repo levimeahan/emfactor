@@ -9,3 +9,13 @@ export const Days: { [key: string]: DayNumber } = {
     sat: 6,
     sun: 7,
 };
+
+export const DaysByNum = {
+    1: 'mon',
+    2: 'tue',
+    3: 'wed',
+    4: 'thu',
+    5: 'fri',
+    6: 'sat',
+    7: 'sun',
+};

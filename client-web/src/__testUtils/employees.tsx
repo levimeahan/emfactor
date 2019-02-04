@@ -8,7 +8,7 @@ import {ROLE_EMPLOYEE, ROLE_MANAGER} from "../../../client-core/src/roles";
 
 import App from '../App';
 
-export const addEmployeeToStore = (id, firstName, lastName, roles) => {
+export const addEmployeeToStore = (id, firstName, lastName, availability, roles) => {
     store.dispatch((prevState) => ({
         ...prevState,
         employees: {
@@ -18,6 +18,7 @@ export const addEmployeeToStore = (id, firstName, lastName, roles) => {
                     id,
                     firstName,
                     lastName,
+                    availability,
                     roles
                 }
             },
@@ -33,6 +34,15 @@ export const defaultEmployee: Employee = {
     id: 1,
     firstName: 'Levi',
     lastName: 'Meahan',
+    availability: {
+        mon: '',
+        tue: '',
+        wed: '',
+        thu: '',
+        fri: '',
+        sat: '',
+        sun: '',
+    },
     roles: [ ROLE_EMPLOYEE, ROLE_MANAGER ]
 };
 

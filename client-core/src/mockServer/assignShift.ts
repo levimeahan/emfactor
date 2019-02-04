@@ -3,7 +3,6 @@ import {ShiftAssignResponse} from "../types/serverResponses";
 
 import store from '../store';
 
-import database, { updateDbFromStoreState } from './database';
 import getNextCollectionId from './getNextCollectionId';
 import {ScheduledShift} from "../types";
 
@@ -41,17 +40,17 @@ export default function assignShift(data: AssignShiftData): ShiftAssignResponse 
 
     response.success = true;
 
-    updateDbFromStoreState(store.getState());
 
+    const scheduledShifts = store.getState().scheduledShifts;
     let scheduledShift: ScheduledShift;
-    let existingId = database.scheduledShifts.allIds.find(id =>
-        database.scheduledShifts.byId[id].shiftId === data.shiftId
+    let existingId = scheduledShifts.allIds.find(id =>
+        scheduledShifts.byId[id].shiftId === data.shiftId
     );
 
     if(existingId === undefined) {
         response.isNew = true;
         scheduledShift = {
-            id: getNextCollectionId(database.scheduledShifts),
+            id: getNextCollectionId(scheduledShifts),
             shiftId: data.shiftId,
             employeeId: data.employeeId,
             scheduleWeek: 0,
@@ -59,7 +58,7 @@ export default function assignShift(data: AssignShiftData): ShiftAssignResponse 
     }
     else {
         scheduledShift = {
-            ...database.scheduledShifts.byId[existingId],
+            ...scheduledShifts.byId[existingId],
             employeeId: data.employeeId,
         };
     }
