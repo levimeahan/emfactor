@@ -17,7 +17,7 @@ it('renders employee info', async () => {
     getByText(defaultEmployee.id.toString());
     getByText(defaultEmployee.firstName + ' ' + defaultEmployee.lastName);
 
-    addEmployeeToStore(2, 'John', 'Doe', [ROLE_EMPLOYEE]);
+    addEmployeeToStore(2, 'John', 'Doe', defaultEmployee.availability, [ROLE_EMPLOYEE]);
     await waitForElement(() => getByTestId('manageEmployeesPage'));
     getByText('John Doe');
 });
