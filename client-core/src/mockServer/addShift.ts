@@ -4,7 +4,7 @@ import { DayNumber } from '../types';
 
 import store from '../store';
 
-import getNextCollectionId from './getNextCollectionId';
+import getNextCollectionId from '../utils/getNextCollectionId';
 
 interface AddShiftData {
     day: DayNumber;

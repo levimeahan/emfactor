@@ -38,7 +38,7 @@ export const sizes = {
     primaryFont: 16,
 };
 
-export const linkStyles = StyleSheet.create({
+export const linkThemes = StyleSheet.create({
     standard: {
         color: colors.links.primary,
         transition: 'color linear 75ms',
@@ -46,5 +46,12 @@ export const linkStyles = StyleSheet.create({
         ':hover': {
             color: colors.links.primaryHover,
         },
+    },
+});
+
+export const list = StyleSheet.create({
+    item: {
+        background: colors.background.secondary,
+        borderTop: `1px solid ${colors.background.secondaryDark}`
     },
 });

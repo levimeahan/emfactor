@@ -68,7 +68,7 @@ const ScheduleShift = ({
                             value: name,
                             onChange: (e) => update({ name: e.currentTarget.value }),
                         }}
-                        styles={styles.nameInput}
+                        inputStyle={styles.nameInput}
                     />
                 : null}
                 {mode === 'ASSIGN' ?

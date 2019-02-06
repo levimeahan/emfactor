@@ -7,6 +7,8 @@ import addShift from './scheduleAddShift';
 import editShift from './scheduleEditShift';
 import assignShift from './scheduleAssignShift';
 
+import addRole from './roleAdd';
+
 export {
     login,
     logout,
@@ -16,4 +18,6 @@ export {
     addShift,
     editShift,
     assignShift,
+
+    addRole,
 };

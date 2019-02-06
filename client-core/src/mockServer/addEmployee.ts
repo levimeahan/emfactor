@@ -4,7 +4,7 @@ import defaultState from '../defaultState';
 
 import store from '../store';
 
-import getNextCollectionId from './getNextCollectionId';
+import getNextCollectionId from '../utils/getNextCollectionId';
 
 import {ROLE_EMPLOYEE, ROLE_MANAGER} from "../roles";
 

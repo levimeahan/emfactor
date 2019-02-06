@@ -19,3 +19,12 @@ export const DaysByNum = {
     6: 'sat',
     7: 'sun',
 };
+
+export const permissions = {
+    employees: {
+        label: 'Manage Employees',
+    },
+    schedule: {
+        label: 'Manage Schedule',
+    },
+};

@@ -3,7 +3,7 @@ import {ShiftAssignResponse} from "../types/serverResponses";
 
 import store from '../store';
 
-import getNextCollectionId from './getNextCollectionId';
+import getNextCollectionId from '../utils/getNextCollectionId';
 import {ScheduledShift} from "../types";
 
 

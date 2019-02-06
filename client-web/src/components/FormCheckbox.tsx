@@ -5,23 +5,44 @@ import {InputStateManager} from "../types";
 interface FormCheckboxProps {
     name: string;
     label: string;
-    manager: InputStateManager
+    manager: InputStateManager;
 }
 
 const FormCheckbox = ({ name, label, manager }: FormCheckboxProps) => (
-    <React.Fragment>
+    <div className={css(styles.container)}>
         {label.length > 0 ?
-            <label htmlFor={name}>{label}</label>
+            <label htmlFor={name} className={css(styles.label)}>{label}</label>
         : null}
         <input
             type='checkbox'
             id={name}
-            value={manager.value}
-            onChange={manager.onChange}
+            checked={manager.value}
+            onChange={(e) => manager.onChange(e.currentTarget.checked)}
+            className={css(styles.input)}
         />
-    </React.Fragment>
+    </div>
 );
+FormCheckbox.defaultProps = {
+    checked: true,
+};
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    container: {
+        display: 'flex',
+        flexDirection: 'row',
+        alignItems: 'center',
+        padding: '3px 0',
+    },
+    label: {
+        display: 'inline-block',
+        minWidth: '100px',
+        textAlign: 'left',
+    },
+    input: {
+        margin: '3px 0 0 5px',
+        height: '14px',
+        width: '14px',
+    },
+});
 
 export default FormCheckbox;

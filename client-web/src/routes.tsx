@@ -26,6 +26,10 @@ Shifts
 * Add new
 * Edit existing
 
+Roles
+* Add new
+* Edit existing
+
 Schedules
 * Create future schedules
 * Edit current schedules
@@ -52,6 +56,7 @@ const DevTools = () => import('./pages/DevTools');
 const Employees = () => import('./managerPages/Employees');
 const Shifts = () => import('./managerPages/Shifts');
 const PendingRequests = () => import('./managerPages/PendingRequests');
+const Roles = () => import('./managerPages/Roles');
 
 interface PageRoute {
     path: string;
@@ -104,6 +109,11 @@ export const routes: PageRoute[] = [
 
 export const managerRoutes: PageRoute[] = [
     {
+        path: '/pending-requests',
+        componentFactory: PendingRequests,
+        name: 'Pending Requests',
+    },
+    {
         path: '/employees',
         componentFactory: Employees,
         name: 'Employees',
@@ -114,8 +124,8 @@ export const managerRoutes: PageRoute[] = [
         name: 'Shifts',
     },
     {
-        path: '/pending-requests',
-        componentFactory: PendingRequests,
-        name: 'PendingRequests',
+        path: '/roles',
+        componentFactory: Roles,
+        name: 'Roles',
     },
 ];

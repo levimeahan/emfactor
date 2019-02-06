@@ -2,9 +2,9 @@ import store from './store/index';
 import * as actions from './actions/index';
 import * as selectors from './selectors/index';
 import * as types from './types/index';
-import { Days } from './index';
+import { Days, permissions } from './index';
 
-export { store, actions, selectors, Days };
+export { store, actions, selectors, Days, permissions };
 
 export type Employee = types.Employee;
 export type Role = types.Role;
