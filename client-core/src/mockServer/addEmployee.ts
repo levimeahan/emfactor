@@ -1,17 +1,14 @@
 import { validate } from "validate.js";
 import { EmployeesResponse } from "../types/serverResponses";
-import defaultState from '../defaultState';
 
 import store from '../store';
 
 import getNextCollectionId from '../utils/getNextCollectionId';
 
-import {ROLE_EMPLOYEE, ROLE_MANAGER} from "../roles";
-
 interface AddEmployeeData {
     firstName: string,
     lastName: string,
-    isManager: boolean
+    roles: number[],
 }
 
 export default function addEmployee(data: AddEmployeeData): EmployeesResponse {
@@ -28,7 +25,7 @@ export default function addEmployee(data: AddEmployeeData): EmployeesResponse {
         lastName: {
             presence: { allowEmpty: false },
         },
-        isManager: {
+        roles: {
             presence: true,
         },
     });
@@ -40,14 +37,8 @@ export default function addEmployee(data: AddEmployeeData): EmployeesResponse {
 
     response.success = true;
 
-
     const employees = { ...store.getState().employees };
     let empId = getNextCollectionId(employees);
-
-    let roles = [ ROLE_EMPLOYEE ];
-    if(data.isManager) {
-        roles.push(ROLE_MANAGER);
-    }
 
     const tenToTwenty = '0'.repeat(9) + '1'.repeat(10) + '0'.repeat(5);
     const notAvailable = '0'.repeat(24);
@@ -68,7 +59,7 @@ export default function addEmployee(data: AddEmployeeData): EmployeesResponse {
                     sat: notAvailable,
                     sun: tenToTwenty,
                 },
-                roles: roles,
+                roles: data.roles,
             },
         },
         allIds: [ ...employees.allIds, empId ]

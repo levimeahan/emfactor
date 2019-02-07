@@ -5,11 +5,11 @@ import {
 } from 'react-testing-library';
 
 import changeFormInput from '../__testUtils/changeFormInput';
-import { addEmployeeToStore, defaultEmployee, setup } from '../__testUtils/employees';
+import { addEmployeeToStore, defaultEmployee, setup, roles } from '../__testUtils/employees';
 import waitForErrorMessage from '../__testUtils/waitForErrorMessage';
 import { store, selectors } from 'emfactor-client-core';
 
-import {ROLE_EMPLOYEE, ROLE_MANAGER} from "../../../client-core/src/roles";
+
 
 it('renders employee info', async () => {
     const { getByText, getByTestId } = await setup();
@@ -17,7 +17,7 @@ it('renders employee info', async () => {
     getByText(defaultEmployee.id.toString());
     getByText(defaultEmployee.firstName + ' ' + defaultEmployee.lastName);
 
-    addEmployeeToStore(2, 'John', 'Doe', defaultEmployee.availability, [ROLE_EMPLOYEE]);
+    addEmployeeToStore(2, 'John', 'Doe', defaultEmployee.availability, [roles.employee]);
     await waitForElement(() => getByTestId('manageEmployeesPage'));
     getByText('John Doe');
 });
@@ -85,8 +85,8 @@ it('adds employee with no manager role', async () => {
 
     expect(newEmployee).toBeDefined();
 
-    expect(newEmployee.roles).toContain(ROLE_EMPLOYEE);
-    expect(newEmployee.roles).not.toContain(ROLE_MANAGER);
+    expect(newEmployee.roles).toContain(roles.employee);
+    expect(newEmployee.roles).not.toContain(roles.manager);
 });
 
 it('adds employee with manager role', async () => {
@@ -117,6 +117,6 @@ it('adds employee with manager role', async () => {
 
     expect(newEmployee).not.toBeNull();
 
-    expect(newEmployee.roles).toContain(ROLE_EMPLOYEE);
-    expect(newEmployee.roles).toContain(ROLE_MANAGER);
+    expect(newEmployee.roles).toContain(roles.employee);
+    expect(newEmployee.roles).toContain(roles.manager);
 });

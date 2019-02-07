@@ -12,6 +12,10 @@ import {
     availableEmployees,
 } from './employees';
 
+import {
+    roleNames
+} from './roles';
+
 export {
     userLoggedIn,
     userIsManager,
@@ -19,4 +23,6 @@ export {
 
     employeeArray,
     availableEmployees,
+
+    roleNames,
 }

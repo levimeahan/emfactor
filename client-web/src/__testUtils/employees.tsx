@@ -4,9 +4,13 @@ import clickNavMenuLink from './clickNavMenuLink';
 import { Employee } from "emfactor-client-core";
 
 import { store } from 'emfactor-client-core';
-import {ROLE_EMPLOYEE, ROLE_MANAGER} from "../../../client-core/src/roles";
 
 import App from '../App';
+
+export const roles = {
+    employee: 1,
+    manager: 2,
+};
 
 export const addEmployeeToStore = (id, firstName, lastName, availability, roles) => {
     store.dispatch((prevState) => ({
@@ -43,11 +47,11 @@ export const defaultEmployee: Employee = {
         sat: '',
         sun: '',
     },
-    roles: [ ROLE_EMPLOYEE, ROLE_MANAGER ]
+    roles: [ roles.employee, roles.manager ]
 };
 
 export const setup = async () => {
-    store.initialize({
+        store.initialize({
         ...store.defaultState,
         app: {
             ...store.defaultState.app,

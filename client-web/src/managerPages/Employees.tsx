@@ -4,9 +4,12 @@ import { Route, Link } from 'react-router-dom';
 
 import { selectors } from 'emfactor-client-core';
 
-import useAppState from '../hooks/useAppState';
+import SubRoute from "../components/SubRoute";
 import AddEmployee from '../components/AddEmployee';
 import EmployeeList from '../components/EmployeeList';
+import EditEmployee from "../components/EditEmployee";
+
+import useAppState from '../hooks/useAppState';
 
 import { colors, linkThemes } from '../themes/default';
 import pageStyles from '../styles/page';
@@ -19,12 +22,16 @@ const Employees = ({ match }) => {
                 {...props}
             />
         )} />
-        <Route path={match.path + '/add'} render={props => (
-            <AddEmployee
-                basePath={match.path}
-                {...props}
-            />
-        )} />
+        <SubRoute
+            basePath={match.path}
+            path={match.path + '/add'}
+            component={AddEmployee}
+        />
+        <SubRoute
+            basePath={match.path}
+            path={match.path + '/edit/:id'}
+            component={EditEmployee}
+        />
     </div>;
 };
 
@@ -34,7 +41,10 @@ const Index = ({ basePath }) => {
     return <React.Fragment>
         <Link to={basePath + '/add'} className={css(linkThemes.standard)}>Add New Employee</Link>
         <h3>Employees</h3>
-        <EmployeeList employees={selectors.employeeArray(state)} />
+        <EmployeeList
+            employees={selectors.employeeArray(state)}
+            editPath={basePath + '/edit'}
+        />
     </React.Fragment>;
 };
 

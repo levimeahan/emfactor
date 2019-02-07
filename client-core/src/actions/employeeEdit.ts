@@ -6,13 +6,19 @@ import changeErrorMessage from '../reducers/changeErrorMessage';
 import {Employee, EntityCollection, Reducer} from '../types';
 import {EmployeesResponse} from "../types/serverResponses";
 
-export default function addEmployee(
+export default function editEmployee(
+    id: number,
     firstName: Employee['firstName'],
     lastName: Employee['lastName'],
     roles: Employee['roles'],
-    success?: Function
+    onSuccess?: Function
 ) {
-    network.post('/employees/add', { firstName, lastName, roles })
+    store.dispatch(editEmployeeSuccess, id, { firstName, lastName, roles });
+    if(onSuccess) {
+        onSuccess();
+    }
+
+    /*network.post('/employees/add', { firstName, lastName, roles })
         .then((response) => {
             let empResponse = response as EmployeesResponse;
 
@@ -26,16 +32,19 @@ export default function addEmployee(
         })
         .catch((error) => {
             store.dispatch(changeErrorMessage, JSON.stringify(error));
-        });
+        });*/
 }
 
-const addEmployeeSuccess: Reducer = (prevState, employees: EntityCollection<Employee>) => ({
+const editEmployeeSuccess: Reducer = (prevState, employeeId: number, changedData: Partial<Employee>) => ({
     ...prevState,
-    app: {
-        ...prevState.app,
-        errorMessage: '',
-    },
     employees: {
-        ...employees
+        ...prevState.employees,
+        byId: {
+            ...prevState.employees.byId,
+            [employeeId]: {
+                ...prevState.employees.byId[employeeId],
+                ...changedData
+            }
+        },
     }
 });

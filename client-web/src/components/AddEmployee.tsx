@@ -12,31 +12,37 @@ import FormCheckbox from "./FormCheckbox";
 
 import { actions } from 'emfactor-client-core';
 import ErrorMessage from "./ErrorMessage";
+import EmployeeForm from "./EmployeeForm";
+import useFormCheckboxGroup from "../hooks/useFormCheckboxGroup";
 
 const AddEmployee = ({ basePath, history }) => {
     const state = useAppState();
     const firstName = useFormInput('');
     const lastName = useFormInput('');
-    const roles = {
-        manager: useFormInput(false)
-    };
+    const roles = useFormCheckboxGroup(
+        state.roles.allIds.map((id) => ({
+            name: state.roles.byId[id].name,
+            label: state.roles.byId[id].name,
+            checked: false,
+            value: id,
+        }))
+    );
 
     const submit = () => {
-        actions.addEmployee(firstName.value, lastName.value, roles.manager.value, () => {
+        actions.addEmployee(firstName.value, lastName.value, roles.value, () => {
             history.push(basePath);
         });
     };
 
     return <React.Fragment>
-        <Link to={basePath} className={css(linkThemes.standard)}>&lt; Back</Link>
         <h3>Add New Employee</h3>
-        <ErrorMessage>{state.app.errorMessage}</ErrorMessage>
-
-        <FormInput name='firstName' label='First Name' manager={firstName} />
-        <FormInput name='lastName' label='Last Name' manager={lastName} />
-        <FormCheckbox name='roles-manager' label='Manager' manager={roles.manager} />
-
-        <button onClick={submit}>Submit</button>
+        <EmployeeForm
+            errorMessage={state.app.errorMessage}
+            firstName={firstName}
+            lastName={lastName}
+            roles={roles}
+            submit={submit}
+        />
     </React.Fragment>;
 };
 

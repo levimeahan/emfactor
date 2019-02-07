@@ -1,4 +1,3 @@
-import {ROLE_EMPLOYEE, ROLE_MANAGER} from "./roles";
 import { State } from './types';
 
 const eightToSixteen = '0'.repeat(8) + '1'.repeat(8) + '0'.repeat(8);
@@ -24,7 +23,7 @@ const defaultState: State = {
                     sat: notAvailable,
                     sun: notAvailable,
                 },
-                roles: [ROLE_EMPLOYEE, ROLE_MANAGER]
+                roles: [1, 2]
             },
         },
         allIds: [1],
@@ -34,10 +33,17 @@ const defaultState: State = {
             1: {
                 id: 1,
                 name: 'Employee',
+                permissions: [],
                 subRoles: []
-            }
+            },
+            2: {
+                id: 2,
+                name: 'Manager',
+                permissions: ['employees', 'schedule'],
+                subRoles: [1],
+            },
         },
-        allIds: [1],
+        allIds: [1, 2],
     },
     shifts: {
         byId: {

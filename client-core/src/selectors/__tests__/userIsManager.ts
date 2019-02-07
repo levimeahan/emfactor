@@ -2,7 +2,6 @@ import { userIsManager } from '../user';
 
 import { State } from '../../types';
 import defaultState from '../../defaultState';
-import {ROLE_EMPLOYEE, ROLE_MANAGER} from "../../roles";
 
 const employeeTemplate = {
     id: 1,
@@ -19,6 +18,11 @@ const employeeTemplate = {
     },
 };
 
+const roles = {
+    employee: 1,
+    manager: 2,
+};
+
 const setupState: State = {
     ...defaultState,
     app: {
@@ -33,19 +37,19 @@ const setupState: State = {
             },
             2: {
                 ...employeeTemplate,
-                roles: [ROLE_EMPLOYEE],
+                roles: [roles.employee],
             },
             3: {
                 ...employeeTemplate,
-                roles: [ROLE_MANAGER],
+                roles: [roles.manager],
             },
             4: {
                 ...employeeTemplate,
-                roles: [ROLE_EMPLOYEE, ROLE_MANAGER],
+                roles: [roles.employee, roles.manager],
             },
             5: {
                 ...employeeTemplate,
-                roles: [ROLE_MANAGER, ROLE_EMPLOYEE],
+                roles: [roles.manager, roles.employee],
             },
         },
         allIds: [1, 2, 3, 4, 5]
