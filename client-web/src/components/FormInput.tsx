@@ -1,5 +1,9 @@
 import React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
+
+import FormInputLabel from './FormInputLabel';
+
+
 import {InputStateManager} from "../types";
 
 interface FormInputProps {
@@ -18,7 +22,7 @@ const FormInput = ({
 }: FormInputProps) => (
     <div className={css(styles.container, containerStyle)}>
         {labelType === 'label' ?
-            <label htmlFor={name} className={css(styles.label, labelStyle)}>{label}</label>
+            <FormInputLabel inputId={name} style={labelStyle}>{label}</FormInputLabel>
         : null}
         <input
             type='text'
@@ -44,7 +48,6 @@ const styles = StyleSheet.create({
         flexDirection: 'column',
         alignItems: 'flex-start',
     },
-    label: {},
     input: {
         marginTop: '4px',
     }

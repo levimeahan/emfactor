@@ -10,6 +10,7 @@ export type Employee = types.Employee;
 export type Role = types.Role;
 export type Shift = types.Shift;
 export type ScheduledShift = types.ScheduledShift;
+export type Availability = types.Availability;
 export type AvailabilityChangeRequest = types.AvailabilityChangeRequest;
 export type TimeOffRequest = types.TimeOffRequest;
 export type ShiftSwapRequest = types.ShiftSwapRequest;

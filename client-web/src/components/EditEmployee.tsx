@@ -31,9 +31,10 @@ const EditEmployee = ({ basePath, match,  history }) => {
             value: id,
         }))
     );
+    const availability = useFormInput(employee.availability);
 
     const submit = () => {
-        actions.editEmployee(employee.id, firstName.value, lastName.value, roles.value, () => {
+        actions.editEmployee(employee.id, firstName.value, lastName.value, roles.value, availability.value, () => {
             history.push(basePath);
         });
     };
@@ -45,6 +46,7 @@ const EditEmployee = ({ basePath, match,  history }) => {
             firstName={firstName}
             lastName={lastName}
             roles={roles}
+            availability={availability}
             submit={submit}
         />
     </div>;

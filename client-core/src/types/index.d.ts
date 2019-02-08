@@ -11,7 +11,7 @@ export type EntityCollection<T> = {
 
 export type DayNumber = 1 | 2 | 3 | 4 | 5 | 6 | 7;
 
-interface Availability {
+export interface Availability {
     mon: string;
     tue: string;
     wed: string;

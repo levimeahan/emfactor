@@ -4,11 +4,13 @@ import { EmployeesResponse } from "../types/serverResponses";
 import store from '../store';
 
 import getNextCollectionId from '../utils/getNextCollectionId';
+import {Employee} from "../types";
 
 interface AddEmployeeData {
-    firstName: string,
-    lastName: string,
-    roles: number[],
+    firstName: Employee['firstName'],
+    lastName: Employee['lastName'],
+    roles: Employee['roles'],
+    availability: Employee['availability'];
 }
 
 export default function addEmployee(data: AddEmployeeData): EmployeesResponse {
@@ -40,9 +42,6 @@ export default function addEmployee(data: AddEmployeeData): EmployeesResponse {
     const employees = { ...store.getState().employees };
     let empId = getNextCollectionId(employees);
 
-    const tenToTwenty = '0'.repeat(9) + '1'.repeat(10) + '0'.repeat(5);
-    const notAvailable = '0'.repeat(24);
-
     response.employees = {
         byId: {
             ...employees.byId,
@@ -50,15 +49,7 @@ export default function addEmployee(data: AddEmployeeData): EmployeesResponse {
                 id: empId,
                 firstName: data.firstName,
                 lastName: data.lastName,
-                availability: {
-                    mon: tenToTwenty,
-                    tue: notAvailable,
-                    wed: tenToTwenty,
-                    thu: notAvailable,
-                    fri: tenToTwenty,
-                    sat: notAvailable,
-                    sun: tenToTwenty,
-                },
+                availability: data.availability,
                 roles: data.roles,
             },
         },

@@ -11,9 +11,10 @@ export default function editEmployee(
     firstName: Employee['firstName'],
     lastName: Employee['lastName'],
     roles: Employee['roles'],
+    availability: Employee['availability'],
     onSuccess?: Function
 ) {
-    store.dispatch(editEmployeeSuccess, id, { firstName, lastName, roles });
+    store.dispatch(editEmployeeSuccess, id, { firstName, lastName, roles, availability });
     if(onSuccess) {
         onSuccess();
     }

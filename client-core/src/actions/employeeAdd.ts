@@ -10,9 +10,10 @@ export default function addEmployee(
     firstName: Employee['firstName'],
     lastName: Employee['lastName'],
     roles: Employee['roles'],
+    availability: Employee['availability'],
     success?: Function
 ) {
-    network.post('/employees/add', { firstName, lastName, roles })
+    network.post('/employees/add', { firstName, lastName, roles, availability })
         .then((response) => {
             let empResponse = response as EmployeesResponse;
 

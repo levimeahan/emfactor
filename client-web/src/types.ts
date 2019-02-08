@@ -1,8 +1,8 @@
 export type ScheduleMode = "EDIT" | "ASSIGN" | "DISPLAY";
 
-export interface InputStateManager {
-    value: any;
-    onChange: (newValue) => void;
+export interface InputStateManager<T = any> {
+    value: T;
+    onChange: (newValue: T) => void;
 }
 
 export interface InputItem {

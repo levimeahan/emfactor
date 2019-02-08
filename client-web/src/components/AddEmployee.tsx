@@ -27,9 +27,18 @@ const AddEmployee = ({ basePath, history }) => {
             value: id,
         }))
     );
+    const availability = useFormInput({
+        mon: '0'.repeat(24),
+        tue: '0'.repeat(24),
+        wed: '0'.repeat(24),
+        thu: '0'.repeat(24),
+        fri: '0'.repeat(24),
+        sat: '0'.repeat(24),
+        sun: '0'.repeat(24),
+    });
 
     const submit = () => {
-        actions.addEmployee(firstName.value, lastName.value, roles.value, () => {
+        actions.addEmployee(firstName.value, lastName.value, roles.value, availability.value, () => {
             history.push(basePath);
         });
     };
@@ -41,6 +50,7 @@ const AddEmployee = ({ basePath, history }) => {
             firstName={firstName}
             lastName={lastName}
             roles={roles}
+            availability={availability}
             submit={submit}
         />
     </React.Fragment>;
