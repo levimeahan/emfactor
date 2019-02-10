@@ -13,7 +13,14 @@ import useAppState from "../hooks/useAppState";
 import { actions, selectors } from 'emfactor-client-core';
 import {ScheduleMode} from "../types";
 
-// Note - edit = changing the template of a shift, assign = changing who is assigned to the shift for a given week
+const getEmpOptions = (state, shiftId) => (
+    selectors.availableEmployees(state, shiftId).map(emp => (
+        { value: emp.id, label: `${emp.firstName} ${emp.lastName}`}
+    ))
+);
+
+const hours = arrayFromRange(0, 24);
+
 interface ScheduleShiftProps {
     id: number;
     name: string;
@@ -24,6 +31,7 @@ interface ScheduleShiftProps {
     mode: ScheduleMode;
 }
 
+// Master Component
 const ScheduleShift = ({
    id, name, startTime, endTime, employeeId, employeeName, mode,
 }: ScheduleShiftProps) => {
@@ -60,30 +68,20 @@ const ScheduleShift = ({
 
             <div className={css(styles.employeeName)}>
                 {mode === 'EDIT' ?
-                    <FormInput
-                        type='text'
-                        name='shiftName'
-                        label=''
-                        manager={{
-                            value: name,
-                            onChange: (e) => update({ name: e.currentTarget.value }),
-                        }}
-                        inputStyle={styles.nameInput}
-                    />
+                    <ShiftNameEdit manager={{
+                        value: name, onChange: (e) => update({ name: e.currentTarget.value }),
+                    }} />
                 : null}
                 {mode === 'ASSIGN' ?
-                    <select
-                        value={employeeId ? employeeId : ''}
-                        onChange={e => e.currentTarget.value ? assign(e.currentTarget.value) : null}
-                    >
-                        <option value='0'>None</option>
-                        {getEmpOptions(state, id).map((option, i) =>
-                            <option key={i} value={option.value}>{option.label}</option>
-                        )}
-                    </select>
+                    <ShiftAssign
+                        shiftId={id}
+                        employeeId={employeeId}
+                        options={getEmpOptions(state, id)}
+                        assign={assign}
+                    />
                 : null}
                 {mode === 'DISPLAY' ?
-                    <span>{employeeName}</span>
+                    <ShiftNameDisplay name={name} />
                 : null}
             </div>
 
@@ -105,14 +103,7 @@ ScheduleShift.defaultProps = {
     mode: 'DISPLAY',
 };
 
-const getEmpOptions = (state, shiftId) => (
-    selectors.availableEmployees(state, shiftId).map(emp => (
-        { value: emp.id, label: `${emp.firstName} ${emp.lastName}`}
-    ))
-);
-
-const hours = arrayFromRange(0, 24);
-
+// Time
 const ShiftTimeDisplay = ({ time }) => (
     <span>{formatHour(time)}</span>
 );
@@ -132,7 +123,35 @@ const ShiftTimeEdit = ({ time, label, onChange }) => (
     </React.Fragment>
 );
 
+// Name
+const ShiftNameEdit = ({ manager }) => (
+    <FormInput
+        type='text'
+        name='shiftName'
+        label=''
+        manager={manager}
+        inputStyle={styles.nameInput}
+    />
+);
 
+const ShiftNameDisplay = ({ name }) => (
+    <span>{name}</span>
+);
+
+// Employee
+const ShiftAssign = ({ employeeId, shiftId, options, assign }) => (
+    <select
+        value={employeeId ? employeeId : ''}
+        onChange={e => e.currentTarget.value ? assign(e.currentTarget.value) : null}
+    >
+        <option value='0'>None</option>
+        {options.map((option, i) =>
+            <option key={i} value={option.value}>{option.label}</option>
+        )}
+    </select>
+);
+
+// Styles
 const styles = StyleSheet.create({
     container: {
         boxSizing: 'border-box',
@@ -197,4 +216,5 @@ const selectTheme = (theme) => ({
     },
 });
 
+// Export
 export default ScheduleShift;
