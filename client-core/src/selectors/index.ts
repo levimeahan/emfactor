@@ -10,6 +10,7 @@ import {
 import {
     employeeArray,
     availableEmployees,
+    employeeIsAvailable
 } from './employees';
 
 import {
@@ -23,6 +24,7 @@ export {
 
     employeeArray,
     availableEmployees,
+    employeeIsAvailable,
 
     roleNames,
 }

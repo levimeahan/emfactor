@@ -10,7 +10,7 @@ export {
     store,
     actions,
     selectors,
-    Days,
     permissions,
+    Days,
 };
 
