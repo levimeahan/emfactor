@@ -1,5 +1,6 @@
 import React from 'react';
 import {
+    getByText as containerGetByText,
     fireEvent,
     waitForElement,
 } from 'react-testing-library';
@@ -26,14 +27,36 @@ it('renders employee info', async () => {
 const addEmployeeSetup = async () => {
     let renderResult = await setup();
 
+    store.dispatch(prevState => ({
+        ...prevState,
+        roles: {
+            byId: {
+                1: {
+                    id: 1,
+                    name: 'Employee',
+                    permissions: [],
+                    subRoles: []
+                },
+                2: {
+                    id: 2,
+                    name: 'Manager',
+                    permissions: ['employees', 'schedule'],
+                    subRoles: [1],
+                },
+            },
+            allIds: [1, 2],
+        }
+    }));
+
     fireEvent.click(renderResult.getByText('Add New Employee'));
     await waitForElement(() => renderResult.getByTestId('manageEmployeesPage'));
 
     const getFirstNameInput = () => renderResult.getByLabelText('First Name');
     const getLastNameInput = () => renderResult.getByLabelText('Last Name');
     const getSubmitButton = () => renderResult.getByText('Submit');
+    const getRoleCheckbox = (name) => renderResult.getByLabelText(name) as HTMLInputElement;
 
-    return { renderResult, getFirstNameInput, getLastNameInput, getSubmitButton };
+    return { renderResult, getFirstNameInput, getLastNameInput, getRoleCheckbox, getSubmitButton };
 };
 
 it('stops and shows error message when full name not entered', async () => {
@@ -65,31 +88,45 @@ it('stops and shows error message when full name not entered', async () => {
     expect(getEmployeeCount()).toEqual(startingEmployeeCount);
 });
 
-it('adds employee with no manager role', async () => {
+it('adds employee with specific role', async () => {
     const {
         renderResult: { getByText, getByTestId, getByLabelText },
         getFirstNameInput,
         getLastNameInput,
-        getSubmitButton
+        getSubmitButton,
+        getRoleCheckbox
     } = await addEmployeeSetup();
 
     await changeFormInput(getFirstNameInput(), 'John');
     await changeFormInput(getLastNameInput(), 'Doe');
 
+    if(getRoleCheckbox('Employee').checked) {
+        fireEvent.click(getRoleCheckbox('Employee'));
+    }
+
+    fireEvent.click(getRoleCheckbox('Manager'));
+
+    expect(getRoleCheckbox('Manager').checked).toBe(true);
+
+    const startingEmployeeCount = selectors.employeeArray(store.getState()).length;
+
     fireEvent.click(getSubmitButton());
+
     await waitForElement(() => getByTestId('manageEmployeesPage'));
 
     const employees = selectors.employeeArray(store.getState());
+
+    expect(employees.length).toBe(startingEmployeeCount + 1);
 
     let newEmployee = employees.find(emp => emp.firstName === 'John' && emp.lastName == 'Doe');
 
     expect(newEmployee).toBeDefined();
 
-    expect(newEmployee.roles).toContain(roles.employee);
-    expect(newEmployee.roles).not.toContain(roles.manager);
+    expect(newEmployee.roles).toContain(roles.manager);
+    expect(newEmployee.roles).not.toContain(roles.employee);
 });
 
-it('adds employee with manager role', async () => {
+it('adds employee with specific availability', async () => {
     const {
         renderResult: { getByText, getByLabelText, getByTestId },
         getFirstNameInput,
@@ -100,23 +137,25 @@ it('adds employee with manager role', async () => {
     await changeFormInput(getFirstNameInput(), 'John');
     await changeFormInput(getLastNameInput(), 'Doe');
 
-    const managerCheckbox = getByLabelText('Manager');
-    fireEvent.click(managerCheckbox);
+    const tuesday = getByTestId('availability-tue');
+
+    let hours = ['4 PM', '5 PM', '6 PM', '7 PM', '8 PM'];
+    hours.forEach(hour => {
+        fireEvent.click(containerGetByText(tuesday, hour));
+    });
+
     fireEvent.click(getSubmitButton());
 
     await waitForElement(() => getByTestId('manageEmployeesPage'));
 
-    const employees = store.getState().employees;
+    const employees = selectors.employeeArray(store.getState());
 
-    let newEmployee = null;
-    for(let emp of Object.values(employees.byId)) {
-        if(emp.firstName == 'John' && emp.lastName == 'Doe') {
-            newEmployee = emp;
-        }
-    }
+    let newEmployee = employees.find(emp => emp.firstName === 'John' && emp.lastName == 'Doe');
 
-    expect(newEmployee).not.toBeNull();
+    expect(selectors.employeeIsAvailable(store.getState(), newEmployee.id, 'tue', 16, 21)).toBe(true);
+    expect(selectors.employeeIsAvailable(store.getState(), newEmployee.id, 'tue', 15, 21)).toBe(false);
+    expect(selectors.employeeIsAvailable(store.getState(), newEmployee.id, 'tue', 16, 22)).toBe(false);
 
-    expect(newEmployee.roles).toContain(roles.employee);
-    expect(newEmployee.roles).toContain(roles.manager);
+    expect(newEmployee).toBeDefined();
+
 });

@@ -46,7 +46,7 @@ interface AvailabilitySelectDay {
     hours: string;
 }
 const AvailabilitySelectDay = ({ name, hours, onChange }) => {
-    return <div className={css(styles.day)}>
+    return <div className={css(styles.day)} data-testid={`availability-${name}`}>
         <span className={css(styles.dayName)}>{name}</span>
         {hoursInDay.map((hourNum) => (
             <HourInput
