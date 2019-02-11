@@ -15,7 +15,8 @@ import {
 
 import {
     rolesArray,
-    roleNames
+    roleNames,
+    roleMatches
 } from './roles';
 
 export {
@@ -29,4 +30,5 @@ export {
 
     rolesArray,
     roleNames,
+    roleMatches,
 }
