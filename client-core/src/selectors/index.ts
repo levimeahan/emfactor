@@ -8,12 +8,13 @@ import {
 } from './schedule';
 
 import {
-    employeeArray,
+    employeesArray,
     availableEmployees,
     employeeIsAvailable
 } from './employees';
 
 import {
+    rolesArray,
     roleNames
 } from './roles';
 
@@ -22,9 +23,10 @@ export {
     userIsManager,
     currentScheduleWeek,
 
-    employeeArray,
+    employeesArray,
     availableEmployees,
     employeeIsAvailable,
 
+    rolesArray,
     roleNames,
 }

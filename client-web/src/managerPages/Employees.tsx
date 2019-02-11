@@ -42,7 +42,7 @@ const Index = ({ basePath }) => {
         <Link to={basePath + '/add'} className={css(linkThemes.standard)}>Add New Employee</Link>
         <h3>Employees</h3>
         <EmployeeList
-            employees={selectors.employeeArray(state)}
+            employees={selectors.employeesArray(state)}
             editPath={basePath + '/edit'}
         />
     </React.Fragment>;

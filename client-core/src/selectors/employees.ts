@@ -3,7 +3,7 @@ import { DaysByNum } from "../config";
 
 import { hasRange } from '../utils/availability';
 
-export const employeeArray = (state: State) => (
+export const employeesArray = (state: State) => (
     state.employees.allIds.map(id => state.employees.byId[id])
 );
 

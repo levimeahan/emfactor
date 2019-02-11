@@ -129,6 +129,7 @@ export interface UIScheduleShift {
     endTime: number;
     employeeId: number;
     employeeName: string;
+    allowedRoles: number[];
 }
 
 export interface UIScheduleDay {

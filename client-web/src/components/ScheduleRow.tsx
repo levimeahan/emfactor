@@ -36,6 +36,7 @@ const ScheduleRow = ({ shifts, mode }: ScheduleRowProps) => {
                 endTime={shift.endTime}
                 employeeId={shift.employeeId}
                 employeeName={shift.employeeName}
+                allowedRoles={shift.allowedRoles}
                 mode={mode}
             />
         );

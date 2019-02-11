@@ -1,17 +1,15 @@
 import React, { useState } from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
-import Select from 'react-select';
 
 import { colors, sizes } from '../themes/default';
 import FormInput from "./FormInput";
 import calcShiftWidth from '../utils/calcShiftWidth';
 
-import arrayFromRange from "../utils/arrayFromRange";
-import formatHour from '../utils/formatHour';
 import useAppState from "../hooks/useAppState";
 
 import { actions, selectors } from 'emfactor-client-core';
 import {ScheduleMode} from "../types";
+import ShiftTime from "./ShiftTime";
 
 const getEmpOptions = (state, shiftId) => (
     selectors.availableEmployees(state, shiftId).map(emp => (
@@ -19,8 +17,8 @@ const getEmpOptions = (state, shiftId) => (
     ))
 );
 
-const hours = arrayFromRange(0, 24);
 
+// Main Component
 interface ScheduleShiftProps {
     id: number;
     name: string;
@@ -28,12 +26,12 @@ interface ScheduleShiftProps {
     endTime: number;
     employeeId: number;
     employeeName: string;
+    allowedRoles: number[];
     mode: ScheduleMode;
 }
 
-// Master Component
 const ScheduleShift = ({
-   id, name, startTime, endTime, employeeId, employeeName, mode,
+   id, name, startTime, endTime, employeeId, employeeName, allowedRoles, mode,
 }: ScheduleShiftProps) => {
     const state = useAppState();
 
@@ -54,23 +52,26 @@ const ScheduleShift = ({
         style={{ width: calcShiftWidth(endTime - startTime) + '%' }}
     >
         <div className={css(styles.shiftContent)}>
-            <div className={css(styles.time, styles.startTime)}>
-                {mode === 'EDIT' ?
-                    <ShiftTimeEdit
-                        time={startTime}
-                        label='Start: '
-                        onChange={newValue => update({ startTime: newValue })}
-                    />
-                :
-                    <ShiftTimeDisplay time={startTime} />
-                }
-            </div>
+            <ShiftTime
+                time={startTime}
+                label='Start'
+                onChange={newValue => update({ startTime: newValue })}
+                mode={mode}
+                styles={styles.startTime}
+            />
 
-            <div className={css(styles.employeeName)}>
+            <div className={css(styles.shiftDetails)}>
                 {mode === 'EDIT' ?
-                    <ShiftNameEdit manager={{
-                        value: name, onChange: (e) => update({ name: e.currentTarget.value }),
-                    }} />
+                    <React.Fragment>
+                        <ShiftNameEdit manager={{
+                            value: name, onChange: (e) => update({ name: e.currentTarget.value }),
+                        }} />
+                        <ShiftRolesEdit
+                            currentRoles={allowedRoles}
+                            allRoles={selectors.rolesArray(state)}
+                            onChange={(newValue) => update({ allowedRoles: newValue })}
+                        />
+                    </React.Fragment>
                 : null}
                 {mode === 'ASSIGN' ?
                     <ShiftAssign
@@ -85,17 +86,13 @@ const ScheduleShift = ({
                 : null}
             </div>
 
-            <div className={css(styles.time, styles.endTime)}>
-                {mode === 'EDIT' ?
-                    <ShiftTimeEdit
-                        time={endTime}
-                        label='End: '
-                        onChange={newValue => update({ endTime: newValue })}
-                    />
-                    :
-                    <ShiftTimeDisplay time={endTime} />
-                }
-            </div>
+            <ShiftTime
+                time={endTime}
+                label='End'
+                onChange={newValue => update({ endTime: newValue })}
+                mode={mode}
+                styles={styles.endTime}
+            />
         </div>
     </div>;
 };
@@ -103,39 +100,22 @@ ScheduleShift.defaultProps = {
     mode: 'DISPLAY',
 };
 
-// Time
-const ShiftTimeDisplay = ({ time }) => (
-    <span>{formatHour(time)}</span>
-);
-
-const ShiftTimeEdit = ({ time, label, onChange }) => (
-    <React.Fragment>
-        <span>{label}</span>
-        <select
-            onBlur={(e) => {e.stopPropagation()}}
-            value={time}
-            onChange={e => onChange(parseInt(e.currentTarget.value))}
-        >
-            {hours.map((hour, i) => (
-                <option key={i} value={hour}>{hour}:00</option>
-            ))}
-        </select>
-    </React.Fragment>
-);
 
 // Name
 const ShiftNameEdit = ({ manager }) => (
     <FormInput
         type='text'
         name='shiftName'
-        label=''
+        label='Name'
         manager={manager}
+        containerStyle={styles.nameInputContainer}
+        labelStyle={styles.nameInputLabel}
         inputStyle={styles.nameInput}
     />
 );
 
 const ShiftNameDisplay = ({ name }) => (
-    <span>{name}</span>
+    <span className={css(styles.nameDisplay)}>{name}</span>
 );
 
 // Employee
@@ -151,6 +131,23 @@ const ShiftAssign = ({ employeeId, shiftId, options, assign }) => (
     </select>
 );
 
+// Roles (Currently only supports one - TODO: Multiselect)
+const ShiftRolesEdit = ({ currentRoles, allRoles, onChange }) => {
+    return <div className={css(styles.nameInputContainer)}>
+        <label className={css(styles.nameInputLabel)}>Role</label>
+        <select
+            name="role"
+            value={currentRoles.length > 0 ? currentRoles[0] : allRoles[0]}
+            onChange={e => onChange([e.currentTarget.value])}
+            className={css(styles.nameInput)}
+        >
+            {allRoles.map((role, i) => (
+                <option key={i} value={role.id}>{role.name}</option>
+            ))}
+        </select>
+    </div>;
+};
+
 // Styles
 const styles = StyleSheet.create({
     container: {
@@ -164,21 +161,27 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
-        padding: '4px 5px',
+        padding: 0,
     },
-    time: {
-        fontSize: sizes.primaryFont - 2,
-        color: colors.text.dark,
-        width: '4.5em',
-    },
+
+
     startTime: {
+        marginLeft: '3px',
         textAlign: 'left',
     },
     endTime: {
+        marginRight: '3px',
         textAlign: 'right',
     },
-    employeeName: {
+
+    shiftDetails: {
+        display: 'flex',
         flexGrow: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'column',
+    },
+    nameDisplay: {
         fontWeight: 'bold',
         fontFamily: 'Lucida Sans Unicode',
         color: colors.text.semiBright,
@@ -190,7 +193,27 @@ const styles = StyleSheet.create({
     },
 
     nameInput: {
-        width: '150px',
+        width: '110px',
+        margin: 0,
+        boxSizing: 'border-box',
+    },
+    nameInputContainer: {
+        display: 'flex',
+        flexDirection: 'row',
+
+        margin: '3px 0',
+        padding: '4px',
+        borderTopLeftRadius: '5px',
+        borderBottomLeftRadius: '5px',
+
+        background: colors.background.secondaryDark,
+    },
+    nameInputLabel: {
+        width: '3.7em',
+        padding: '0 3px',
+        fontSize: '14px',
+        fontWeight: 'normal',
+        textAlign: 'left',
     },
 });
 
@@ -202,17 +225,19 @@ const selectTheme = (theme) => ({
         primary25: '#515969',
         primary50: '#1d3469',
         primary75: '#344469',
-        neutral0: '#202020',
-        neutral5: '#252525',
-        neutral10: '#2a2a2a',
-        neutral20: '#2f2f2f',
-        neutral30: '#343434',
-        neutral40: '#393939',
-        neutral50: '#3e3e3e',
-        neutral60: '#434343',
-        neutral70: '#484848',
-        neutral80: '#4d4d4d',
-        neutral90: '#525252',
+        danger: '#c82f0a',
+        dangerLight: '#af6158',
+        neutral0:  'rgb(30,30,30)',
+        neutral5:  'rgb(40,40,40)',
+        neutral10: 'rgb(50,50,50)',
+        neutral20: 'rgb(60,60,60)',
+        neutral30: 'rgb(70,70,70)',
+        neutral40: 'rgb(80,80,80)',
+        neutral50: 'rgb(90,90,90)',
+        neutral60: 'rgb(100,100,100)',
+        neutral70: 'rgb(110,110,110)',
+        neutral80: 'rgb(120,120,120)',
+        neutral90: 'rgb(130,130,130)',
     },
 });
 

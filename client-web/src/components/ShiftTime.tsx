@@ -1,0 +1,63 @@
+import React from 'react';
+import {StyleSheet, css} from 'aphrodite/no-important';
+import formatHour from "../utils/formatHour";
+import arrayFromRange from "../utils/arrayFromRange";
+import {colors, sizes} from "../themes/default";
+
+const hours = arrayFromRange(0, 24);
+
+const ShiftTime = ({ time, label, onChange, mode, styles }) => (
+    <div className={css(styles.container, styles)}>
+        {mode === 'EDIT' ?
+            <ShiftTimeEdit
+                time={time}
+                label={label}
+                onChange={onChange}
+            />
+            :
+            <ShiftTimeDisplay time={time} />
+        }
+    </div>
+);
+ShiftTime.defaultProps = {
+    styles: null,
+};
+
+
+// Time
+const ShiftTimeDisplay = ({ time }) => (
+    <span>{formatHour(time)}</span>
+);
+
+const ShiftTimeEdit = ({ time, label, onChange }) => {
+    let id = label.toLowerCase() + '-time';
+
+    return <React.Fragment>
+        <label htmlFor={id} className={css(styles.label)}>{label}</label>
+        <select
+            id={label.toLowerCase() + '-time'}
+            onBlur={(e) => {e.stopPropagation()}}
+            value={time}
+            onChange={e => onChange(parseInt(e.currentTarget.value))}
+        >
+            {hours.map((hour, i) => (
+                <option key={i} value={hour}>{hour}:00</option>
+            ))}
+        </select>
+    </React.Fragment>;
+};
+
+
+const styles = StyleSheet.create({
+    container: {
+        fontSize: sizes.primaryFont - 2,
+        color: colors.text.dark,
+        width: '4.5em',
+    },
+    label: {
+        display: 'inline-block',
+        width: '4.5em',
+    }
+});
+
+export default ShiftTime;
