@@ -117,6 +117,14 @@ const defaultState: State = {
         byId: {},
         allIds: [],
     },
+    policies: {
+        byId: {},
+        allIds: [],
+    },
+    guides: {
+        byId: {},
+        allIds: [],
+    },
     availabilityChangeRequests: {
         byId: {},
         allIds: [],

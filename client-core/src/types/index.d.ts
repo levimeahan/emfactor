@@ -84,6 +84,18 @@ export interface ShiftSwapRequest {
     finalizedTime: number;
 }
 
+export interface Policy {
+    id: number;
+    name: string;
+    content: string;
+}
+
+export interface Guide {
+    id: number;
+    name: string;
+    roles: number[];
+}
+
 export interface AvailabilityChangeRequest {
     id: number;
     employeeId: number;
@@ -161,17 +173,19 @@ interface Schema {
     app: {
         userEmployeeId: number,
         errorMessage: string,
-    },
-    employees: EntityCollection<Employee>,
-    roles: EntityCollection<Role>,
-    shifts: EntityCollection<Shift>,
-    scheduledShifts: EntityCollection<ScheduledShift>,
-    scheduleWeeks: EntityCollection<ScheduleWeek>,
-    timeOffRequests: EntityCollection<TimeOffRequest>,
-    shiftSwapRequests: EntityCollection<ShiftSwapRequest>,
-    availabilityChangeRequests: EntityCollection<AvailabilityChangeRequest>,
-    events: EntityCollection<Event>,
-    notifications: EntityCollection<Notification>,
+    };
+    employees: EntityCollection<Employee>;
+    roles: EntityCollection<Role>;
+    shifts: EntityCollection<Shift>;
+    scheduledShifts: EntityCollection<ScheduledShift>;
+    scheduleWeeks: EntityCollection<ScheduleWeek>;
+    timeOffRequests: EntityCollection<TimeOffRequest>;
+    shiftSwapRequests: EntityCollection<ShiftSwapRequest>;
+    availabilityChangeRequests: EntityCollection<AvailabilityChangeRequest>;
+    policies: EntityCollection<Policy>;
+    guides: EntityCollection<Guide>;
+    events: EntityCollection<Event>;
+    notifications: EntityCollection<Notification>;
 }
 
 export type State = DeepReadonly<Schema>;

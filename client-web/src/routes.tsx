@@ -7,7 +7,7 @@ EMPLOYEE PAGES
 Messages
 Notifications
 Policies
-Duties/Guides
+Guides/Guides
 Schedule
 Change Availability
 Request Time Off
@@ -47,7 +47,7 @@ const Schedule = () => import('./pages/Schedule');
 const Messages = () => import('./pages/Messages');
 const Notifications = () => import('./pages/Notifications');
 const Policies = () => import('./pages/Policies');
-const Duties = () => import('./pages/Duties');
+const Guides = () => import('./pages/Guides');
 const ChangeAvailability = () => import('./pages/ChangeAvailability');
 const RequestTimeOff = () => import('./pages/RequestTimeOff');
 
@@ -96,9 +96,9 @@ export const routes: PageRoute[] = [
         name: 'Policies',
     },
     {
-        path: '/duties',
-        componentFactory: Duties,
-        name: 'Duties',
+        path: '/Guides',
+        componentFactory: Guides,
+        name: 'Guides',
     },
     {
         path: '/dev-tools',
