@@ -40,7 +40,7 @@ const EditEmployee = ({ basePath, match,  history }) => {
     };
 
     return <div>
-        <h3>Edit Employee: {employee.firstName} {employee.lastName}</h3>
+        <h2>Edit Employee: {employee.firstName} {employee.lastName}</h2>
         <EmployeeForm
             errorMessage={state.app.errorMessage}
             firstName={firstName}

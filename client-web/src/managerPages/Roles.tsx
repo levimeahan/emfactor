@@ -31,7 +31,7 @@ const Index = ({ match }) => {
 
     return <React.Fragment>
         <Link to={match.path + '/add'} className={css(linkThemes.standard)}>Add New Role</Link>
-        <h3>Roles</h3>
+        <h2 className={css(pageStyles.header)}>Roles</h2>
         <RoleList roles={state.roles.allIds.map(id => state.roles.byId[id])} />
     </React.Fragment>;
 };

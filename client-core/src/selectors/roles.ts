@@ -1,3 +1,5 @@
+import { testRoleRecursive } from "../utils/roles";
+
 export const rolesArray = (state) => state.roles.allIds.map(id =>
     state.roles.byId[id]
 );
@@ -8,21 +10,16 @@ export const roleNames = (state, roleIds) => {
         .map(id => state.roles.byId[id].name);
 };
 
-export const roleMatches = (state, roleId, subRoleId) => {
-    if(roleId === subRoleId) {
-        return true;
-    }
+export const roleMatches = (state, roleId, targetRoleId) =>
+    testRoleRecursive(
+        state.roles,
+        roleId,
+        (role) => role.id == targetRoleId
+    );
 
-    let subRoles = state.roles.byId[roleId].subRoles;
-    if(subRoles.length < 1) {
-        return false;
-    }
-
-    for(let id of subRoles) {
-        if(roleMatches(state, id, subRoleId)) {
-            return true;
-        }
-    }
-
-    return false;
-};
+export const roleHasPermission = (state, roleId, permission) =>
+    testRoleRecursive(
+        state.roles,
+        roleId,
+        (role) => role.permissions.indexOf(permission) !== -1
+    );

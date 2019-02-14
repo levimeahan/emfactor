@@ -118,8 +118,20 @@ const defaultState: State = {
         allIds: [],
     },
     policies: {
-        byId: {},
-        allIds: [],
+        byId: {
+            1: {
+                id: 1,
+                name: 'Shoplifting',
+                content: 'not allowed LOL what did you expect',
+            },
+
+            2: {
+                id: 2,
+                name: 'Refunds',
+                content: 'Refunds are only allowed for undamaged items with receipt. Food/drink are nonrefundable.',
+            },
+        },
+        allIds: [1, 2],
     },
     guides: {
         byId: {},

@@ -7,4 +7,8 @@ export default StyleSheet.create({
         alignItems: 'flex-start',
         padding: '15px',
     },
+    header: {
+        fontSize: '1.5em',
+        margin: '0.25em 0 0.25em',
+    },
 });

@@ -1,9 +1,9 @@
-import {Employee, State, Day} from "../types";
+import {Employee, State, Day, Permissions} from "../types";
 import { DaysByNum } from "../config";
 
 import { hasRange } from '../utils/availability';
 
-import { roleMatches } from './roles';
+import { roleHasPermission, roleMatches } from './roles';
 
 export const employeesArray = (state: State) => (
     state.employees.allIds.map(id => state.employees.byId[id])
@@ -34,6 +34,16 @@ export const employeeIsAvailable = (state: State, employeeId: number, day: Day, 
 export const employeeHasRole = (state: State, employeeId: number, roleId: number) => {
     for(let id of state.employees.byId[employeeId].roles) {
         if(roleMatches(state, id, roleId)) {
+            return true;
+        }
+    }
+
+    return false;
+};
+
+export const employeeHasPermission = (state: State, employeeId: number, permission: keyof Permissions) => {
+    for(let id of state.employees.byId[employeeId].roles) {
+        if(roleHasPermission(state, id, permission)) {
             return true;
         }
     }

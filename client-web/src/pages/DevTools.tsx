@@ -56,12 +56,12 @@ const Button = ({ children, ...rest }) => (
 
 const DevTools = () => {
     return <div className={css(styles.container)}>
-        <h3 className={css(styles.header)}>Local Storage</h3>
+        <h2 className={css(styles.header)}>Local Storage</h2>
         <span className={css(styles.label)}>(Open console for result info)</span>
         <Button onClick={save} disabled={!canUseStorage}>Save State</Button>
         <Button onClick={load} disabled={!canUseStorage}>Load State</Button>
 
-        <h3>State</h3>
+        <h2>State</h2>
         <Button onClick={resetState}>Reset to Default</Button>
         <Button onClick={logState}>Log to Console</Button>
     </div>;

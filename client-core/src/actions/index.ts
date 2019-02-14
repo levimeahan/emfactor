@@ -10,6 +10,8 @@ import assignShift from './scheduleAssignShift';
 
 import addRole from './roleAdd';
 
+import editPolicy from './policyEdit';
+
 export {
     login,
     logout,
@@ -22,4 +24,6 @@ export {
     assignShift,
 
     addRole,
+
+    editPolicy
 };

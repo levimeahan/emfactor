@@ -44,7 +44,7 @@ const AddEmployee = ({ basePath, history }) => {
     };
 
     return <React.Fragment>
-        <h3>Add New Employee</h3>
+        <h2>Add New Employee</h2>
         <EmployeeForm
             errorMessage={state.app.errorMessage}
             firstName={firstName}

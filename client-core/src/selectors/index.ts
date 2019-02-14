@@ -19,6 +19,12 @@ import {
     roleMatches
 } from './roles';
 
+
+import {State} from "../types";
+
+const allPolicies = (state: State) => state.policies.allIds.map(id => state.policies.byId[id]);
+
+
 export {
     userLoggedIn,
     userIsManager,
@@ -31,4 +37,6 @@ export {
     rolesArray,
     roleNames,
     roleMatches,
+
+    allPolicies,
 }

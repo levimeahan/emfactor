@@ -129,6 +129,16 @@ export interface Notification {
 
 /* CLIENT-EXCLUSIVE TYPES */
 
+interface Permission {
+    label: string;
+}
+
+export interface Permissions {
+    employees: Permission;
+    schedule: Permission;
+    policies: Permission;
+}
+
 /*
     A union type that bridges the key info from Shift and employee info from ScheduledShift together in a UI-usable
     package.

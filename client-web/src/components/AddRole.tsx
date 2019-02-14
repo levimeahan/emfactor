@@ -40,7 +40,7 @@ const AddRole = ({ basePath, history }) => {
     };
 
     return <React.Fragment>
-        <h3>Add New Role</h3>
+        <h2>Add New Role</h2>
         <ErrorMessage>{state.app.errorMessage}</ErrorMessage>
 
         <FormInput
