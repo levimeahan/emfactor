@@ -26,7 +26,7 @@ ShiftTime.defaultProps = {
 
 // Time
 const ShiftTimeDisplay = ({ time }) => (
-    <span>{formatHour(time)}</span>
+    <span className={css(styles.timeDisplay)}>{formatHour(time)}</span>
 );
 
 const ShiftTimeEdit = ({ time, label, onChange }) => {
@@ -51,13 +51,15 @@ const ShiftTimeEdit = ({ time, label, onChange }) => {
 const styles = StyleSheet.create({
     container: {
         fontSize: sizes.primaryFont - 2,
-        color: colors.text.dark,
         width: '4.5em',
     },
     label: {
         display: 'inline-block',
         width: '4.5em',
-    }
+    },
+    timeDisplay: {
+        color: colors.text.semiDark,
+    },
 });
 
 export default ShiftTime;

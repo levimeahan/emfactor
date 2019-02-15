@@ -8,15 +8,11 @@ import calcShiftWidth from '../utils/calcShiftWidth';
 import useAppState from "../hooks/useAppState";
 
 import { actions, selectors } from 'emfactor-client-core';
-import {ScheduleMode} from "../types";
+
 import ShiftTime from "./ShiftTime";
+import ShiftAssign from "./ShiftAssign";
 
-const getEmpOptions = (state, shiftId) => (
-    selectors.availableEmployees(state, shiftId).map(emp => (
-        { value: emp.id, label: `${emp.firstName} ${emp.lastName}`}
-    ))
-);
-
+import {ScheduleMode} from "../types";
 
 // Main Component
 interface ScheduleShiftProps {
@@ -38,14 +34,6 @@ const ScheduleShift = ({
     const update = (data) => {
         actions.editShift(id, data)
     };
-    const assign = (newEmployeeId) => {
-        if(!newEmployeeId) {
-            actions.assignShift(id, 0);
-        }
-        else {
-            actions.assignShift(id, newEmployeeId)
-        }
-    };
 
     return <div
         className={css(styles.container)}
@@ -62,7 +50,7 @@ const ScheduleShift = ({
 
             <div className={css(styles.shiftDetails)}>
                 {mode === 'EDIT' ?
-                    <React.Fragment>
+                    <>
                         <ShiftNameEdit manager={{
                             value: name, onChange: (e) => update({ name: e.currentTarget.value }),
                         }} />
@@ -71,18 +59,19 @@ const ScheduleShift = ({
                             allRoles={selectors.rolesArray(state)}
                             onChange={(newValue) => update({ allowedRoles: newValue })}
                         />
-                    </React.Fragment>
+                    </>
                 : null}
                 {mode === 'ASSIGN' ?
-                    <ShiftAssign
-                        shiftId={id}
-                        employeeId={employeeId}
-                        options={getEmpOptions(state, id)}
-                        assign={assign}
-                    />
+                    <>
+                        <ShiftNameDisplay name={name} />
+                        <ShiftAssign shiftId={id} employeeId={employeeId} />
+                    </>
                 : null}
                 {mode === 'DISPLAY' ?
-                    <ShiftNameDisplay name={name} />
+                    <>
+                        <ShiftNameDisplay name={name} />
+                        <ShiftEmployeeName name={employeeName} />
+                    </>
                 : null}
             </div>
 
@@ -118,20 +107,11 @@ const ShiftNameDisplay = ({ name }) => (
     <span className={css(styles.nameDisplay)}>{name}</span>
 );
 
-// Employee
-const ShiftAssign = ({ employeeId, shiftId, options, assign }) => (
-    <select
-        value={employeeId ? employeeId : ''}
-        onChange={e => e.currentTarget.value ? assign(e.currentTarget.value) : null}
-    >
-        <option value='0'>None</option>
-        {options.map((option, i) =>
-            <option key={i} value={option.value}>{option.label}</option>
-        )}
-    </select>
+const ShiftEmployeeName = ({ name }) => (
+    <span className={css(styles.employeeNameDisplay)}>{name ? name : '-'}</span>
 );
 
-// Roles (Currently only supports one - TODO: Multiselect)
+// Roles (Currently only supports one - TODO: Multiselect or change all code to single-value format)
 const ShiftRolesEdit = ({ currentRoles, allRoles, onChange }) => {
     return <div className={css(styles.nameInputContainer)}>
         <label className={css(styles.nameInputLabel)}>Role</label>
@@ -152,7 +132,7 @@ const ShiftRolesEdit = ({ currentRoles, allRoles, onChange }) => {
 const styles = StyleSheet.create({
     container: {
         boxSizing: 'border-box',
-        padding: '4px',
+        padding: '0',
         alignSelf: 'center',
         backgroundColor: '#3a3a3a',
         border: '1px solid #303030',
@@ -166,25 +146,38 @@ const styles = StyleSheet.create({
 
 
     startTime: {
-        marginLeft: '3px',
+        marginLeft: '6px',
         textAlign: 'left',
     },
     endTime: {
-        marginRight: '3px',
+        marginRight: '6px',
         textAlign: 'right',
     },
 
     shiftDetails: {
         display: 'flex',
         flexGrow: 1,
-        justifyContent: 'center',
+        justifyContent: 'flex-end',
         alignItems: 'center',
         flexDirection: 'column',
+        padding: '12px 4px 8px',
+        minHeight: '22px',
+        position: 'relative',
     },
     nameDisplay: {
+        position: 'absolute',
+        top: '0',
+        left: '12px',
+        fontSize: '10px',
+        textTransform: 'uppercase',
+        fontWeight: 'bold',
+        color: colors.text.medium,
+    },
+    employeeNameDisplay: {
         fontWeight: 'bold',
         fontFamily: 'Lucida Sans Unicode',
         color: colors.text.semiBright,
+        lineHeight: '1em',
     },
     shiftName: {
         margin: 0,
