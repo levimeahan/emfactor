@@ -1,5 +1,7 @@
 import { State } from './types';
 
+import { weekStartTimestamp } from './utils/time';
+
 const eightToSixteen = '0'.repeat(8) + '1'.repeat(8) + '0'.repeat(8);
 const notAvailable = '0'.repeat(23);
 
@@ -106,8 +108,14 @@ const defaultState: State = {
         allIds: [],
     },
     scheduleWeeks: {
-        byId: {},
-        allIds: [],
+        byId: {
+            1: {
+                id: 1,
+                draft: false,
+                startTimestamp: weekStartTimestamp(),
+            },
+        },
+        allIds: [1],
     },
     timeOffRequests: {
         byId: {},
