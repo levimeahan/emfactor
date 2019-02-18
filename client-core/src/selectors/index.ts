@@ -4,7 +4,9 @@ import {
 } from './user';
 
 import {
-    currentScheduleWeek
+    currentScheduleWeek,
+    futureScheduleWeeks,
+    currentAndFutureScheduleWeeks,
 } from './schedule';
 
 import {
@@ -28,7 +30,10 @@ const allPolicies = (state: State) => state.policies.allIds.map(id => state.poli
 export {
     userLoggedIn,
     userIsManager,
+
     currentScheduleWeek,
+    futureScheduleWeeks,
+    currentAndFutureScheduleWeeks,
 
     employeesArray,
     availableEmployees,

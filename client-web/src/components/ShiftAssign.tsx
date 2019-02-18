@@ -1,35 +1,23 @@
 import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
-import { actions, selectors } from 'emfactor-client-core';
-import useAppState from "../hooks/useAppState";
-
-const getEmpOptions = (state, shiftId) => (
-    selectors.availableEmployees(state, shiftId).map(emp => (
-        { value: emp.id, label: `${emp.firstName} ${emp.lastName}`}
-    ))
-);
+import {Employee} from 'emfactor-client-core';
 
 // Employee
-const ShiftAssign = ({ employeeId, shiftId }) => {
-    const state = useAppState();
+interface ShiftAssignProps {
+    employeeId: number;
+    employeeOptions: Employee[];
+    assign: (employeeId: number) => void;
+}
 
-    const assign = (newEmployeeId) => {
-        if(!newEmployeeId) {
-            actions.assignShift(shiftId, 0);
-        }
-        else {
-            actions.assignShift(shiftId, newEmployeeId)
-        }
-    };
-
+const ShiftAssign = ({ employeeId, employeeOptions, assign }: ShiftAssignProps) => {
     return <select
-        value={employeeId ? employeeId : ''}
-        onChange={e => e.currentTarget.value ? assign(e.currentTarget.value) : null}
+        value={employeeId ? employeeId : '0'}
+        onChange={e => assign(parseInt(e.currentTarget.value))}
     >
         <option value='0'>None</option>
-        {getEmpOptions(state, shiftId).map((option, i) =>
-            <option key={i} value={option.value}>{option.label}</option>
+        {employeeOptions.map((employee, i) =>
+            <option key={i} value={employee.id}>{employee.firstName} {employee.lastName}</option>
         )}
     </select>;
 };

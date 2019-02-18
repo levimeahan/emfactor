@@ -85,6 +85,8 @@ const styles = StyleSheet.create({
     },
     appContent: {
         flexGrow: 2,
+        overflowY: 'scroll',
+        overflowX: 'hidden',
     },
 });
 

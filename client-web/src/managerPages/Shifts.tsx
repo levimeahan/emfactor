@@ -18,12 +18,16 @@ const Shifts = () => {
         {scheduleWeek.dayIds.map((dayId) => (
             <div key={dayId} className={css(styles.dayContainer)}>
                 <ScheduleDay
-                    name={scheduleWeek.days[dayId].name}
-                    date={scheduleWeek.days[dayId].date}
+                    name={scheduleWeek.days[dayId].weekday}
+                    date={''}
                     shifts={scheduleWeek.days[dayId].shifts}
                     headerStyle={styles.dayHeaderContainer}
                     mode='EDIT'
-                    addShift={() => actions.addShift(dayId)}
+                    actions={{
+                        addShift: () => actions.addShift(dayId),
+                        editShift: actions.editShift,
+                        assignShift: null,
+                    }}
                 />
             </div>
         ))}

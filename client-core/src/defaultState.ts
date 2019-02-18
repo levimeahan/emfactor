@@ -1,6 +1,6 @@
 import { State } from './types';
 
-import { weekStartTimestamp } from './utils/time';
+import { currentWeekStartTime } from './utils/time';
 
 const eightToSixteen = '0'.repeat(8) + '1'.repeat(8) + '0'.repeat(8);
 const notAvailable = '0'.repeat(23);
@@ -112,7 +112,7 @@ const defaultState: State = {
             1: {
                 id: 1,
                 draft: false,
-                startTimestamp: weekStartTimestamp(),
+                startTimestamp: currentWeekStartTime(),
             },
         },
         allIds: [1],

@@ -5,37 +5,34 @@ import { colors, sizes } from '../themes/default';
 import FormInput from "./FormInput";
 import calcShiftWidth from '../utils/calcShiftWidth';
 
-import useAppState from "../hooks/useAppState";
-
-import { actions, selectors } from 'emfactor-client-core';
-
 import ShiftTime from "./ShiftTime";
 import ShiftAssign from "./ShiftAssign";
 
-import {ScheduleMode} from "../types";
+import { ScheduleMode, ScheduleDayActions } from "../types";
+import {Employee, Shift} from "../../../client-core/src/types";
 
 // Main Component
 interface ScheduleShiftProps {
-    id: number;
     name: string;
     startTime: number;
     endTime: number;
     employeeId: number;
     employeeName: string;
+    employeeOptions: Employee[];
     allowedRoles: number[];
+    allRoles: number[];
     mode: ScheduleMode;
+    edit: (changedData: Partial<Shift>) => void;
+    assign: (employeeId: number) => void;
 }
 
+/**
+ *
+ */
 const ScheduleShift = ({
-   id, name, startTime, endTime, employeeId, employeeName, allowedRoles, mode,
-}: ScheduleShiftProps) => {
-    const state = useAppState();
-
-    const update = (data) => {
-        actions.editShift(id, data)
-    };
-
-    return <div
+   name, startTime, endTime, employeeId, employeeName, employeeOptions, allowedRoles, allRoles, mode, edit, assign
+}: ScheduleShiftProps) => (
+    <div
         className={css(styles.container)}
         style={{ width: calcShiftWidth(endTime - startTime) + '%' }}
     >
@@ -43,7 +40,7 @@ const ScheduleShift = ({
             <ShiftTime
                 time={startTime}
                 label='Start'
-                onChange={newValue => update({ startTime: newValue })}
+                onChange={newValue => edit({ startTime: newValue })}
                 mode={mode}
                 styles={styles.startTime}
             />
@@ -52,19 +49,23 @@ const ScheduleShift = ({
                 {mode === 'EDIT' ?
                     <>
                         <ShiftNameEdit manager={{
-                            value: name, onChange: (e) => update({ name: e.currentTarget.value }),
+                            value: name, onChange: (e) => edit({ name: e.currentTarget.value }),
                         }} />
                         <ShiftRolesEdit
                             currentRoles={allowedRoles}
-                            allRoles={selectors.rolesArray(state)}
-                            onChange={(newValue) => update({ allowedRoles: newValue })}
+                            allRoles={allRoles}
+                            onChange={(newValue) => edit({ allowedRoles: newValue })}
                         />
                     </>
                 : null}
                 {mode === 'ASSIGN' ?
                     <>
                         <ShiftNameDisplay name={name} />
-                        <ShiftAssign shiftId={id} employeeId={employeeId} />
+                        <ShiftAssign
+                            employeeId={employeeId}
+                            employeeOptions={employeeOptions}
+                            assign={assign}
+                        />
                     </>
                 : null}
                 {mode === 'DISPLAY' ?
@@ -78,13 +79,13 @@ const ScheduleShift = ({
             <ShiftTime
                 time={endTime}
                 label='End'
-                onChange={newValue => update({ endTime: newValue })}
+                onChange={newValue => edit({ endTime: newValue })}
                 mode={mode}
                 styles={styles.endTime}
             />
         </div>
-    </div>;
-};
+    </div>
+);
 ScheduleShift.defaultProps = {
     mode: 'DISPLAY',
 };

@@ -5,7 +5,7 @@ import { UIScheduleShift } from "emfactor-client-core";
 
 import ScheduleDayShifts from './ScheduleDayShifts';
 import {colors} from "../themes/default";
-import {ScheduleMode} from "../types";
+import {ScheduleDayActions, ScheduleMode} from "../types";
 
 interface ScheduleDayProps {
     name: string;
@@ -13,21 +13,22 @@ interface ScheduleDayProps {
     shifts: UIScheduleShift[];
     headerStyle: StyleDeclarationValue;
     mode: ScheduleMode;
-    addShift: () => void;
+    actions: ScheduleDayActions;
 }
 
-const ScheduleDay = ({ name, date, shifts, headerStyle, mode, addShift }: ScheduleDayProps) => {
+const ScheduleDay = ({ name, date, shifts, headerStyle, mode, actions }: ScheduleDayProps) => {
     return <div className={css(styles.container)}>
         <div className={css(styles.header, headerStyle)}>
             <span className={css(styles.dayName)}>{name}</span>
             {mode === 'EDIT' ?
-                <button onClick={addShift}>Add Shift</button>
+                <button onClick={() => actions.addShift}>Add Shift</button>
                 :
                 <span className={css(styles.date)}>{date}</span>
             }
         </div>
         <ScheduleDayShifts
             shifts={shifts}
+            actions={actions}
             mode={mode}
         />
     </div>;

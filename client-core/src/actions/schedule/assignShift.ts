@@ -1,13 +1,13 @@
-import store from '../store';
-import network from '../network';
+import store from '../../store/index';
+import network from '../../network';
 
-import changeErrorMessage from '../reducers/changeErrorMessage';
+import changeErrorMessage from '../../reducers/changeErrorMessage';
 
-import {Shift, Reducer, ScheduledShift} from '../types';
-import {ShiftAssignResponse} from "../types/serverResponses";
+import {Shift, Reducer, ScheduledShift} from '../../types/index';
+import {ShiftAssignResponse} from "../../types/serverResponses";
 
-export default function assignShift(shiftId, employeeId) {
-    network.post('/shifts/assign', { shiftId, employeeId: parseInt(employeeId) })
+export default function assignShift(scheduleWeek, shiftId, employeeId) {
+    network.post('/shifts/assign', { scheduleWeek, shiftId, employeeId: parseInt(employeeId) })
         .then((response) => {
             let shiftAssignResponse = response as ShiftAssignResponse;
 

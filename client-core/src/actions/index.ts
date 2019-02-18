@@ -4,9 +4,10 @@ import logout from './logout';
 import addEmployee from './employeeAdd';
 import editEmployee from './employeeEdit';
 
-import addShift from './scheduleAddShift';
-import editShift from './scheduleEditShift';
-import assignShift from './scheduleAssignShift';
+import addShift from './schedule/addShift';
+import editShift from './schedule/editShift';
+import assignShift from './schedule/assignShift';
+import addScheduleWeek from './schedule/addWeek';
 
 import addRole from './roleAdd';
 
@@ -22,6 +23,7 @@ export {
     addShift,
     editShift,
     assignShift,
+    addScheduleWeek,
 
     addRole,
 

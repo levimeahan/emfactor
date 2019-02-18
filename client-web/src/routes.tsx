@@ -53,10 +53,11 @@ const RequestTimeOff = () => import('./pages/RequestTimeOff');
 
 const DevTools = () => import('./pages/DevTools');
 
-const Employees = () => import('./managerPages/Employees');
-const Shifts = () => import('./managerPages/Shifts');
-const PendingRequests = () => import('./managerPages/PendingRequests');
-const Roles = () => import('./managerPages/Roles');
+const ManageEmployees = () => import('./managerPages/Employees');
+const ManageShifts = () => import('./managerPages/Shifts');
+const ManageSchedules = () => import('./managerPages/Schedules');
+const ManagePendingRequests = () => import('./managerPages/PendingRequests');
+const ManageRoles = () => import('./managerPages/Roles');
 
 interface PageRoute {
     path: string;
@@ -110,22 +111,27 @@ export const routes: PageRoute[] = [
 export const managerRoutes: PageRoute[] = [
     {
         path: '/pending-requests',
-        componentFactory: PendingRequests,
+        componentFactory: ManagePendingRequests,
         name: 'Pending Requests',
     },
     {
         path: '/employees',
-        componentFactory: Employees,
+        componentFactory: ManageEmployees,
         name: 'Employees',
     },
     {
         path: '/shifts',
-        componentFactory: Shifts,
+        componentFactory: ManageShifts,
         name: 'Shifts',
     },
     {
+        path: '/schedules',
+        componentFactory: ManageSchedules,
+        name: 'Schedules',
+    },
+    {
         path: '/roles',
-        componentFactory: Roles,
+        componentFactory: ManageRoles,
         name: 'Roles',
     },
 ];

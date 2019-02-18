@@ -1,4 +1,6 @@
-import {ScheduledShift, State, UIScheduleShift, UIScheduleWeek} from "../types";
+import {EntityCollection, ScheduledShift, ScheduleWeek, State, UIScheduleShift, UIScheduleWeek} from "../types";
+import {currentWeekStartTime, formatDate, formatMonth, formatWeekday} from "../utils/time";
+import { fullName } from '../utils/employee';
 
 /*** UTILS ***/
 
@@ -20,20 +22,22 @@ const spreadShiftsToDays = (shifts: UIScheduleShift[]) => {
     return shiftsByDay;
 };
 
-const getUIScheduleShifts = (shifts: State["shifts"], scheduledShifts: State["scheduledShifts"], employees: State["employees"]) => {
+const getUIScheduleShifts = (state: State, scheduledShiftIds: number[]) => {
     let shiftIdIndex = new Map();
 
-    let uiScheduleShifts: UIScheduleShift[] = shifts.allIds.map((id, i) => {
+    let uiScheduleShifts: UIScheduleShift[] = state.shifts.allIds.map((id, i) => {
         shiftIdIndex.set(id, i);
 
         return <UIScheduleShift>{
-            ...shifts.byId[id],
+            ...state.shifts.byId[id],
             employeeId: null,
             employeeName: null,
         };
     });
 
-    Object.values(scheduledShifts.byId).forEach((scheduledShift) => {
+    scheduledShiftIds.forEach((scheduledShiftId) => {
+        let scheduledShift = state.scheduledShifts.byId[scheduledShiftId];
+
         let shiftKey = shiftIdIndex.get(scheduledShift.shiftId);
         if(shiftKey === undefined) {
             return;
@@ -41,63 +45,89 @@ const getUIScheduleShifts = (shifts: State["shifts"], scheduledShifts: State["sc
 
         uiScheduleShifts[shiftKey].employeeId = scheduledShift.employeeId;
 
-        if(employees.byId.hasOwnProperty(scheduledShift.employeeId)) {
-            uiScheduleShifts[shiftKey].employeeName =
-                `${employees.byId[scheduledShift.employeeId].firstName} ${employees.byId[scheduledShift.employeeId].lastName}`;
+        if(state.employees.byId.hasOwnProperty(scheduledShift.employeeId)) {
+            uiScheduleShifts[shiftKey].employeeName = fullName(state.employees.byId[scheduledShift.employeeId]);
         }
     });
 
     return uiScheduleShifts;
 };
 
-/*** SELECTORS ***/
 
-export const currentScheduleWeek = (state: State): UIScheduleWeek => {
-    let shifts = getUIScheduleShifts(state.shifts, state.scheduledShifts, state.employees);
+const weekScheduledShiftIds = (state: State, weekId: number): number[] => (
+    state.scheduledShifts.allIds.filter(
+        id => state.scheduledShifts.byId[id].scheduleWeek === weekId
+    )
+);
+
+const getUIScheduleWeek = (state: State, weekId: number): UIScheduleWeek => {
+    let shifts = getUIScheduleShifts(state, weekScheduledShiftIds(state, weekId));
     let shiftsByDay = spreadShiftsToDays(shifts);
 
+    let scheduleWeek = state.scheduleWeeks.byId[weekId];
+
+    const day = (num) => {
+        let time = scheduleWeek.startTimestamp + ((num - 1) * 86400000);
+
+        return {
+            weekday: formatWeekday(time),
+            month: formatMonth(time, 'short'),
+            date: formatDate(time),
+            shifts: shiftsByDay[num]
+        }
+    };
+
     return {
-        id: 1,
-        draft: false,
-        startTimestamp: 0,
+        id: scheduleWeek.id,
+        draft: scheduleWeek.draft,
+        startTimestamp: scheduleWeek.startTimestamp,
         days: {
-            1: {
-                name: 'Monday',
-                date: 'Feb 4',
-                shifts: shiftsByDay[1],
-            },
-            2: {
-                name: 'Tuesday',
-                date: 'Feb 5',
-                shifts: shiftsByDay[2],
-            },
-            3: {
-                name: 'Wednesday',
-                date: 'Feb 6',
-                shifts: shiftsByDay[3],
-            },
-            4: {
-                name: 'Thursday',
-                date: 'Feb 7',
-                shifts: shiftsByDay[4],
-            },
-            5: {
-                name: 'Friday',
-                date: 'Feb 8',
-                shifts: shiftsByDay[5],
-            },
-            6: {
-                name: 'Saturday',
-                date: 'Feb 9',
-                shifts: shiftsByDay[6],
-            },
-            7: {
-                name: 'Sunday',
-                date: 'Feb 10',
-                shifts: shiftsByDay[7],
-            },
+            1: day(1),
+            2: day(2),
+            3: day(3),
+            4: day(4),
+            5: day(5),
+            6: day(6),
+            7: day(7),
         },
         dayIds: [1, 2, 3, 4, 5, 6, 7]
     };
 };
 
+/*** SELECTORS ***/
+
+export const currentScheduleWeek = (state: State): UIScheduleWeek|null => {
+    let currentWeekTime = currentWeekStartTime();
+
+    let newestWeekId = 0, newestWeekTime = 0;
+    let currentWeekId = state.scheduleWeeks.allIds.find((id) => {
+        let week = state.scheduleWeeks.byId[id];
+        if(week.startTimestamp > newestWeekTime) {
+            newestWeekId = id;
+        }
+
+        return week.startTimestamp === currentWeekTime;
+    });
+
+    if(!newestWeekId) {
+        return null;
+    }
+
+    if(!currentWeekId) {
+        currentWeekId = newestWeekId;
+    }
+
+    return getUIScheduleWeek(state, currentWeekId);
+};
+
+export const futureScheduleWeeks = (state: State): UIScheduleWeek[] => {
+    let nextWeekStart = currentWeekStartTime() + (7 * 86400000);
+
+    return state.scheduleWeeks.allIds
+        .filter(id => state.scheduleWeeks.byId[id].startTimestamp >= nextWeekStart)
+        .map(id => getUIScheduleWeek(state, id));
+};
+
+export const currentAndFutureScheduleWeeks = (state: State): UIScheduleWeek[] => (
+    [currentScheduleWeek(state), ...futureScheduleWeeks(state)]
+);

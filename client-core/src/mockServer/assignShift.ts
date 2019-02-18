@@ -10,6 +10,7 @@ import {ScheduledShift} from "../types";
 interface AssignShiftData {
     shiftId: number;
     employeeId: number;
+    scheduleWeek: number;
 }
 
 export default function assignShift(data: AssignShiftData): ShiftAssignResponse {
@@ -40,12 +41,17 @@ export default function assignShift(data: AssignShiftData): ShiftAssignResponse 
 
     response.success = true;
 
+    const { scheduledShifts, scheduleWeeks } = store.getState();
 
-    const scheduledShifts = store.getState().scheduledShifts;
     let scheduledShift: ScheduledShift;
     let existingId = scheduledShifts.allIds.find(id =>
         scheduledShifts.byId[id].shiftId === data.shiftId
     );
+
+    if(!scheduleWeeks.byId.hasOwnProperty(data.scheduleWeek)) {
+        response.errorMessage = "Invalid week!";
+        return response;
+    }
 
     if(existingId === undefined) {
         response.isNew = true;
@@ -53,7 +59,7 @@ export default function assignShift(data: AssignShiftData): ShiftAssignResponse 
             id: getNextCollectionId(scheduledShifts),
             shiftId: data.shiftId,
             employeeId: data.employeeId,
-            scheduleWeek: 0,
+            scheduleWeek: data.scheduleWeek,
         };
     }
     else {

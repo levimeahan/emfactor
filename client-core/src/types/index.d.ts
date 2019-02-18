@@ -155,7 +155,8 @@ export interface UIScheduleShift {
 }
 
 export interface UIScheduleDay {
-    name: string;
+    weekday: string;
+    month: string;
     date: string;
     shifts: UIScheduleShift[];
 }

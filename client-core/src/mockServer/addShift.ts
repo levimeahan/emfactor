@@ -8,6 +8,7 @@ import getNextCollectionId from '../utils/getNextCollectionId';
 
 interface AddShiftData {
     day: DayNumber;
+    weekId: number;
 }
 
 export default function addShift(data: AddShiftData): ShiftResponse {
@@ -23,6 +24,12 @@ export default function addShift(data: AddShiftData): ShiftResponse {
             numericality: {
                 greaterThanOrEqualTo: 1,
                 lessThanOrEqualTo: 7,
+            },
+        },
+        weekId: {
+            presence: { allowEmpty: false },
+            numericality: {
+                greaterThanOrEqualTo: 1,
             },
         },
     });

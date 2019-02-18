@@ -31,7 +31,8 @@ const styles = StyleSheet.create({
         textAlign: "center",
 
         backgroundColor: colors.primaryBg,
-        minHeight: "100vh",
+        minHeight: '100vh',
+        maxHeight: '100vh',
         display: "flex",
         flexDirection: "column",
         alignItems: "center",

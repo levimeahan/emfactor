@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
-import { selectors } from 'emfactor-client-core';
+import { actions, selectors } from 'emfactor-client-core';
 
 import useAppState from '../hooks/useAppState';
 import ScheduleWeek from "../Schedule/ScheduleWeek";
 import getWeekName from "../utils/getWeekName";
 
-const Schedule = () => {
+const Schedules = () => {
     const state = useAppState();
     const scheduleWeeks = selectors.currentAndFutureScheduleWeeks(state);
 
@@ -21,18 +21,27 @@ const Schedule = () => {
                 draft={week.draft}
                 days={week.days}
                 dayIds={week.dayIds}
-                mode='DISPLAY'
+                mode='ASSIGN'
             />
         ))}
+        <button
+            className={css(styles.addWeekButton)}
+            onClick={() => actions.addScheduleWeek()}
+        >
+            Add Week
+        </button>
     </div>;
 };
 
-
 const styles = StyleSheet.create({
     container: {
-
-    }
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'flex-start',
+    },
+    addWeekButton: {
+        margin: '0 8px 8px',
+    },
 });
 
-
-export default Schedule;
+export default Schedules;

@@ -1,7 +1,7 @@
-import store from '../store';
-import { Shift, Reducer } from '../types';
+import store from '../../store/index';
+import { Shift, Reducer } from '../../types/index';
 
-import changeErrorMessage from '../reducers/changeErrorMessage';
+import changeErrorMessage from '../../reducers/changeErrorMessage';
 
 export default function editShift(shiftId: number, changedData: Partial<Shift>) {
     if(!store.getState().shifts.byId.hasOwnProperty(shiftId)) {

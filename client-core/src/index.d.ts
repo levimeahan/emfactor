@@ -17,6 +17,7 @@ export type TimeOffRequest = types.TimeOffRequest;
 export type ShiftSwapRequest = types.ShiftSwapRequest;
 export type Event = types.Event;
 export type Notification = types.Notification;
+export type DayNumber = types.DayNumber;
 
 // Client-types
 export type State = types.State;

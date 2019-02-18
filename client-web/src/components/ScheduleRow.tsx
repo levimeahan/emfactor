@@ -2,16 +2,26 @@ import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 import ScheduleShift from "./ScheduleShift";
 
-import { UIScheduleShift } from 'emfactor-client-core';
+import { selectors, UIScheduleShift } from 'emfactor-client-core';
 import calcShiftWidth from "../utils/calcShiftWidth";
-import {ScheduleMode} from "../types";
+import {ScheduleDayActions, ScheduleMode} from "../types";
+import useAppState from "../hooks/useAppState";
 
 interface ScheduleRowProps {
     shifts: UIScheduleShift[];
+    actions: ScheduleDayActions;
     mode: ScheduleMode;
 }
 
-const ScheduleRow = ({ shifts, mode }: ScheduleRowProps) => {
+/**
+ * Displays a row of shifts and adds space between them according to their start/end times so that proportions of the row
+ * directly correspond to hours in the day
+ */
+const ScheduleRow = ({ shifts, actions, mode }: ScheduleRowProps) => {
+    const state = useAppState();
+
+    const allRoles = selectors.rolesArray(state);
+
     let renderItems = [];
     shifts.forEach((shift, i) => {
         let timeElapsed = 0;
@@ -30,13 +40,16 @@ const ScheduleRow = ({ shifts, mode }: ScheduleRowProps) => {
         renderItems.push(
             <ScheduleShift
                 key={i}
-                id={shift.id}
                 name={shift.name}
                 startTime={shift.startTime}
                 endTime={shift.endTime}
                 employeeId={shift.employeeId}
                 employeeName={shift.employeeName}
+                employeeOptions={selectors.availableEmployees(state, shift.id)}
                 allowedRoles={shift.allowedRoles}
+                allRoles={allRoles}
+                edit={(data) => actions.editShift(shift.id, data)}
+                assign={(employeeId) => actions.assignShift(shift.id, employeeId)}
                 mode={mode}
             />
         );

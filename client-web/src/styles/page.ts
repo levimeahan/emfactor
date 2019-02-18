@@ -11,4 +11,8 @@ export default StyleSheet.create({
         fontSize: '1.5em',
         margin: '0.25em 0 0.25em',
     },
+    header2: {
+        fontSize: '1.4em',
+        margin: '0.2em 0 0.2em',
+    },
 });

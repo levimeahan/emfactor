@@ -1,13 +1,13 @@
-import store from '../store';
-import network from '../network';
+import store from '../../store/index';
+import network from '../../network';
 
-import changeErrorMessage from '../reducers/changeErrorMessage';
+import changeErrorMessage from '../../reducers/changeErrorMessage';
 
-import { Shift, Reducer } from '../types';
-import {ShiftResponse} from "../types/serverResponses";
+import {Shift, Reducer, DayNumber} from '../../types/index';
+import {ShiftResponse} from "../../types/serverResponses";
 
 
-export default function addShift(day) {
+export default function addShift(day: DayNumber) {
     network.post('/shifts/add', { day })
         .then((response) => {
             let shiftResponse = response as ShiftResponse;
