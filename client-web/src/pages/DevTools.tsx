@@ -1,54 +1,12 @@
 import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
-import { store } from 'emfactor-client-core';
 import storageAvailable from '../utils/storageAvailable';
 import { colors } from '../themes/default';
 
 const canUseStorage = storageAvailable('localStorage');
 
-const save = () => {
-    if(!canUseStorage) {
-        return;
-    }
-
-    let state = store.getState();
-
-    window.localStorage.setItem('appState', JSON.stringify(state));
-
-    console.log('saved!', state);
-};
-
-const load = () => {
-    if(!canUseStorage) {
-        return;
-    }
-
-    let storedState = window.localStorage.getItem('appState');
-
-    if(!storedState) {
-        return;
-    }
-    try {
-        let state = JSON.parse(storedState);
-
-        store.initialize(state);
-        store.updateSubscribers();
-
-        console.log('Loaded!', state);
-    } catch(e) {
-        console.log('Error loading state:', e);
-    }
-};
-
-const resetState = () => {
-    store.initialize(store.defaultState);
-    store.updateSubscribers();
-    console.log('Reset!', store.getState());
-};
-const logState = () => {
-    console.log(store.getState());
-};
+import { saveState, loadState, resetState, logState } from '../utils/stateDevTools';
 
 const Button = ({ children, ...rest }) => (
     <button className={css(styles.button)} {...rest}>{children}</button>
@@ -58,8 +16,8 @@ const DevTools = () => {
     return <div className={css(styles.container)}>
         <h2 className={css(styles.header)}>Local Storage</h2>
         <span className={css(styles.label)}>(Open console for result info)</span>
-        <Button onClick={save} disabled={!canUseStorage}>Save State</Button>
-        <Button onClick={load} disabled={!canUseStorage}>Load State</Button>
+        <Button onClick={saveState} disabled={!canUseStorage}>Save State</Button>
+        <Button onClick={loadState} disabled={!canUseStorage}>Load State</Button>
 
         <h2>State</h2>
         <Button onClick={resetState}>Reset to Default</Button>
