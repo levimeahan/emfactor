@@ -15,22 +15,22 @@ interface FormInputProps {
     containerStyle?: object,
     labelStyle?: object,
     inputStyle?: object,
+    onBlur: (event: React.FocusEvent<HTMLInputElement>) => void,
 }
 
-const FormInput = ({
-   name, label, labelType, type, manager, containerStyle, labelStyle, inputStyle
-}: FormInputProps) => (
-    <div className={css(styles.container, containerStyle)}>
-        {labelType === 'label' ?
-            <FormInputLabel inputId={name} style={labelStyle}>{label}</FormInputLabel>
+const FormInput = (props: FormInputProps) => (
+    <div className={css(styles.container, props.containerStyle)}>
+        {props.labelType === 'label' ?
+            <FormInputLabel inputId={name} style={props.labelStyle}>{props.label}</FormInputLabel>
         : null}
         <input
             type='text'
             id={name}
-            placeholder={labelType === 'placeholder' ? label : null}
-            value={manager.value}
-            onChange={e => manager.onChange(e.currentTarget.value)}
-            className={css(styles.input, inputStyle)}
+            placeholder={props.labelType === 'placeholder' ? props.label : null}
+            value={props.manager.value}
+            onChange={e => props.manager.onChange(e.currentTarget.value)}
+            onBlur={props.onBlur}
+            className={css(styles.input, props.inputStyle)}
         />
     </div>
 );
@@ -40,6 +40,7 @@ FormInput.defaultProps = {
     containerStyle: null,
     labelStyle: null,
     inputStyle: null,
+    onBlur: () => {},
 };
 
 const styles = StyleSheet.create({
