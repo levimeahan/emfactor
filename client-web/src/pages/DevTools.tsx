@@ -1,12 +1,9 @@
 import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
-import storageAvailable from '../utils/storageAvailable';
 import { colors } from '../themes/default';
 
-const canUseStorage = storageAvailable('localStorage');
-
-import { saveState, loadState, resetState, logState } from '../utils/stateDevTools';
+import { canUseStorage, saveState, loadState, resetState, logState } from '../utils/stateDevTools';
 
 const Button = ({ children, ...rest }) => (
     <button className={css(styles.button)} {...rest}>{children}</button>
