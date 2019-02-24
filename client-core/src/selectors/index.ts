@@ -15,6 +15,8 @@ import {
     employeeIsAvailable
 } from './employees';
 
+import { employeeTimeOffRequests } from "./requests";
+
 import {
     rolesArray,
     roleNames,
@@ -38,6 +40,8 @@ export {
     employeesArray,
     availableEmployees,
     employeeIsAvailable,
+
+    employeeTimeOffRequests,
 
     rolesArray,
     roleNames,

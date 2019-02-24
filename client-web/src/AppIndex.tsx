@@ -1,6 +1,8 @@
 import React, { useContext } from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
+import 'react-dates/initialize';
+
 import Login from './pages/Login';
 import Header from './components/Header';
 import AppRouter from './AppRouter';

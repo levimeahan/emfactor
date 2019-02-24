@@ -1,12 +1,14 @@
+import moment from 'moment';
+
 /**
  *
  * @param {number} timestamp time in seconds
  */
 export default function getWeekName(timestamp: number) {
-    let startDate = new Date(timestamp);
-    let endDate = new Date(timestamp + (6 * 86400000));
+    let startDate = moment(timestamp);
+    let endDate = moment(startDate).add(6, 'days');
 
-    let formatter = new Intl.DateTimeFormat('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' });
+    const format = 'dddd, MMM D, YYYY';
 
-    return `${formatter.format(startDate)} - ${formatter.format(endDate)}`;
+    return `${startDate.format(format)} - ${endDate.format(format)}`;
 }
