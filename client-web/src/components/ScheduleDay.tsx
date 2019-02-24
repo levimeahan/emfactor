@@ -21,7 +21,7 @@ const ScheduleDay = ({ name, date, shifts, headerStyle, mode, actions }: Schedul
         <div className={css(styles.header, headerStyle)}>
             <span className={css(styles.dayName)}>{name}</span>
             {mode === 'EDIT' ?
-                <button onClick={() => actions.addShift}>Add Shift</button>
+                <button onClick={() => actions.addShift()}>Add Shift</button>
                 :
                 <span className={css(styles.date)}>{date}</span>
             }

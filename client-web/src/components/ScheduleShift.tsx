@@ -10,6 +10,7 @@ import ShiftAssign from "./ShiftAssign";
 
 import { ScheduleMode, ScheduleDayActions } from "../types";
 import {Employee, Shift} from "../../../client-core/src/types";
+import useFormInput from "../hooks/useFormInput";
 
 // Main Component
 interface ScheduleShiftProps {
@@ -31,16 +32,18 @@ interface ScheduleShiftProps {
  */
 const ScheduleShift = ({
    name, startTime, endTime, employeeId, employeeName, employeeOptions, allowedRoles, allRoles, mode, edit, assign
-}: ScheduleShiftProps) => (
-    <div
+}: ScheduleShiftProps) => {
+
+
+    return <div
         className={css(styles.container)}
-        style={{ width: calcShiftWidth(endTime - startTime) + '%' }}
+        style={{width: calcShiftWidth(endTime - startTime) + '%'}}
     >
         <div className={css(styles.shiftContent)}>
             <ShiftTime
                 time={startTime}
                 label='Start'
-                onChange={newValue => edit({ startTime: newValue })}
+                onChange={newValue => edit({startTime: newValue})}
                 mode={mode}
                 styles={styles.startTime}
             />
@@ -48,61 +51,62 @@ const ScheduleShift = ({
             <div className={css(styles.shiftDetails)}>
                 {mode === 'EDIT' ?
                     <>
-                        <ShiftNameEdit manager={{
-                            value: name, onChange: (e) => edit({ name: e.currentTarget.value }),
-                        }} />
+                        <ShiftNameEdit name={name} update={(newValue) => { console.log('update'); edit({ name: newValue }) }} />
                         <ShiftRolesEdit
                             currentRoles={allowedRoles}
                             allRoles={allRoles}
-                            onChange={(newValue) => edit({ allowedRoles: newValue })}
+                            onChange={(newValue) => edit({allowedRoles: newValue})}
                         />
                     </>
-                : null}
+                    : null}
                 {mode === 'ASSIGN' ?
                     <>
-                        <ShiftNameDisplay name={name} />
+                        <ShiftNameDisplay name={name}/>
                         <ShiftAssign
                             employeeId={employeeId}
                             employeeOptions={employeeOptions}
                             assign={assign}
                         />
                     </>
-                : null}
+                    : null}
                 {mode === 'DISPLAY' ?
                     <>
-                        <ShiftNameDisplay name={name} />
-                        <ShiftEmployeeName name={employeeName} />
+                        <ShiftNameDisplay name={name}/>
+                        <ShiftEmployeeName name={employeeName}/>
                     </>
-                : null}
+                    : null}
             </div>
 
             <ShiftTime
                 time={endTime}
                 label='End'
-                onChange={newValue => edit({ endTime: newValue })}
+                onChange={newValue => edit({endTime: newValue})}
                 mode={mode}
                 styles={styles.endTime}
             />
         </div>
-    </div>
-);
+    </div>;
+};
 ScheduleShift.defaultProps = {
     mode: 'DISPLAY',
 };
 
 
 // Name
-const ShiftNameEdit = ({ manager }) => (
-    <FormInput
+const ShiftNameEdit = ({ name, update }) => {
+    const nameManager = useFormInput(name);
+
+    return <FormInput
         type='text'
         name='shiftName'
         label='Name'
-        manager={manager}
+        manager={nameManager}
+        onBlur={() => update(nameManager.value)}
         containerStyle={styles.nameInputContainer}
         labelStyle={styles.nameInputLabel}
         inputStyle={styles.nameInput}
-    />
-);
+    />;
+};
 
 const ShiftNameDisplay = ({ name }) => (
     <span className={css(styles.nameDisplay)}>{name}</span>
