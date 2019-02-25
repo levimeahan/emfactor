@@ -2,69 +2,69 @@ import React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
 import {Availability} from "emfactor-client-core";
+
+import { SelectableGroup } from 'react-selectable-fast'
+
 import {InputStateManager} from "../types";
 import FormInputLabel from "./FormInputLabel";
 
-import arrayFromRange from "../utils/arrayFromRange";
-import formatHour from '../utils/formatHour';
-
-const hoursInDay = arrayFromRange(0, 23);
-
+import AvailabilitySelectDay from './AvailabilitySelectDay';
 
 // AvailabilitySelect
 interface FormAvailabilitySelectProps {
     manager: InputStateManager<Availability>,
 }
 const FormAvailabilitySelect = ({ manager }: FormAvailabilitySelectProps) => {
+    const updateAvailability = (selectedItems) => manager.onChange(mapSelectedItemsToAvailability(selectedItems));
+
     return <div className={css(styles.container)}>
         <FormInputLabel>Availability</FormInputLabel>
-        <div className={css(styles.daysContainer)}>
+        <SelectableGroup
+            className={css(styles.daysContainer)}
+            enableDeselect
+            selectboxClassName={css(styles.selectBox)}
+            onSelectionClear={updateAvailability}
+            onSelectionFinish={updateAvailability}
+        >
             {Object.keys(manager.value).map((day, i) => (
                 <AvailabilitySelectDay
                     key={i}
                     name={day}
                     hours={manager.value[day]}
-                    onChange={(newValue) => manager.onChange({
-                        ...manager.value, [day]: newValue
-                    })}
                 />
             ))}
-        </div>
+        </SelectableGroup>
     </div>;
 };
 
-const isAvailable = (availableHours, hour) => availableHours.substr(hour, 1) === '1';
-const getToggledAvailable = (availableHours, hour) => (
+// Utils
+const getChangedHourAvailability = (availableHours, hour, val) => (
     availableHours.slice(0, hour) +
-    (availableHours[hour] === '1' ? '0' : '1') +
+    val +
     availableHours.slice(hour + 1)
 );
 
-// AvailabilitySelectDay
-interface AvailabilitySelectDay {
-    name: string;
-    hours: string;
-}
-const AvailabilitySelectDay = ({ name, hours, onChange }) => {
-    return <div className={css(styles.day)} data-testid={`availability-${name}`}>
-        <span className={css(styles.dayName)}>{name}</span>
-        {hoursInDay.map((hourNum) => (
-            <HourInput
-                key={hourNum}
-                hour={hourNum}
-                selected={isAvailable(hours, hourNum)}
-                onClick={() => onChange(getToggledAvailable(hours, hourNum))}
-            />
-        ))}
-    </div>
+const mapSelectedItemsToAvailability = (selectedItems) => {
+    const availability: Availability = {
+        mon: '0'.repeat(24),
+        tue: '0'.repeat(24),
+        wed: '0'.repeat(24),
+        thu: '0'.repeat(24),
+        fri: '0'.repeat(24),
+        sat: '0'.repeat(24),
+        sun: '0'.repeat(24),
+    };
+
+    selectedItems.forEach((item) => {
+        if(!availability.hasOwnProperty(item.props.day)) {
+            return;
+        }
+
+        availability[item.props.day] = getChangedHourAvailability(availability[item.props.day], item.props.hour, '1');
+    });
+
+    return availability;
 };
-
-
-const HourInput = ({ hour, selected, onClick }) => (
-    <div className={css(styles.hourContainer, selected ? styles.hourSelected : null)} onClick={onClick}>
-        <div className={css(styles.hour)}>{formatHour(hour)}</div>
-    </div>
-);
 
 // Styles
 const styles = StyleSheet.create({
@@ -82,41 +82,13 @@ const styles = StyleSheet.create({
         width: '420px',
         marginTop: '5px',
     },
-    day: {
-        display: 'flex',
-        flexDirection: 'column',
-
-        width: '14.0%',
-        background: '#303030',
-
-        alignItems: 'center',
+    selectBox: {
+        zIndex: 9000,
+        position: 'absolute',
+        cursor: 'default',
+        background: 'none',
+        border: '1px dashed #c0c0c0',
     },
-    dayName: {
-        textTransform: 'capitalize',
-        padding: '5px 0',
-        background: '#282828',
-        alignSelf: 'stretch',
-    },
-    hourContainer: {
-        alignSelf: 'stretch',
-        boxSizing: 'border-box',
-        padding: '5px',
-        cursor: 'pointer',
-        ':hover': {
-            background: 'rgba(0,0,0,0.1)',
-        },
-    },
-    hourSelected: {
-        background: 'rgba(0,0,0,0.2)',
-        ':hover': {
-            background: 'rgba(0,0,0,0.2)',
-        },
-    },
-    hour: {
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-    }
 });
 
 // Exports
