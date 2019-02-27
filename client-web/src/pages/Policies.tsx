@@ -52,7 +52,7 @@ const Policy = ({ id, name, content }) => {
 
 const DisplayPolicy = ({ name, content, edit }) => (
     <React.Fragment>
-        <h3 className={css(styles.policyHeader)}>
+        <h3 className={css(pageStyles.header2, styles.policyHeader)}>
             {name} <button onClick={edit}>Edit</button>
         </h3>
         <div className={css(styles.policyContent)}>

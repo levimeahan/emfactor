@@ -97,7 +97,7 @@ export const routes: PageRoute[] = [
         name: 'Policies',
     },
     {
-        path: '/Guides',
+        path: '/guides',
         componentFactory: Guides,
         name: 'Guides',
     },
@@ -115,9 +115,9 @@ export const managerRoutes: PageRoute[] = [
         name: 'Pending Requests',
     },
     {
-        path: '/employees',
-        componentFactory: ManageEmployees,
-        name: 'Employees',
+        path: '/schedules',
+        componentFactory: ManageSchedules,
+        name: 'Schedules',
     },
     {
         path: '/shifts',
@@ -125,9 +125,9 @@ export const managerRoutes: PageRoute[] = [
         name: 'Shifts',
     },
     {
-        path: '/schedules',
-        componentFactory: ManageSchedules,
-        name: 'Schedules',
+        path: '/employees',
+        componentFactory: ManageEmployees,
+        name: 'Employees',
     },
     {
         path: '/roles',

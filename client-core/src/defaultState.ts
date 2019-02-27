@@ -142,8 +142,24 @@ const defaultState: State = {
         allIds: [1, 2],
     },
     guides: {
-        byId: {},
-        allIds: [],
+        byId: {
+            1: {
+                id: 1,
+                name: 'Cleaning Roller Grill',
+                content: "Clean grills one at a time - move food items to the other grill so they are still available" +
+                " for purchase. After moving food items, turn grill off and remove plastic food name rollers and " +
+                "metal dividers. \r\n\r\n" +
+                "Cleaning the dividers: Scrape any hardened material off with flat metal edge of grill brush, then " +
+                "apply Super San to a folded Wipe-all and thoroughly wipe down the metal divider. Place dividers to " +
+                "the side and proceed to cleaning grill itself.\r\n\r\n" +
+                "Cleaning the grill: Acquire a plastic dish scrubber/sponge, wet it and apply soap. Scrub grill " +
+                "thoroughly until covered with soap and debris is removed. Acquire a clean wet rag and wipe grill down" +
+                "until all soap residue is gone. Turn grill back on, place plastic food name rollers, and then place" +
+                "metal dividers using plastic name rollers as a size guide.",
+                roles: [ 1 ],
+            },
+        },
+        allIds: [ 1 ],
     },
     availabilityChangeRequests: {
         byId: {},

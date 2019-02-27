@@ -93,6 +93,7 @@ export interface Policy {
 export interface Guide {
     id: number;
     name: string;
+    content: string;
     roles: number[];
 }
 

@@ -68,6 +68,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
     },
     navMenuContainer: {
+        flexShrink: 0,
         background: colors.background.secondary,
         margin: 0,
         padding: 0,

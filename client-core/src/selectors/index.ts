@@ -28,6 +28,13 @@ import {State} from "../types";
 
 const allPolicies = (state: State) => state.policies.allIds.map(id => state.policies.byId[id]);
 
+const allGuides = (state: State) => state.guides.allIds.map(id => state.guides.byId[id]);
+
+const guidesForRole = (state: State, roleId: number) =>
+    state.guides.allIds
+        .filter(id => roleMatches(state, state.guides.byId[id], roleId))
+        .map(id => state.guides.byId[id]);
+
 
 export {
     userLoggedIn,
@@ -48,4 +55,7 @@ export {
     roleMatches,
 
     allPolicies,
+
+    allGuides,
+    guidesForRole,
 }
