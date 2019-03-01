@@ -10,12 +10,16 @@ import {
 } from './schedule';
 
 import {
-    employeesArray,
+    allEmployees,
+    employeeNamesByIds,
     availableEmployees,
     employeeIsAvailable
 } from './employees';
 
-import { employeeTimeOffRequests } from "./requests";
+import {
+    employeeTimeOffRequests,
+    allTimeOffRequests
+} from "./requests";
 
 import {
     rolesArray,
@@ -44,10 +48,12 @@ export {
     futureScheduleWeeks,
     currentAndFutureScheduleWeeks,
 
-    employeesArray,
+    allEmployees,
+    employeeNamesByIds,
     availableEmployees,
     employeeIsAvailable,
 
+    allTimeOffRequests,
     employeeTimeOffRequests,
 
     rolesArray,

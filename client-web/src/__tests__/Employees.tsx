@@ -67,7 +67,7 @@ it('stops and shows error message when full name not entered', async () => {
         getSubmitButton
     } = await addEmployeeSetup();
 
-    const getEmployeeCount = () => selectors.employeesArray(store.getState()).length;
+    const getEmployeeCount = () => selectors.allEmployees(store.getState()).length;
     const startingEmployeeCount = getEmployeeCount();
 
     await changeFormInput(getLastNameInput(), 'Doe');
@@ -108,13 +108,13 @@ it('adds employee with specific role', async () => {
 
     expect(getRoleCheckbox('Manager').checked).toBe(true);
 
-    const startingEmployeeCount = selectors.employeesArray(store.getState()).length;
+    const startingEmployeeCount = selectors.allEmployees(store.getState()).length;
 
     fireEvent.click(getSubmitButton());
 
     await waitForElement(() => getByTestId('manageEmployeesPage'));
 
-    const employees = selectors.employeesArray(store.getState());
+    const employees = selectors.allEmployees(store.getState());
 
     expect(employees.length).toBe(startingEmployeeCount + 1);
 
@@ -148,7 +148,7 @@ it('adds employee with specific availability', async () => {
 
     await waitForElement(() => getByTestId('manageEmployeesPage'));
 
-    const employees = selectors.employeesArray(store.getState());
+    const employees = selectors.allEmployees(store.getState());
 
     let newEmployee = employees.find(emp => emp.firstName === 'John' && emp.lastName == 'Doe');
 

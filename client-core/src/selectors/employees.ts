@@ -4,10 +4,24 @@ import { DaysByNum } from "../config";
 import { hasRange } from '../utils/availability';
 
 import { roleHasPermission, roleMatches } from './roles';
+import {fullName} from "../utils/employee";
 
-export const employeesArray = (state: State) => (
+export const allEmployees = (state: State) => (
     state.employees.allIds.map(id => state.employees.byId[id])
 );
+
+export const employeeNamesByIds = (state: State, employeeIds: number[]) => {
+    let names = {};
+    employeeIds.forEach(id => {
+        if(typeof state.employees.byId[id] === 'undefined') {
+            names[id] = `[Emp #${id} undefined]`;
+        }
+
+        names[id] = fullName(state.employees.byId[id]);
+    });
+
+    return names;
+};
 
 export const availableEmployees = (state: State, shiftId: number) => {
     if(!state.shifts.byId.hasOwnProperty(shiftId)) {

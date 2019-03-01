@@ -5,7 +5,7 @@ import { actions, selectors } from 'emfactor-client-core';
 
 import useAppState from '../hooks/useAppState';
 import ScheduleWeek from "../Schedule/ScheduleWeek";
-import getWeekName from "../utils/getWeekName";
+import { getWeekName } from "../utils/dateTime";
 
 const Schedules = () => {
     const state = useAppState();
