@@ -1,4 +1,4 @@
-import {Employee, Shift, EntityCollection, ScheduledShift} from "./index";
+import {Employee, Shift, EntityCollection, ScheduledShift, DeepReadonly} from "./index";
 
 
 export interface LoginResponse {
@@ -10,7 +10,7 @@ export interface LoginResponse {
 export interface EmployeesResponse {
     success: boolean;
     errorMessage: string;
-    employees: EntityCollection<Employee>|null;
+    employees: DeepReadonly<EntityCollection<Employee>>|null;
 }
 
 export interface ShiftResponse {

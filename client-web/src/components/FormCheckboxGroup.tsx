@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     },
     listItem: {
         listStyle: 'none',
-        marginLeft: '8px',
+        margin: '2px 0 2px 8px',
     },
 });
 

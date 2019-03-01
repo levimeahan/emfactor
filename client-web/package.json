@@ -22,7 +22,7 @@
     "react-scripts": "^2.1.5",
     "react-select": "^2.3.0",
     "react-selectable-fast": "^2.2.2",
-    "typescript": "^3.2.2"
+    "typescript": "^3.3.3333"
   },
   "scripts": {
     "start": "react-scripts start",

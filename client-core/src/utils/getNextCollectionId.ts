@@ -1,4 +1,4 @@
-import {EntityCollection} from "../types";
+import {DeepReadonly, EntityCollection} from "../types";
 
 export default function getNextCollectionId(collection: EntityCollection<any>) {
     let highestId = 0;

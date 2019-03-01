@@ -1,6 +1,8 @@
-import { State } from './types';
+import {Permissions, Role, State} from './types';
 
 import { currentWeekStartTime } from './utils/time';
+
+import { permissions } from "./config";
 
 const eightToSixteen = '0'.repeat(8) + '1'.repeat(8) + '0'.repeat(8);
 const notAvailable = '0'.repeat(23);
@@ -41,7 +43,7 @@ const defaultState: State = {
             2: {
                 id: 2,
                 name: 'Manager',
-                permissions: ['employees', 'schedule'],
+                permissions: Object.keys(permissions) as (keyof Permissions)[],
                 subRoles: [1],
             },
         },

@@ -21,13 +21,43 @@ export const DaysByNum = {
 };
 
 export const permissions: Permissions = {
-    employees: {
-        label: 'Add/Edit Employees',
+    viewEmployees: {
+        label: "View Full Employee info"
     },
-    schedule: {
-        label: 'Create/Edit/Assign Schedule',
+    addEmployees: {
+        label: 'Add New Employees',
     },
-    policies: {
+    editEmployees: {
+        label: 'Edit Employees',
+    },
+    manageShifts: {
+        label: "Create/Edit Shifts"
+    },
+    manageSchedules: {
+        label: 'Create/Edit Weekly Schedules',
+    },
+    managePolicies: {
         label: 'Create/Edit Policies',
+    },
+    viewAllGuides: {
+        label: 'View Guides for all roles',
+    },
+    manageAllGuides: {
+        label: 'Create/Edit Guides for all roles',
+    },
+    manageLowerGuides: {
+        label: 'Create/Edit Guides for lower roles',
+    },
+    viewTimeOffRequests: {
+        label: "View time off requests",
+    },
+    finalizeTimeOffRequests: {
+        label: "Approve/Decline time off requests"
+    },
+    viewAvailabilityRequests: {
+        label: "View availability change requests",
+    },
+    finalizeAvailabilityRequests: {
+        label: "Approve/Decline availability change requests"
     },
 };

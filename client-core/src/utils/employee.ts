@@ -1,3 +1,3 @@
-import {Employee} from "../types";
+import {DeepReadonly, Employee} from "../types";
 
-export const fullName = (employee: Employee) => `${employee.firstName} ${employee.lastName}`;
+export const fullName = (employee: DeepReadonly<Employee>) => `${employee.firstName} ${employee.lastName}`;

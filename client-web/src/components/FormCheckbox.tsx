@@ -10,9 +10,6 @@ interface FormCheckboxProps {
 
 const FormCheckbox = ({ name, label, manager }: FormCheckboxProps) => (
     <div className={css(styles.container)}>
-        {label.length > 0 ?
-            <label htmlFor={name} className={css(styles.label)}>{label}</label>
-        : null}
         <input
             type='checkbox'
             id={name}
@@ -20,6 +17,9 @@ const FormCheckbox = ({ name, label, manager }: FormCheckboxProps) => (
             onChange={(e) => manager.onChange(e.currentTarget.checked)}
             className={css(styles.input)}
         />
+        {label.length > 0 ?
+            <label htmlFor={name} className={css(styles.label)}>{label}</label>
+        : null}
     </div>
 );
 FormCheckbox.defaultProps = {
@@ -35,11 +35,10 @@ const styles = StyleSheet.create({
     },
     label: {
         display: 'inline-block',
-        minWidth: '100px',
         textAlign: 'left',
     },
     input: {
-        margin: '3px 0 0 5px',
+        margin: '3px 5px 0 5px',
         height: '14px',
         width: '14px',
     },

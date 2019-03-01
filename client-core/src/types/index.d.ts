@@ -1,12 +1,12 @@
 type DeepReadonly<T> = {
     readonly [P in keyof T]: DeepReadonly<T[P]>
-    };
+};
 
 export type EntityCollection<T> = {
     byId: {
         [key: number]: T
     },
-    allIds: number[],
+    allIds: Readonly<number[]>,
 };
 
 export type Day = 'mon'|'tue'|'wed'|'thu'|'fri'|'sat'|'sun';
@@ -34,7 +34,7 @@ export interface Employee {
 export interface Role {
     id: number;
     name: string;
-    permissions: string[];
+    permissions: (keyof Permissions)[];
     subRoles: number[];
 }
 
@@ -135,9 +135,19 @@ interface Permission {
 }
 
 export interface Permissions {
-    employees: Permission;
-    schedule: Permission;
-    policies: Permission;
+    viewEmployees: Permission;
+    addEmployees: Permission;
+    editEmployees: Permission;
+    manageShifts: Permission;
+    manageSchedules: Permission;
+    managePolicies: Permission;
+    viewAllGuides: Permission;
+    manageAllGuides: Permission;
+    manageLowerGuides: Permission;
+    viewTimeOffRequests: Permission;
+    finalizeTimeOffRequests: Permission;
+    viewAvailabilityRequests: Permission;
+    finalizeAvailabilityRequests: Permission;
 }
 
 /*
@@ -187,7 +197,12 @@ interface Schema {
         errorMessage: string,
     };
     employees: EntityCollection<Employee>;
-    roles: EntityCollection<Role>;
+    roles: {
+        byId: {
+            [index: number]: Role
+        },
+        allIds: number[]
+    };
     shifts: EntityCollection<Shift>;
     scheduledShifts: EntityCollection<ScheduledShift>;
     scheduleWeeks: EntityCollection<ScheduleWeek>;
