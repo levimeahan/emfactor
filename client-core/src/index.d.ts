@@ -2,10 +2,11 @@ import store from './store/index';
 import * as actions from './actions/index';
 import * as selectors from './selectors/index';
 import * as types from './types/index';
+import * as utils from './utils/publicIndex';
 import { Days, permissions } from './index';
 
 
-export { store, actions, selectors, permissions, Days };
+export { store, actions, selectors, utils, permissions, Days };
 
 export type Employee = types.Employee;
 export type Role = types.Role;
