@@ -1,35 +1,16 @@
-import login from './login';
-import logout from './logout';
+export { default as login } from './login';
+export { default as logout } from './logout';
 
-import requestTimeOff from './requestTimeOff';
+export { default as requestTimeOff } from './requestTimeOff';
 
-import addEmployee from './employeeAdd';
-import editEmployee from './employeeEdit';
+export { default as addEmployee } from './employeeAdd';
+export { default as editEmployee } from './employeeEdit';
 
-import addShift from './schedule/addShift';
-import editShift from './schedule/editShift';
-import assignShift from './schedule/assignShift';
-import addScheduleWeek from './schedule/addWeek';
+export { default as addShift } from './schedule/addShift';
+export { default as editShift } from './schedule/editShift';
+export { default as assignShift } from './schedule/assignShift';
+export { default as addScheduleWeek } from './schedule/addWeek';
 
-import addRole from './roleAdd';
+export { default as addRole } from './roleAdd';
 
-import editPolicy from './policyEdit';
-
-export {
-    login,
-    logout,
-
-    requestTimeOff,
-
-    addEmployee,
-    editEmployee,
-
-    addShift,
-    editShift,
-    assignShift,
-    addScheduleWeek,
-
-    addRole,
-
-    editPolicy
-};
+export { default as editPolicy } from './policyEdit';

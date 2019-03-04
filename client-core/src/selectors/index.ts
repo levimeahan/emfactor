@@ -1,67 +1,26 @@
-import {
-    userLoggedIn,
-    userIsManager
-} from './user';
-
-import {
-    currentScheduleWeek,
-    futureScheduleWeeks,
-    currentAndFutureScheduleWeeks,
-} from './schedule';
-
-import {
-    allEmployees,
-    employeeNamesByIds,
-    availableEmployees,
-    employeeIsAvailable
-} from './employees';
-
-import {
-    employeeTimeOffRequests,
-    allTimeOffRequests
-} from "./requests";
-
-import {
-    rolesArray,
-    roleNames,
-    roleMatches
-} from './roles';
-
-
 import {State} from "../types";
 
-const allPolicies = (state: State) => state.policies.allIds.map(id => state.policies.byId[id]);
+import { roleMatches } from "./roles";
 
-const allGuides = (state: State) => state.guides.allIds.map(id => state.guides.byId[id]);
 
-const guidesForRole = (state: State, roleId: number) =>
+export const allPolicies = (state: State) => state.policies.allIds.map(id => state.policies.byId[id]);
+
+export const allGuides = (state: State) => state.guides.allIds.map(id => state.guides.byId[id]);
+
+export const guidesForRole = (state: State, roleId: number) =>
     state.guides.allIds
         .filter(id => roleMatches(state, state.guides.byId[id], roleId))
         .map(id => state.guides.byId[id]);
 
 
-export {
-    userLoggedIn,
-    userIsManager,
+export * from './user';
 
-    currentScheduleWeek,
-    futureScheduleWeeks,
-    currentAndFutureScheduleWeeks,
+export { employeeShiftsByWeek } from "./schedule";
 
-    allEmployees,
-    employeeNamesByIds,
-    availableEmployees,
-    employeeIsAvailable,
+export * from './scheduleWeeks';
 
-    allTimeOffRequests,
-    employeeTimeOffRequests,
+export * from './employees';
 
-    rolesArray,
-    roleNames,
-    roleMatches,
+export * from "./requests";
 
-    allPolicies,
-
-    allGuides,
-    guidesForRole,
-}
+export * from './roles';
