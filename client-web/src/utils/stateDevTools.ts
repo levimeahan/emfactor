@@ -13,7 +13,7 @@ export const saveState = () => {
 
     window.localStorage.setItem('appState', JSON.stringify(state));
 
-    console.log('saved!', state);
+    console.log('saved!');
 };
 
 export const loadState = () => {
@@ -32,7 +32,7 @@ export const loadState = () => {
         store.initialize(state);
         store.updateSubscribers();
 
-        console.log('Loaded!', state);
+        console.log('Loaded!');
     } catch(e) {
         console.log('Error loading state:', e);
     }
