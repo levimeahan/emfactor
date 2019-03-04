@@ -14,16 +14,21 @@
   "devDependencies": {
     "@babel/core": "^7.2.2",
     "@babel/plugin-proposal-class-properties": "^7.2.3",
-    "babel-core": "^7.0.0-bridge.0",
+    "@babel/preset-typescript": "^7.2.2",
     "babel-jest": "^24.1.0",
-    "babel-preset-env": "^1.7.0",
     "jest": "^24.1.0",
     "regenerator-runtime": "^0.13.1"
   },
   "dependencies": {
+    "@babel/preset-env": "^7.3.4",
     "@types/jest": "^23.3.13",
     "moment": "^2.24.0",
     "typescript": "^3.4.0-dev.20190301",
     "validate.js": "^0.12.0"
+  },
+  "jest": {
+    "roots": [
+      "src"
+    ]
   }
 }

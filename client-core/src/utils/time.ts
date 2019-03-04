@@ -1,3 +1,4 @@
+import moment from 'moment';
 
 // App days start at 1 = Monday, Date.prototype.getDay() starts at 0 = Sunday
 const getWeekdayNum = (timestamp: number = null): number => {
@@ -20,17 +21,12 @@ const getDate = (timestamp: number = null): number => {
     return date.getDate();
 };
 
-export const currentWeekStartTime = (): number => {
-    const currentDate: Date = new Date();
+export const getWeekStartTime = (targetTimestamp: number = Date.now()): number => {
+    const targetDate = moment.utc(targetTimestamp);
 
-    let day = getWeekdayNum(currentDate.getTime());
-    let date = getDate(currentDate.getTime());
+    targetDate.startOf('isoWeek');
 
-    let startDate = date - (day - 1);
-
-    let weekStart = new Date(currentDate.getFullYear(), currentDate.getMonth(), startDate);
-
-    return weekStart.getTime();
+    return targetDate.valueOf();
 };
 
 /*** FORMAT ***/

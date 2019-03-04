@@ -1,6 +1,6 @@
 import {Permissions, Role, State} from './types';
 
-import { currentWeekStartTime } from './utils/time';
+import { getWeekStartTime } from './utils/time';
 
 import { permissions } from "./config";
 
@@ -114,7 +114,7 @@ const defaultState: State = {
             1: {
                 id: 1,
                 draft: false,
-                startTimestamp: currentWeekStartTime(),
+                startTimestamp: getWeekStartTime(),
             },
         },
         allIds: [1],

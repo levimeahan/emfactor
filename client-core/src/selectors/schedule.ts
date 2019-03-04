@@ -1,5 +1,5 @@
 import {EntityCollection, ScheduledShift, ScheduleWeek, State, UIScheduleShift, UIScheduleWeek} from "../types";
-import {currentWeekStartTime, formatDate, formatMonth, formatWeekday} from "../utils/time";
+import {getWeekStartTime, formatDate, formatMonth, formatWeekday} from "../utils/time";
 import { fullName } from '../utils/employee';
 
 /*** UTILS ***/
@@ -97,7 +97,7 @@ const getUIScheduleWeek = (state: State, weekId: number): UIScheduleWeek => {
 /*** SELECTORS ***/
 
 export const currentScheduleWeek = (state: State): UIScheduleWeek|null => {
-    let currentWeekTime = currentWeekStartTime();
+    let currentWeekTime = getWeekStartTime();
 
     let newestWeekId = 0, newestWeekTime = 0;
     let currentWeekId = state.scheduleWeeks.allIds.find((id) => {
@@ -121,7 +121,7 @@ export const currentScheduleWeek = (state: State): UIScheduleWeek|null => {
 };
 
 export const futureScheduleWeeks = (state: State): UIScheduleWeek[] => {
-    let nextWeekStart = currentWeekStartTime() + (7 * 86400000);
+    let nextWeekStart = getWeekStartTime() + (7 * 86400000);
 
     return state.scheduleWeeks.allIds
         .filter(id => state.scheduleWeeks.byId[id].startTimestamp >= nextWeekStart)
