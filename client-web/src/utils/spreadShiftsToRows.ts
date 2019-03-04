@@ -8,6 +8,8 @@
 export default function spreadShiftsToRows(shifts: { startTime: number, endTime: number }[]) {
     let rows = [];
 
+    shifts.sort((a, b) => a.startTime > b.startTime ? 1 : -1);
+
     shifts.forEach((shift) => {
         if(rows.length < 1) {
             rows.push([shift]);
