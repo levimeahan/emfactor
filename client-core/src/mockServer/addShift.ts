@@ -39,7 +39,7 @@ export default function addShift(data: AddShiftData): ShiftResponse {
         startTime: 0,
         endTime: 8,
         name: 'New Shift',
-        allowedRoles: [],
+        roleId: 0,
     };
 
     return response;

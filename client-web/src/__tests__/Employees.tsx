@@ -40,7 +40,7 @@ const addEmployeeSetup = async () => {
                 2: {
                     id: 2,
                     name: 'Manager',
-                    permissions: ['employees', 'schedule'],
+                    permissions: ['addEmployees', 'manageSchedules'],
                     subRoles: [1],
                 },
             },

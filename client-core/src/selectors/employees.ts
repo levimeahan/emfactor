@@ -30,12 +30,11 @@ export const availableEmployees = (state: State, shiftId: number) => {
 
     let shift = state.shifts.byId[shiftId];
     let day = DaysByNum[shift.day];
-
+    
     let availableEmployeeIds = state.employees.allIds.filter((id) => {
-        // debugger;
         return hasRange(state.employees.byId[id].availability[day], shift.startTime, shift.endTime)
             &&
-            employeeHasRole(state, id, shift.allowedRoles[0]);
+            employeeHasRole(state, id, shift.roleId);
     });
 
     return availableEmployeeIds.map(id => state.employees.byId[id]);

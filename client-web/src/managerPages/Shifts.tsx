@@ -5,7 +5,7 @@ import { actions, selectors } from 'emfactor-client-core';
 
 import useAppState from '../hooks/useAppState';
 
-import ScheduleDay from '../components/ScheduleDay';
+import ScheduleDay from '../Schedule/ScheduleDay';
 import ErrorMessage from '../components/ErrorMessage';
 
 const Shifts = () => {

@@ -42,5 +42,8 @@
   "devDependencies": {
     "@types/react-dates": "^17.1.5",
     "react-testing-library": "^5.4.1"
+  },
+  "resolutions": {
+    "write-file-atomic": "2.4.1"
   }
 }

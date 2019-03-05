@@ -1,0 +1,1 @@
+export const inRange = (number, min, max) => number >= min && number <= max;

@@ -2,15 +2,16 @@ import React, { useState } from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
 import { colors, sizes } from '../themes/default';
-import FormInput from "./FormInput";
+import FormInput from "../components/FormInput";
 import calcShiftWidth from '../utils/calcShiftWidth';
 
 import ShiftTime from "./ShiftTime";
 import ShiftAssign from "./ShiftAssign";
 
 import { ScheduleMode, ScheduleDayActions } from "../types";
-import {Employee, Shift} from "../../../client-core/src/types";
+import {Employee, Shift} from "emfactor-client-core";
 import useFormInput from "../hooks/useFormInput";
+import {DeepReadonly} from "../../../client-core/src/types";
 
 // Main Component
 interface ScheduleShiftProps {
@@ -19,8 +20,8 @@ interface ScheduleShiftProps {
     endTime: number;
     employeeId: number;
     employeeName: string;
-    employeeOptions: Employee[];
-    allowedRoles: number[];
+    employeeOptions: DeepReadonly<Employee[]>;
+    roleId: number;
     allRoles: number[];
     mode: ScheduleMode;
     edit: (changedData: Partial<Shift>) => void;
@@ -31,7 +32,7 @@ interface ScheduleShiftProps {
  *
  */
 const ScheduleShift = ({
-   name, startTime, endTime, employeeId, employeeName, employeeOptions, allowedRoles, allRoles, mode, edit, assign
+   name, startTime, endTime, employeeId, employeeName, employeeOptions, roleId, allRoles, mode, edit, assign
 }: ScheduleShiftProps) => {
 
 
@@ -52,10 +53,10 @@ const ScheduleShift = ({
                 {mode === 'EDIT' ?
                     <>
                         <ShiftNameEdit name={name} update={(newValue) => { console.log('update'); edit({ name: newValue }) }} />
-                        <ShiftRolesEdit
-                            currentRoles={allowedRoles}
+                        <ShiftRoleEdit
+                            currentRole={roleId}
                             allRoles={allRoles}
-                            onChange={(newValue) => edit({allowedRoles: newValue})}
+                            onChange={(newValue) => edit({roleId: newValue})}
                         />
                     </>
                     : null}
@@ -117,15 +118,16 @@ const ShiftEmployeeName = ({ name }) => (
 );
 
 // Roles (Currently only supports one - TODO: Multiselect or change all code to single-value format)
-const ShiftRolesEdit = ({ currentRoles, allRoles, onChange }) => {
+const ShiftRoleEdit = ({ currentRole, allRoles, onChange }) => {
     return <div className={css(styles.nameInputContainer)}>
         <label className={css(styles.nameInputLabel)}>Role</label>
         <select
             name="role"
-            value={currentRoles.length > 0 ? currentRoles[0] : allRoles[0]}
+            value={currentRole}
             onChange={e => onChange([e.currentTarget.value])}
             className={css(styles.nameInput)}
         >
+            <option key={0} value={0}>None</option>
             {allRoles.map((role, i) => (
                 <option key={i} value={role.id}>{role.name}</option>
             ))}

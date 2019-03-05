@@ -3,11 +3,11 @@ import network from '../../network';
 
 import changeErrorMessage from '../../reducers/changeErrorMessage';
 
-import {Shift, Reducer, ScheduledShift} from '../../types/index';
+import {Shift, Reducer, ScheduledShift} from '../../types';
 import {ShiftAssignResponse} from "../../types/serverResponses";
 
-export default function assignShift(scheduleWeek, shiftId, employeeId) {
-    network.post('/shifts/assign', { scheduleWeek, shiftId, employeeId: parseInt(employeeId) })
+export default function assignShift(weekId, shiftId, employeeId) {
+    network.post('/shifts/assign', { weekId: weekId, shiftId, employeeId: parseInt(employeeId) })
         .then((response) => {
             let shiftAssignResponse = response as ShiftAssignResponse;
 
@@ -44,7 +44,7 @@ const editScheduledShift: Reducer = (prevState, newShift: ScheduledShift) => ({
     ...prevState,
     scheduledShifts: {
         byId: {
-            ...prevState.scheduledShifts,
+            ...prevState.scheduledShifts.byId,
             [newShift.id]: newShift,
         },
         allIds: prevState.scheduledShifts.allIds,

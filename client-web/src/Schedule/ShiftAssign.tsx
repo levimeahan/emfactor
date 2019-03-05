@@ -2,11 +2,12 @@ import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
 import {Employee} from 'emfactor-client-core';
+import {DeepReadonly} from "../../../client-core/src/types";
 
 // Employee
 interface ShiftAssignProps {
     employeeId: number;
-    employeeOptions: Employee[];
+    employeeOptions: DeepReadonly<Employee[]>;
     assign: (employeeId: number) => void;
 }
 

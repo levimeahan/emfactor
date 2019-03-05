@@ -44,7 +44,7 @@ export interface Shift {
     name: string;
     startTime: number;
     endTime: number;
-    allowedRoles: number[];
+    roleId: number;
 }
 
 export interface ScheduleWeek {
@@ -57,7 +57,7 @@ export interface ScheduledShift {
     id: number;
     shiftId: number;
     employeeId: number;
-    scheduleWeek: number;
+    weekId: number;
 }
 
 export interface TimeOffRequest {
@@ -162,7 +162,7 @@ export interface UIScheduleShift {
     endTime: number;
     employeeId: number;
     employeeName: string;
-    allowedRoles: number[];
+    roleId: number;
 }
 
 export interface UIScheduleDay {

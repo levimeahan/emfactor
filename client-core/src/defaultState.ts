@@ -57,7 +57,7 @@ const defaultState: State = {
                 startTime: 0,
                 endTime: 8,
                 name: 'Sunrise / Reg 1',
-                allowedRoles: [1],
+                roleId: 1,
             },
             2: {
                 id: 2,
@@ -65,7 +65,7 @@ const defaultState: State = {
                 startTime: 0,
                 endTime: 8,
                 name: 'Sunrise / Reg 2',
-                allowedRoles: [1],
+                roleId: 1,
             },
 
             3: {
@@ -74,7 +74,7 @@ const defaultState: State = {
                 startTime: 8,
                 endTime: 16,
                 name: 'Day / Reg 1',
-                allowedRoles: [1],
+                roleId: 1,
             },
             4: {
                 id: 4,
@@ -82,7 +82,7 @@ const defaultState: State = {
                 startTime: 8,
                 endTime: 16,
                 name: 'Day / Reg 2',
-                allowedRoles: [1],
+                roleId: 1,
             },
 
 
@@ -92,7 +92,7 @@ const defaultState: State = {
                 startTime: 16,
                 endTime: 24,
                 name: 'Swing / Reg 1',
-                allowedRoles: [1],
+                roleId: 1,
             },
             6: {
                 id: 6,
@@ -100,7 +100,7 @@ const defaultState: State = {
                 startTime: 16,
                 endTime: 24,
                 name: 'Swing / Reg 2',
-                allowedRoles: [1],
+                roleId: 1,
             }
         },
         allIds: [1, 2, 3, 4, 5, 6],

@@ -3,7 +3,7 @@ import {StyleSheet, css} from 'aphrodite/no-important';
 
 import { actions, UIScheduleWeek} from 'emfactor-client-core';
 
-import ScheduleDay from "../components/ScheduleDay";
+import ScheduleDay from "./ScheduleDay";
 
 import pageStyles from '../styles/page';
 import {ScheduleMode} from "../types";
