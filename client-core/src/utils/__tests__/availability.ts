@@ -1,4 +1,4 @@
-import { validateHours, hasRange } from '../availability';
+import { validateHours, hasHourRange } from '../availability';
 
 const eightToSixteen = '0'.repeat(8) + '1'.repeat(8) + '0'.repeat(8);
 const tooShortHours = '0'.repeat(23);
@@ -34,5 +34,5 @@ describe('validateHours', () => {
 
 
 it('matches hour range', () => {
-    expect(hasRange(eightToSixteen, 8, 16)).toBe(true);
+    expect(hasHourRange(eightToSixteen, 8, 16)).toBe(true);
 });

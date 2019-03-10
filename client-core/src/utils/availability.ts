@@ -1,3 +1,4 @@
+import {Availability, Day} from "../types";
 
 export const validateHours = (hours: string) => {
     if(typeof hours !== 'string') {
@@ -13,7 +14,7 @@ export const validateHours = (hours: string) => {
     return true;
 };
 
-export const hasRange = (hours: string, startTime: number, endTime: number) => {
+export const hasHourRange = (availability: Availability, day: Day, startTime: number, endTime: number) => {
     if(startTime < 0 || endTime < 0) {
         throw new Error("Invalid range - Start and End must be positive!");
     }
@@ -22,6 +23,8 @@ export const hasRange = (hours: string, startTime: number, endTime: number) => {
     }
 
     let length = endTime - startTime;
+
+    const hours = availability[day];
 
     return hours.substr(startTime, length) === '1'.repeat(length);
 };

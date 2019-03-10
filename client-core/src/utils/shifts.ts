@@ -1,4 +1,5 @@
 import {UIScheduleShift} from "../types";
+import moment from 'moment';
 
 export const spreadShiftsToDays = (shifts: UIScheduleShift[]) => {
     let shiftsByDay = {
@@ -17,3 +18,12 @@ export const spreadShiftsToDays = (shifts: UIScheduleShift[]) => {
 
     return shiftsByDay;
 };
+
+export const calcShiftTimestamps = (weekStartTimestamp, day, startHour, endHour) => ({
+    start: moment(weekStartTimestamp)
+        .add({ days: day - 1, hours: startHour })
+        .valueOf(),
+    end: moment(weekStartTimestamp)
+        .add({ days: day - 1, hours: endHour - 1, minutes: 59 })
+        .valueOf(),
+});

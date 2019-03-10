@@ -1,10 +1,12 @@
-import {Employee, State, Day, Permissions} from "../types";
+import {Employee, State, Day, Permissions, DeepReadonly} from "../types";
 import { DaysByNum } from "../config";
 
-import { hasRange } from '../utils/availability';
+import { hasHourRange } from '../utils/availability';
 
 import { roleHasPermission, roleMatches } from './roles';
 import {fullName} from "../utils/employee";
+
+import moment from 'moment';
 
 export const allEmployees = (state: State) => (
     state.employees.allIds.map(id => state.employees.byId[id])
@@ -23,26 +25,30 @@ export const employeeNamesByIds = (state: State, employeeIds: number[]) => {
     return names;
 };
 
-export const availableEmployees = (state: State, shiftId: number) => {
-    if(!state.shifts.byId.hasOwnProperty(shiftId)) {
-        throw new Error("Invalid shift!");
+export const availableEmployees = (state: State, startTimestamp, endTimestamp) => {
+    if(!startTimestamp || !endTimestamp) {
+        return [];
     }
 
-    let shift = state.shifts.byId[shiftId];
-    let day = DaysByNum[shift.day];
-    
-    let availableEmployeeIds = state.employees.allIds.filter((id) => {
-        return hasRange(state.employees.byId[id].availability[day], shift.startHour, shift.endHour)
-            &&
-            employeeHasRole(state, id, shift.roleId);
-    });
-
-    return availableEmployeeIds.map(id => state.employees.byId[id]);
+    return state.employees.allIds
+        .filter(id => employeeIsAvailable(state, id, startTimestamp, endTimestamp))
+        .map(id => state.employees.byId[id]);
 };
 
-export const employeeIsAvailable = (state: State, employeeId: number, day: Day, startTime, endTime) => (
-    hasRange(state.employees.byId[employeeId].availability[day], startTime, endTime)
-);
+export const employeeIsAvailable = (state: State, employeeId: number, startTimestamp, endTimestamp) => {
+    const employee: DeepReadonly<Employee> = state.employees.byId[employeeId];
+
+    const startTime = moment(startTimestamp);
+    const endTime = moment(endTimestamp);
+
+    const day = DaysByNum[startTime.isoWeekday()];
+
+    if(!hasHourRange(employee.availability, day, startTime.hour(), endTime.hour())) {
+        return false;
+    }
+
+    return true;
+};
 
 export const employeeHasRole = (state: State, employeeId: number, roleId: number) => {
     for(let id of state.employees.byId[employeeId].roles) {

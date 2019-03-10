@@ -1,4 +1,4 @@
-import { DayNumber, Permissions } from './types';
+import { Day, DayNumber, Permissions } from './types';
 
 export const Days: { [key: string]: DayNumber } = {
     mon: 1,
@@ -10,7 +10,7 @@ export const Days: { [key: string]: DayNumber } = {
     sun: 7,
 };
 
-export const DaysByNum = {
+export const DaysByNum: { [key: number]: Day } = {
     1: 'mon',
     2: 'tue',
     3: 'wed',

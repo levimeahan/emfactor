@@ -5,6 +5,7 @@ import store from '../store';
 
 import getNextCollectionId from '../utils/getNextCollectionId';
 import {ScheduledShift} from "../types";
+import {calcShiftTimestamps} from "../utils/shifts";
 
 const calcOffset = (days, hours) => {
     let seconds = (days - 1) * 86400 + hours * 3600;
@@ -67,6 +68,8 @@ export default function assignShift(data: AssignShiftData): ShiftAssignResponse 
         let baseShift = shifts.byId[data.shiftId];
         let weekStartTime = scheduleWeeks.byId[data.weekId].startTimestamp;
 
+        const timestamps = calcShiftTimestamps(weekStartTime, baseShift.day, baseShift.startHour, baseShift.endHour);
+
         scheduledShift = {
             id: getNextCollectionId(scheduledShifts),
             baseShiftId: data.shiftId,
@@ -76,8 +79,8 @@ export default function assignShift(data: AssignShiftData): ShiftAssignResponse 
             name: baseShift.name,
             startHour: baseShift.startHour,
             endHour: baseShift.endHour,
-            startTimestamp: weekStartTime + calcOffset(baseShift.day, baseShift.startHour),
-            endTimestamp: weekStartTime + calcOffset(baseShift.day, baseShift.endHour + 1),
+            startTimestamp: timestamps.start,
+            endTimestamp: timestamps.end,
             roleId: baseShift.roleId,
         };
     }

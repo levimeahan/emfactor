@@ -5,8 +5,7 @@ import changeErrorMessage from '../../reducers/changeErrorMessage';
 
 import {ScheduleWeek, Reducer, DayNumber} from '../../types';
 import addEntityItem from "../../reducers/addEntityItem";
-
-const weekMs = 7 * 86400 * 1000;
+import moment from 'moment';
 
 export default function addWeek() {
     let newestWeekTime = 0;
@@ -20,7 +19,7 @@ export default function addWeek() {
     });
 
     store.dispatch(scheduleWeekAddSuccess, {
-        startTimestamp: newestWeekTime + weekMs,
+        startTimestamp: moment(newestWeekTime).add({weeks: 1}).valueOf(),
         draft: true,
     });
 }

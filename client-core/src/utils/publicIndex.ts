@@ -1,5 +1,5 @@
 // Note: This file only exports utils that we expose to client-core consumers.
-import { hasRange, validateHours } from './availability';
+import { hasHourRange, validateHours } from './availability';
 import { fullName } from './employee';
 import { testRoleRecursive } from './roles';
 import { formatDate, formatMonth, formatWeekday, getWeekStartTime } from './time';
@@ -9,7 +9,7 @@ import { formatDate, formatMonth, formatWeekday, getWeekStartTime } from './time
 
 export {
     validateHours,
-    hasRange,
+    hasHourRange,
 
     testRoleRecursive,
 

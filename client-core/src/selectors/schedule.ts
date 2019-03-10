@@ -1,5 +1,6 @@
 import {ScheduledShift, Shift, State, UIScheduleShift, UIScheduleWeek} from "../types";
 import { fullName } from '../utils/employee';
+import {calcShiftTimestamps} from "../utils/shifts";
 
 export const scheduledShiftsFromIds = (state: State, scheduledShiftIds) =>
     scheduledShiftIds.map(id => state.scheduledShifts.byId[id]);
@@ -17,17 +18,22 @@ export const UIScheduledShiftFromId = (state: State, scheduledShiftId: number): 
     };
 };
 
-export const UIScheduledShiftFromBaseId = (state: State, shiftId: number): UIScheduleShift => {
+export const UIScheduledShiftFromBaseId = (state: State, weekId: number|null, shiftId: number): UIScheduleShift => {
     const shift = state.shifts.byId[shiftId];
+
+    const timestamps = weekId ?
+        calcShiftTimestamps(state.scheduleWeeks.byId[weekId].startTimestamp, shift.day, shift.startHour, shift.endHour)
+        :
+        null;
 
     return {
         ...shift,
-        weekId: null,
+        weekId: weekId,
         baseShiftId: shift.id,
         employeeId: null,
         employeeName: null,
-        startTimestamp: null,
-        endTimestamp: null,
+        startTimestamp: timestamps ? timestamps.start : null,
+        endTimestamp: timestamps ? timestamps.end : null,
     };
 };
 

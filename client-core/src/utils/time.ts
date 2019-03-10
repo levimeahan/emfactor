@@ -22,7 +22,7 @@ const getDate = (timestamp: number = null): number => {
 };
 
 export const getWeekStartTime = (targetTimestamp: number = Date.now()): number => {
-    const targetDate = moment.utc(targetTimestamp);
+    const targetDate = moment(targetTimestamp);
 
     targetDate.startOf('isoWeek');
 
@@ -36,9 +36,26 @@ const getFormatter = (options) => (
     new Intl.DateTimeFormat('en-US', { timezone: 'UTC', ...options })
 );
 
-export const formatMonth = (timestamp: number, format: 'long'|'short'|'numeric' = 'short') => (
-    getFormatter({ month: format }).format(new Date(timestamp))
-);
+export const formatMonth = (timestamp: number, format: 'long'|'short'|'numeric' = 'short') => {
+    const date = moment(timestamp);
+
+    let formatStr;
+    switch(format) {
+        case 'long':
+            formatStr = 'MMMM';
+            break;
+        case 'numeric':
+            formatStr = 'M';
+            break;
+        case 'short':
+            formatStr = 'MMM';
+            break;
+        default:
+            throw new Error("Invalid format!");
+    }
+
+    return date.format(formatStr)
+};
 
 export const formatWeekday = (timestamp: number, format: 'long'|'short'|'numeric' = 'long') => (
     getFormatter({ weekday: format }).format(new Date(timestamp))

@@ -48,6 +48,7 @@ const getUIScheduleWeek = (state: State, weekId: number): UIScheduleWeek => {
 
     const shifts = scheduleWeek.draft ?
         getDraftWeekShifts(state, weekId) : getFinalizedWeekShifts(state, weekId);
+    // debugger;
 
     return transformShiftsToWeek(shifts, scheduleWeek.id, scheduleWeek.startTimestamp, scheduleWeek.draft);
 };
@@ -61,23 +62,20 @@ const getDraftWeekShifts = (state, weekId): UIScheduleShift[] => {
     });
 
     return state.shifts.allIds.map(id => {
-        const shift = state.shifts.byId[id];
+        let shift = UIScheduledShiftFromBaseId(state, weekId, id);
 
         if(scheduledShiftIndex.has(id)) {
             const scheduledShift = state.scheduledShifts.byId[scheduledShiftIndex.get(id)];
 
-            return {
-                ...shift,
+            shift = {
+                ...UIScheduledShiftFromBaseId(state, weekId, id),
                 employeeId: scheduledShift.employeeId,
                 employeeName: employeeFullName(state, scheduledShift.employeeId)
             };
         }
 
-        return UIScheduledShiftFromBaseId(state, id);
+        return shift;
     });
-
-
-
 };
 
 const getFinalizedWeekShifts = (state, weekId): UIScheduleShift[] =>
@@ -87,7 +85,7 @@ const getFinalizedWeekShifts = (state, weekId): UIScheduleShift[] =>
 /*** SELECTORS ***/
 
 export const allShiftsWeek = (state: State): UIScheduleWeek|null => {
-    let shifts = state.shifts.allIds.map(id => UIScheduledShiftFromBaseId(state, id));
+    let shifts = state.shifts.allIds.map(id => UIScheduledShiftFromBaseId(state, 0, id));
 
     return transformShiftsToWeek(shifts, 0, 0, null);
 };

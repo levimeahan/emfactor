@@ -45,7 +45,7 @@ const ScheduleRow = ({ shifts, actions, mode }: ScheduleRowProps) => {
                 endHour={shift.endHour}
                 employeeId={shift.employeeId}
                 employeeName={shift.employeeName}
-                employeeOptions={selectors.availableEmployees(state, shift.id)}
+                employeeOptions={selectors.availableEmployees(state, shift.startTimestamp, shift.endTimestamp)}
                 roleId={shift.roleId}
                 allRoles={allRoles}
                 edit={(data) => actions.editShift(shift.id, data)}
