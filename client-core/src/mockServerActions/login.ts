@@ -4,7 +4,7 @@ import store from '../store';
 import { Employee } from "../types";
 import { LoginResponse } from "../types/serverResponses";
 
-export default function(urlSegments, data): LoginResponse {
+export default function(data): LoginResponse {
     let errors = validate(data, {
         employeeId: {
             presence: true,

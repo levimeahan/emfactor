@@ -1,27 +1,24 @@
 import store from '../../store/index';
-import network from '../../network';
 
 import changeErrorMessage from '../../reducers/changeErrorMessage';
 
-import {Shift, Reducer, DayNumber} from '../../types/index';
-import {ShiftResponse} from "../../types/serverResponses";
+import {Shift, Reducer, DayNumber} from '../../types';
 
+import mockAddShift from '../../mockServerActions/addShift';
 
 export default function addShift(day: DayNumber) {
-    network.post('/shifts/add', { day })
-        .then((response) => {
-            let shiftResponse = response as ShiftResponse;
+    try {
+        let response = mockAddShift({ day });
 
-            if(shiftResponse.success) {
-                store.dispatch(shiftAddSuccess, shiftResponse.shift);
-            }
-            else {
-                store.dispatch(changeErrorMessage, shiftResponse.errorMessage);
-            }
-        })
-        .catch((error) => {
-            store.dispatch(changeErrorMessage, JSON.stringify(error));
-        });
+        if(response.success) {
+            store.dispatch(shiftAddSuccess, response.shift);
+        }
+        else {
+            store.dispatch(changeErrorMessage, response.errorMessage);
+        }
+    } catch (error) {
+        store.dispatch(changeErrorMessage, JSON.stringify(error));
+    }
 }
 
 const shiftAddSuccess: Reducer = (prevState, newShift: Shift) => ({

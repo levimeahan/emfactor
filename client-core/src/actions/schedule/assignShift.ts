@@ -1,29 +1,28 @@
 import store from '../../store/index';
-import network from '../../network';
 
 import changeErrorMessage from '../../reducers/changeErrorMessage';
 
-import {Shift, Reducer, ScheduledShift} from '../../types';
-import {ShiftAssignResponse} from "../../types/serverResponses";
+import { Reducer, ScheduledShift } from '../../types';
+
+import mockAssignShift from '../../mockServerActions/assignShift';
 
 export default function assignShift(weekId, shiftId, baseShiftId, employeeId) {
-    network.post('/shifts/assign', { weekId: weekId, shiftId, baseShiftId, employeeId: parseInt(employeeId) })
-        .then((response) => {
-            let shiftAssignResponse = response as ShiftAssignResponse;
+    try {
+        let response = mockAssignShift({ weekId: weekId, shiftId, baseShiftId, employeeId: parseInt(employeeId) });
 
-            if(!shiftAssignResponse.success) {
-                store.dispatch(changeErrorMessage, shiftAssignResponse.errorMessage);
-            }
-            else if(shiftAssignResponse.isNew) {
-                store.dispatch(addScheduledShift, shiftAssignResponse.scheduledShift);
-            }
-            else {
-                store.dispatch(editScheduledShift, shiftAssignResponse.scheduledShift);
-            }
-        })
-        .catch((error) => {
-            store.dispatch(changeErrorMessage, JSON.stringify(error));
-        });
+        if(!response.success) {
+            store.dispatch(changeErrorMessage, response.errorMessage);
+        }
+        else if(response.isNew) {
+            store.dispatch(addScheduledShift, response.scheduledShift);
+        }
+        else {
+            store.dispatch(editScheduledShift, response.scheduledShift);
+        }
+
+    } catch(error) {
+        store.dispatch(changeErrorMessage, JSON.stringify(error));
+    }
 }
 
 const addScheduledShift: Reducer = (prevState, newShift: ScheduledShift) => ({

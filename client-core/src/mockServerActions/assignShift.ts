@@ -14,6 +14,7 @@ const calcOffset = (days, hours) => {
 
 interface AssignShiftData {
     shiftId: number;
+    baseShiftId: number;
     employeeId: number;
     weekId: number;
 }

@@ -1,28 +1,26 @@
 import store from '../store';
-import network from '../network';
 
 import { Reducer } from '../types';
-import { LoginResponse } from "../types/serverResponses";
 
 import changeErrorMessage from '../reducers/changeErrorMessage';
+
+import mockLogin from '../mockServerActions/login';
 
 export default function login(employeeId, password) {
     employeeId = parseInt(employeeId);
 
-    network.post('/login', { employeeId, password })
-        .then((response) => {
-            let loginResponse = response as LoginResponse;
+    try {
+        let response = mockLogin({ employeeId, password });
 
-            if(loginResponse.loginOk) {
-                store.dispatch(loginSuccess, loginResponse.employee.id);
-            }
-            else {
-                store.dispatch(changeErrorMessage, loginResponse.errorMessage);
-            }
-        })
-        .catch((error) => {
-            store.dispatch(changeErrorMessage, JSON.stringify(error));
-        });
+        if(response.loginOk) {
+            store.dispatch(loginSuccess, response.employee.id);
+        }
+        else {
+            store.dispatch(changeErrorMessage, response.errorMessage);
+        }
+    } catch(error) {
+        store.dispatch(changeErrorMessage, JSON.stringify(error));
+    }
 }
 
 const loginSuccess: Reducer = (prevState, employeeId) => {

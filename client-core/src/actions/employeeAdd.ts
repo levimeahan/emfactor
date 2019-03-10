@@ -6,6 +6,8 @@ import changeErrorMessage from '../reducers/changeErrorMessage';
 import {Employee, EntityCollection, Reducer} from '../types';
 import {EmployeesResponse} from "../types/serverResponses";
 
+import mockAddEmployee from '../mockServerActions/addEmployee';
+
 export default function addEmployee(
     firstName: Employee['firstName'],
     lastName: Employee['lastName'],
@@ -13,21 +15,18 @@ export default function addEmployee(
     availability: Employee['availability'],
     success?: Function
 ) {
-    network.post('/employees/add', { firstName, lastName, roles, availability })
-        .then((response) => {
-            let empResponse = response as EmployeesResponse;
-
-            if(empResponse.success) {
-                store.dispatch(addEmployeeSuccess, empResponse.employees);
-                success();
-            }
-            else {
-                store.dispatch(changeErrorMessage, empResponse.errorMessage);
-            }
-        })
-        .catch((error) => {
-            store.dispatch(changeErrorMessage, JSON.stringify(error));
-        });
+   try {
+       let response = mockAddEmployee({firstName, lastName, roles, availability});
+       if (response.success) {
+           store.dispatch(addEmployeeSuccess, response.employees);
+           success();
+       }
+       else {
+           store.dispatch(changeErrorMessage, response.errorMessage);
+       }
+   } catch(e) {
+       store.dispatch(changeErrorMessage, JSON.stringify(e));
+   }
 }
 
 const addEmployeeSuccess: Reducer = (prevState, employees: EntityCollection<Employee>) => ({
