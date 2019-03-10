@@ -9,6 +9,7 @@ import {InputStateManager} from "../types";
 import FormInputLabel from "./FormInputLabel";
 
 import AvailabilitySelectDay from './AvailabilitySelectDay';
+import {colors} from "../themes/default";
 
 // AvailabilitySelect
 interface FormAvailabilitySelectProps {
@@ -19,6 +20,7 @@ const FormAvailabilitySelect = ({ manager }: FormAvailabilitySelectProps) => {
 
     return <div className={css(styles.container)}>
         <FormInputLabel>Availability</FormInputLabel>
+        <span className={css(styles.dragHint)}>Click and drag a rectangle to select multiple times</span>
         <SelectableGroup
             className={css(styles.daysContainer)}
             enableDeselect
@@ -81,6 +83,10 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
         width: '420px',
         marginTop: '5px',
+    },
+    dragHint: {
+        // fontStyle: 'italic',
+        color: colors.text.dark,
     },
     selectBox: {
         zIndex: 9000,
