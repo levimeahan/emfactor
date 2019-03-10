@@ -5,10 +5,10 @@
  * @param shifts
  * @returns {any[]}
  */
-export default function spreadShiftsToRows(shifts: { startTime: number, endTime: number }[]) {
+export default function spreadShiftsToRows(shifts: { startHour: number, endHour: number }[]) {
     let rows = [];
 
-    shifts.sort((a, b) => a.startTime > b.startTime ? 1 : -1);
+    shifts.sort((a, b) => a.startHour > b.startHour ? 1 : -1);
 
     shifts.forEach((shift) => {
         if(rows.length < 1) {
@@ -23,7 +23,7 @@ export default function spreadShiftsToRows(shifts: { startTime: number, endTime:
 
             let lastShift = rows[rowId].slice(-1)[0];
 
-            if(lastShift.endTime <= shift.startTime) {
+            if(lastShift.endHour <= shift.startHour) {
                 rows[rowId].push(shift);
                 return;
             }

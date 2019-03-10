@@ -5,22 +5,22 @@ import { actions, selectors } from 'emfactor-client-core';
 
 import useAppState from '../hooks/useAppState';
 
-import ScheduleDay from '../Schedule/ScheduleDay';
+import ScheduleDay from '../components/Schedule/ScheduleDay';
 import ErrorMessage from '../components/ErrorMessage';
 
 const Shifts = () => {
     const state = useAppState();
 
-    const scheduleWeek = selectors.currentScheduleWeek(state);
+    const allShiftsWeek = selectors.allShiftsWeek(state);
 
     return <div data-testid="manageShiftsPage">
         <ErrorMessage>{state.app.errorMessage}</ErrorMessage>
-        {scheduleWeek.dayIds.map((dayId) => (
+        {allShiftsWeek.dayIds.map((dayId) => (
             <div key={dayId} className={css(styles.dayContainer)}>
                 <ScheduleDay
-                    name={scheduleWeek.days[dayId].weekday}
+                    name={allShiftsWeek.days[dayId].weekday}
                     date={''}
-                    shifts={scheduleWeek.days[dayId].shifts}
+                    shifts={allShiftsWeek.days[dayId].shifts}
                     headerStyle={styles.dayHeaderContainer}
                     mode='EDIT'
                     actions={{

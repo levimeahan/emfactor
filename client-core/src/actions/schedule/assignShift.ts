@@ -6,8 +6,8 @@ import changeErrorMessage from '../../reducers/changeErrorMessage';
 import {Shift, Reducer, ScheduledShift} from '../../types';
 import {ShiftAssignResponse} from "../../types/serverResponses";
 
-export default function assignShift(weekId, shiftId, employeeId) {
-    network.post('/shifts/assign', { weekId: weekId, shiftId, employeeId: parseInt(employeeId) })
+export default function assignShift(weekId, shiftId, baseShiftId, employeeId) {
+    network.post('/shifts/assign', { weekId: weekId, shiftId, baseShiftId, employeeId: parseInt(employeeId) })
         .then((response) => {
             let shiftAssignResponse = response as ShiftAssignResponse;
 

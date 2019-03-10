@@ -4,8 +4,8 @@ import {StyleSheet, css, StyleDeclarationValue} from 'aphrodite/no-important';
 import { UIScheduleShift } from "emfactor-client-core";
 
 import ScheduleDayShifts from './ScheduleDayShifts';
-import {colors} from "../themes/default";
-import {ScheduleDayActions, ScheduleMode} from "../types";
+import {colors} from "../../themes/default";
+import {ScheduleDayActions, ScheduleMode} from "../../types";
 
 interface ScheduleDayProps {
     name: string;

@@ -36,8 +36,8 @@ export default function addShift(data: AddShiftData): ShiftResponse {
     response.shift = {
         id: getNextCollectionId(store.getState().shifts),
         day: data.day,
-        startTime: 0,
-        endTime: 8,
+        startHour: 0,
+        endHour: 8,
         name: 'New Shift',
         roleId: 0,
     };

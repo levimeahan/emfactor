@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
-import { colors, sizes } from '../themes/default';
-import FormInput from "../components/FormInput";
-import calcShiftWidth from '../utils/calcShiftWidth';
+import { colors, sizes } from '../../themes/default';
+import FormInput from "../FormInput";
+import calcShiftWidth from '../../utils/calcShiftWidth';
 
 import ShiftTime from "./ShiftTime";
 import ShiftAssign from "./ShiftAssign";
 
-import { ScheduleMode, ScheduleDayActions } from "../types";
+import { ScheduleMode, ScheduleDayActions } from "../../types";
 import {Employee, Shift} from "emfactor-client-core";
-import useFormInput from "../hooks/useFormInput";
-import {DeepReadonly} from "../../../client-core/src/types";
+import useFormInput from "../../hooks/useFormInput";
+import {DeepReadonly} from "../../../../client-core/src/types/index";
 
 // Main Component
 interface ScheduleShiftProps {
     name: string;
-    startTime: number;
-    endTime: number;
+    startHour: number;
+    endHour: number;
     employeeId: number;
     employeeName: string;
     employeeOptions: DeepReadonly<Employee[]>;
@@ -32,19 +32,19 @@ interface ScheduleShiftProps {
  *
  */
 const ScheduleShift = ({
-   name, startTime, endTime, employeeId, employeeName, employeeOptions, roleId, allRoles, mode, edit, assign
+   name, startHour, endHour, employeeId, employeeName, employeeOptions, roleId, allRoles, mode, edit, assign
 }: ScheduleShiftProps) => {
 
 
     return <div
         className={css(styles.container)}
-        style={{width: calcShiftWidth(endTime - startTime) + '%'}}
+        style={{width: calcShiftWidth(endHour - startHour) + '%'}}
     >
         <div className={css(styles.shiftContent)}>
             <ShiftTime
-                time={startTime}
+                time={startHour}
                 label='Start'
-                onChange={newValue => edit({startTime: newValue})}
+                onChange={newValue => edit({startHour: newValue})}
                 mode={mode}
                 styles={styles.startTime}
             />
@@ -79,9 +79,9 @@ const ScheduleShift = ({
             </div>
 
             <ShiftTime
-                time={endTime}
+                time={endHour}
                 label='End'
-                onChange={newValue => edit({endTime: newValue})}
+                onChange={newValue => edit({endHour: newValue})}
                 mode={mode}
                 styles={styles.endTime}
             />
@@ -117,7 +117,7 @@ const ShiftEmployeeName = ({ name }) => (
     <span className={css(styles.employeeNameDisplay)}>{name ? name : '-'}</span>
 );
 
-// Roles (Currently only supports one - TODO: Multiselect or change all code to single-value format)
+// Roles
 const ShiftRoleEdit = ({ currentRole, allRoles, onChange }) => {
     return <div className={css(styles.nameInputContainer)}>
         <label className={css(styles.nameInputLabel)}>Role</label>
@@ -148,6 +148,7 @@ const styles = StyleSheet.create({
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
+        minHeight: '2.7em',
         padding: 0,
     },
 
@@ -167,14 +168,14 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-end',
         alignItems: 'center',
         flexDirection: 'column',
-        padding: '12px 4px 8px',
+        padding: '14px 4px 8px',
         minHeight: '22px',
         position: 'relative',
     },
     nameDisplay: {
         position: 'absolute',
-        top: '0',
-        left: '12px',
+        top: '-2px',
+        left: '10px',
         fontSize: '10px',
         textTransform: 'uppercase',
         fontWeight: 'bold',

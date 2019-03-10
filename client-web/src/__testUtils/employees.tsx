@@ -5,7 +5,7 @@ import { Employee } from "emfactor-client-core";
 
 import { store } from 'emfactor-client-core';
 
-import App from '../App';
+import App from '../components/App/App';
 
 export const roles = {
     employee: 1,

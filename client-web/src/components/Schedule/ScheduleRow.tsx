@@ -3,9 +3,9 @@ import {StyleSheet, css} from 'aphrodite/no-important';
 import ScheduleShift from "./ScheduleShift";
 
 import { selectors, UIScheduleShift } from 'emfactor-client-core';
-import calcShiftWidth from "../utils/calcShiftWidth";
-import {ScheduleDayActions, ScheduleMode} from "../types";
-import useAppState from "../hooks/useAppState";
+import calcShiftWidth from "../../utils/calcShiftWidth";
+import {ScheduleDayActions, ScheduleMode} from "../../types";
+import useAppState from "../../hooks/useAppState";
 
 interface ScheduleRowProps {
     shifts: UIScheduleShift[];
@@ -26,10 +26,10 @@ const ScheduleRow = ({ shifts, actions, mode }: ScheduleRowProps) => {
     shifts.forEach((shift, i) => {
         let timeElapsed = 0;
         if(i > 0) {
-            timeElapsed = shift.startTime - shifts[i - 1].endTime;
+            timeElapsed = shift.startHour - shifts[i - 1].endHour;
         }
         else {
-            timeElapsed = shift.startTime;
+            timeElapsed = shift.startHour;
         }
 
 
@@ -41,21 +41,21 @@ const ScheduleRow = ({ shifts, actions, mode }: ScheduleRowProps) => {
             <ScheduleShift
                 key={i}
                 name={shift.name}
-                startTime={shift.startTime}
-                endTime={shift.endTime}
+                startHour={shift.startHour}
+                endHour={shift.endHour}
                 employeeId={shift.employeeId}
                 employeeName={shift.employeeName}
                 employeeOptions={selectors.availableEmployees(state, shift.id)}
                 roleId={shift.roleId}
                 allRoles={allRoles}
                 edit={(data) => actions.editShift(shift.id, data)}
-                assign={(employeeId) => actions.assignShift(shift.id, employeeId)}
+                assign={(employeeId) => actions.assignShift(shift.id, shift.baseShiftId, employeeId)}
                 mode={mode}
             />
         );
     });
-    if(shifts[shifts.length - 1].endTime < 24) {
-        renderItems.push(<Spacer key={'spacer' + shifts.length} time={24 - shifts[shifts.length - 1].endTime} />);
+    if(shifts[shifts.length - 1].endHour < 24) {
+        renderItems.push(<Spacer key={'spacer' + shifts.length} time={24 - shifts[shifts.length - 1].endHour} />);
     }
 
     return <div className={css(styles.rowContainer)}>

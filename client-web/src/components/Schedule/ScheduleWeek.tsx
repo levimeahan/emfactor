@@ -5,17 +5,25 @@ import { actions, UIScheduleWeek} from 'emfactor-client-core';
 
 import ScheduleDay from "./ScheduleDay";
 
-import pageStyles from '../styles/page';
-import {ScheduleMode} from "../types";
+import pageStyles from '../../styles/page';
+import {ScheduleMode} from "../../types";
+import ScheduleWeekControls from "./ScheduleWeekControls";
 
 interface ScheduleWeekProps extends UIScheduleWeek {
     name?: string;
+    setDraft: (boolean) => void;
     mode: ScheduleMode;
 }
-const ScheduleWeek = ({ id, name, startTimestamp, draft, days, dayIds, mode }: ScheduleWeekProps) => {
+const ScheduleWeek = ({ id, name, startTimestamp, draft, setDraft, days, dayIds, mode }: ScheduleWeekProps) => {
     return <div className={css(styles.container)}>
         {name ?
             <h2 className={css(pageStyles.header2, styles.weekHeader)}>{name}</h2>
+        : null}
+        {mode === 'ASSIGN' ?
+            <ScheduleWeekControls
+                draft={draft}
+                setDraft={setDraft}
+            />
         : null}
         {dayIds.map((dayId) => {
             const day = days[dayId];
@@ -30,12 +38,15 @@ const ScheduleWeek = ({ id, name, startTimestamp, draft, days, dayIds, mode }: S
                     actions={{
                         addShift: () => actions.addShift(dayId),
                         editShift: (shiftId, data) => actions.editShift(shiftId, data),
-                        assignShift: (shiftId, data) => actions.assignShift(id, shiftId, data),
+                        assignShift: (shiftId, baseShiftId, data) => actions.assignShift(id, shiftId, baseShiftId, data),
                     }}
                 />
             </div>
         })}
     </div>;
+};
+ScheduleWeek.defaultProps = {
+    setDraft: () => {}
 };
 
 const styles = StyleSheet.create({

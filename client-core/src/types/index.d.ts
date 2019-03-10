@@ -42,8 +42,8 @@ export interface Shift {
     id: number;
     day: DayNumber;
     name: string;
-    startTime: number;
-    endTime: number;
+    startHour: number;
+    endHour: number;
     roleId: number;
 }
 
@@ -55,9 +55,16 @@ export interface ScheduleWeek {
 
 export interface ScheduledShift {
     id: number;
-    shiftId: number;
-    employeeId: number;
     weekId: number;
+    baseShiftId: number;
+    name: string;
+    day: DayNumber;
+    startHour: number;
+    endHour: number;
+    startTimestamp: number;
+    endTimestamp: number;
+    employeeId: number;
+    roleId: number;
 }
 
 export interface TimeOffRequest {
@@ -112,8 +119,8 @@ export interface Event {
     creatorId: number;
     createdTime: number;
     name: string;
-    startTime: number;
-    endTime: number;
+    startTimestamp: number;
+    endTimestamp: number;
     relevantRoles: number[];
     description: string;
 }
@@ -150,19 +157,9 @@ export interface Permissions {
     finalizeAvailabilityRequests: Permission;
 }
 
-/*
-    A union type that bridges the key info from Shift and employee info from ScheduledShift together in a UI-usable
-    package.
- */
-export interface UIScheduleShift {
-    id: number;
-    name: string;
-    day: number;
-    startTime: number;
-    endTime: number;
-    employeeId: number;
+
+export interface UIScheduleShift extends ScheduledShift {
     employeeName: string;
-    roleId: number;
 }
 
 export interface UIScheduleDay {

@@ -4,10 +4,11 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 
 import { selectors } from 'emfactor-client-core';
 
-import useAppState from './hooks/useAppState';
-import NavMenu from './components/NavMenu'
-import { routes, managerRoutes } from './routes';
-import {colors} from "./themes/default";
+import useAppState from '../../hooks/useAppState';
+import NavMenu from '../NavMenu'
+import { routes, managerRoutes } from '../../routes';
+import {colors} from "../../themes/default";
+import ErrorBoundary from "../ErrorBoundary";
 
 // Lazy components must be set ahead of time to avoid new instances being created every render
 const addLazyComponent = route => ({ ...route, component: React.lazy(route.componentFactory) });
@@ -40,20 +41,22 @@ const AppRouter = () => {
                 : null}
             </nav>
             <div className={css(styles.appContent)}>
-                <React.Suspense fallback={<div>Loading...</div>}>
-                    <Switch>
-                        {lazyRoutes.map((route, i) => (
-                            <Route key={i} path={route.path} component={route.component} />
-                        ))}
-                        {selectors.userIsManager(state) ?
-                            <React.Fragment>
-                                {lazyManagerRoutes.map((route, i) => (
-                                    <Route key={i} path={route.path} component={route.component} />
-                                ))}
-                            </React.Fragment>
-                        : null}
-                    </Switch>
-                </React.Suspense>
+                <ErrorBoundary>
+                    <React.Suspense fallback={<div>Loading...</div>}>
+                        <Switch>
+                            {lazyRoutes.map((route, i) => (
+                                <Route key={i} path={route.path} component={route.component} />
+                            ))}
+                            {selectors.userIsManager(state) ?
+                                <React.Fragment>
+                                    {lazyManagerRoutes.map((route, i) => (
+                                        <Route key={i} path={route.path} component={route.component} />
+                                    ))}
+                                </React.Fragment>
+                            : null}
+                        </Switch>
+                    </React.Suspense>
+                </ErrorBoundary>
             </div>
         </div>
     </Router>;

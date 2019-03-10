@@ -3,10 +3,10 @@ import {StyleSheet, css} from 'aphrodite/no-important';
 
 import { UIScheduleShift } from 'emfactor-client-core';
 
-import spreadShiftsToRows from '../utils/spreadShiftsToRows';
+import spreadShiftsToRows from '../../utils/spreadShiftsToRows';
 import ScheduleRow from "./ScheduleRow";
 
-import {ScheduleDayActions, ScheduleMode} from '../types';
+import {ScheduleDayActions, ScheduleMode} from '../../types';
 
 interface ScheduleDayShiftsProps {
     shifts: UIScheduleShift[];

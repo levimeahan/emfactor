@@ -10,6 +10,7 @@ export { default as addShift } from './schedule/addShift';
 export { default as editShift } from './schedule/editShift';
 export { default as assignShift } from './schedule/assignShift';
 export { default as addScheduleWeek } from './schedule/addWeek';
+export { default as editScheduleWeek } from './schedule/editWeek';
 
 export { default as addRole } from './roleAdd';
 

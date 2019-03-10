@@ -4,12 +4,12 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import { actions, selectors } from 'emfactor-client-core';
 
 import useAppState from '../hooks/useAppState';
-import ScheduleWeek from "../Schedule/ScheduleWeek";
+import ScheduleWeek from "../components/Schedule/ScheduleWeek";
 import { getWeekName } from "../utils/dateTime";
 
 const Schedules = () => {
     const state = useAppState();
-    const scheduleWeeks = selectors.currentAndFutureScheduleWeeks(state);
+    const scheduleWeeks = selectors.assignableScheduleWeeks(state);
 
     return <div className={css(styles.container)} data-testid="schedulePage">
         {scheduleWeeks.map((week, i) => (
@@ -22,6 +22,7 @@ const Schedules = () => {
                 days={week.days}
                 dayIds={week.dayIds}
                 mode='ASSIGN'
+                setDraft={(draft) => actions.editScheduleWeek(week.id, { draft })}
             />
         ))}
         <button

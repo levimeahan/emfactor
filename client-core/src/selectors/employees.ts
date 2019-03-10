@@ -32,7 +32,7 @@ export const availableEmployees = (state: State, shiftId: number) => {
     let day = DaysByNum[shift.day];
     
     let availableEmployeeIds = state.employees.allIds.filter((id) => {
-        return hasRange(state.employees.byId[id].availability[day], shift.startTime, shift.endTime)
+        return hasRange(state.employees.byId[id].availability[day], shift.startHour, shift.endHour)
             &&
             employeeHasRole(state, id, shift.roleId);
     });
@@ -62,4 +62,13 @@ export const employeeHasPermission = (state: State, employeeId: number, permissi
     }
 
     return false;
+};
+
+export const employeeFullName = (state: State, employeeId: number) => {
+    if(!employeeId) {
+        return '[Invalid Emp ID]';
+
+    }
+
+    return fullName(state.employees.byId[employeeId]);
 };

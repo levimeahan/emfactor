@@ -10,7 +10,7 @@ import changeFormInput from '../__testUtils/changeFormInput';
 
 import { store } from 'emfactor-client-core';
 
-import App from '../App';
+import App from '../components/App/App';
 import clickNavMenuLink from "../__testUtils/clickNavMenuLink";
 
 const setup = () => {

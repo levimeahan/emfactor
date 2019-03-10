@@ -8,7 +8,7 @@ import changeFormInput from '../__testUtils/changeFormInput';
 
 import { store } from 'emfactor-client-core';
 
-import App from '../App';
+import App from '../components/App/App';
 
 const setup = () => {
     store.initialize({

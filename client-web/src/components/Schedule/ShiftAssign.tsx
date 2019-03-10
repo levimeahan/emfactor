@@ -2,7 +2,7 @@ import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
 import {Employee} from 'emfactor-client-core';
-import {DeepReadonly} from "../../../client-core/src/types";
+import {DeepReadonly} from "../../../../client-core/src/types/index";
 
 // Employee
 interface ShiftAssignProps {
@@ -15,6 +15,7 @@ const ShiftAssign = ({ employeeId, employeeOptions, assign }: ShiftAssignProps) 
     return <select
         value={employeeId ? employeeId : '0'}
         onChange={e => assign(parseInt(e.currentTarget.value))}
+        className={css(styles.employeeSelect)}
     >
         <option value='0'>None</option>
         {employeeOptions.map((employee, i) =>
@@ -23,6 +24,10 @@ const ShiftAssign = ({ employeeId, employeeOptions, assign }: ShiftAssignProps) 
     </select>;
 };
 
-const styles = StyleSheet.create({});
+const styles = StyleSheet.create({
+    employeeSelect: {
+        width: '60%',
+    },
+});
 
 export default ShiftAssign;

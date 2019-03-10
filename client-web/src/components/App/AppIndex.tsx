@@ -3,14 +3,14 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 
 import 'react-dates/initialize';
 
-import Login from './pages/Login';
-import Header from './components/Header';
+import Login from '../../pages/Login';
+import Header from '../Header';
 import AppRouter from './AppRouter';
 import { selectors } from 'emfactor-client-core';
 
-import useAppState from './hooks/useAppState';
+import useAppState from '../../hooks/useAppState';
 
-import { colors } from './themes/default';
+import { colors } from '../../themes/default';
 
 
 function AppIndex() {

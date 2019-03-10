@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
-import formatHour from "../utils/formatHour";
-import arrayFromRange from "../utils/arrayFromRange";
-import {colors, sizes} from "../themes/default";
+import formatHour from "../../utils/formatHour";
+import arrayFromRange from "../../utils/arrayFromRange";
+import {colors, sizes} from "../../themes/default";
 
 const hours = arrayFromRange(0, 24);
 

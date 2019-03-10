@@ -1,9 +1,10 @@
-import {State, UIScheduleWeek} from "../types";
-import { getUIScheduleShifts } from "./schedule";
+import {ScheduledShift, State, UIScheduleShift, UIScheduleWeek} from "../types";
+import { UIScheduledShiftFromBaseId, UIScheduledShiftFromId} from "./schedule";
 
 import { spreadShiftsToDays } from "../utils/shifts";
 import {inRange} from "../utils/number";
 import {formatDate, formatMonth, formatWeekday, getWeekStartTime} from "../utils/time";
+import {employeeFullName} from "./employees";
 
 const weekScheduledShiftIds = (state: State, weekId: number): number[] => (
     state.scheduledShifts.allIds.filter(
@@ -11,14 +12,11 @@ const weekScheduledShiftIds = (state: State, weekId: number): number[] => (
     )
 );
 
-const getUIScheduleWeek = (state: State, weekId: number): UIScheduleWeek => {
-    let shifts = getUIScheduleShifts(state, weekScheduledShiftIds(state, weekId));
+const transformShiftsToWeek = (shifts: UIScheduleShift[], weekId, startTimestamp, draft): UIScheduleWeek => {
     let shiftsByDay = spreadShiftsToDays(shifts);
 
-    let scheduleWeek = state.scheduleWeeks.byId[weekId];
-
     const day = (num) => {
-        let time = scheduleWeek.startTimestamp + ((num - 1) * 86400000);
+        let time = startTimestamp + ((num - 1) * 86400000);
 
         return {
             weekday: formatWeekday(time),
@@ -29,9 +27,9 @@ const getUIScheduleWeek = (state: State, weekId: number): UIScheduleWeek => {
     };
 
     return {
-        id: scheduleWeek.id,
-        draft: scheduleWeek.draft,
-        startTimestamp: scheduleWeek.startTimestamp,
+        id: weekId,
+        draft: draft,
+        startTimestamp: startTimestamp,
         days: {
             1: day(1),
             2: day(2),
@@ -45,7 +43,54 @@ const getUIScheduleWeek = (state: State, weekId: number): UIScheduleWeek => {
     };
 };
 
+const getUIScheduleWeek = (state: State, weekId: number): UIScheduleWeek => {
+    let scheduleWeek = state.scheduleWeeks.byId[weekId];
+
+    const shifts = scheduleWeek.draft ?
+        getDraftWeekShifts(state, weekId) : getFinalizedWeekShifts(state, weekId);
+
+    return transformShiftsToWeek(shifts, scheduleWeek.id, scheduleWeek.startTimestamp, scheduleWeek.draft);
+};
+
+const getDraftWeekShifts = (state, weekId): UIScheduleShift[] => {
+    let scheduledShiftIndex = new Map();
+
+    weekScheduledShiftIds(state, weekId).forEach(id => {
+        let shift = state.scheduledShifts.byId[id];
+        scheduledShiftIndex.set(shift.baseShiftId, shift.id);
+    });
+
+    return state.shifts.allIds.map(id => {
+        const shift = state.shifts.byId[id];
+
+        if(scheduledShiftIndex.has(id)) {
+            const scheduledShift = state.scheduledShifts.byId[scheduledShiftIndex.get(id)];
+
+            return {
+                ...shift,
+                employeeId: scheduledShift.employeeId,
+                employeeName: employeeFullName(state, scheduledShift.employeeId)
+            };
+        }
+
+        return UIScheduledShiftFromBaseId(state, id);
+    });
+
+
+
+};
+
+const getFinalizedWeekShifts = (state, weekId): UIScheduleShift[] =>
+    weekScheduledShiftIds(state, weekId)
+        .map(id => UIScheduledShiftFromId(state, id));
+
 /*** SELECTORS ***/
+
+export const allShiftsWeek = (state: State): UIScheduleWeek|null => {
+    let shifts = state.shifts.allIds.map(id => UIScheduledShiftFromBaseId(state, id));
+
+    return transformShiftsToWeek(shifts, 0, 0, null);
+};
 
 export const scheduleWeekByStartTime = (state: State, startTime: number): UIScheduleWeek|null => {
     let newestWeekId = 0, newestWeekTime = 0;
@@ -69,7 +114,7 @@ export const scheduleWeekByStartTime = (state: State, startTime: number): UISche
     return getUIScheduleWeek(state, currentWeekId);
 };
 
-export const scheduleWeekRange = (state: State, startTime: number, endTime: number = null): UIScheduleWeek[] => {
+export const scheduleWeekIdsInRange = (state: State, startTime: number, endTime: number = null): number[] => {
     let firstWeekStart = getWeekStartTime(startTime);
     let lastWeekStart = endTime ? getWeekStartTime(endTime) : null;
 
@@ -78,8 +123,11 @@ export const scheduleWeekRange = (state: State, startTime: number, endTime: numb
         :
         id => state.scheduleWeeks.byId[id].startTimestamp >= firstWeekStart;
 
-    return state.scheduleWeeks.allIds
-        .filter(filterFn)
+    return state.scheduleWeeks.allIds.filter(filterFn);
+};
+
+export const scheduleWeekRange = (state: State, startTime: number, endTime: number = null): UIScheduleWeek[] => {
+    return scheduleWeekIdsInRange(state, startTime, endTime)
         .map(id => getUIScheduleWeek(state, id));
 };
 
@@ -96,6 +144,10 @@ export const futureScheduleWeeks = (state: State): UIScheduleWeek[] => {
     return scheduleWeekRange(state, nextWeekStart);
 };
 
-export const currentAndFutureScheduleWeeks = (state: State): UIScheduleWeek[] => (
-    [currentScheduleWeek(state), ...futureScheduleWeeks(state)]
-);
+// App-relevant filters
+export const assignableScheduleWeeks = (state: State): UIScheduleWeek[] => scheduleWeekRange(state, getWeekStartTime());
+
+export const viewableScheduleWeeks = (state: State): UIScheduleWeek[] =>
+    scheduleWeekIdsInRange(state, getWeekStartTime())
+        .filter(id => state.scheduleWeeks.byId[id].draft === false)
+        .map(id => getUIScheduleWeek(state, id));

@@ -1,43 +1,41 @@
-import { State, UIScheduleShift, UIScheduleWeek } from "../types";
+import {ScheduledShift, Shift, State, UIScheduleShift, UIScheduleWeek} from "../types";
 import { fullName } from '../utils/employee';
 
-export const getUIScheduleShifts = (state: State, scheduledShiftIds: number[]) => {
-    let shiftIdIndex = new Map();
+export const scheduledShiftsFromIds = (state: State, scheduledShiftIds) =>
+    scheduledShiftIds.map(id => state.scheduledShifts.byId[id]);
 
-    let uiScheduleShifts: UIScheduleShift[] = state.shifts.allIds.map((id, i) => {
-        shiftIdIndex.set(id, i);
+export const shiftsFromIds = (state: State, shiftIds) =>
+    shiftIds.map(id => state.shifts.byId[id]);
 
-        return <UIScheduleShift>{
-            ...state.shifts.byId[id],
-            employeeId: null,
-            employeeName: null,
-        };
-    });
+export const UIScheduledShiftFromId = (state: State, scheduledShiftId: number): UIScheduleShift => {
+    const shift = state.scheduledShifts.byId[scheduledShiftId];
 
-    scheduledShiftIds.forEach((scheduledShiftId) => {
-        let scheduledShift = state.scheduledShifts.byId[scheduledShiftId];
-
-        let shiftKey = shiftIdIndex.get(scheduledShift.shiftId);
-        if(shiftKey === undefined) {
-            return;
-        }
-
-        uiScheduleShifts[shiftKey].employeeId = scheduledShift.employeeId;
-
-        if(state.employees.byId.hasOwnProperty(scheduledShift.employeeId)) {
-            uiScheduleShifts[shiftKey].employeeName = fullName(state.employees.byId[scheduledShift.employeeId]);
-        }
-    });
-
-    return uiScheduleShifts;
+    return {
+        ...shift,
+        employeeName: state.employees.byId.hasOwnProperty(shift.employeeId) ?
+            fullName(state.employees.byId[shift.employeeId]) : '[Invalid Employee]'
+    };
 };
 
-export const employeeShiftsByWeek = (state: State, employeeId: number, weekId: number) => (
+export const UIScheduledShiftFromBaseId = (state: State, shiftId: number): UIScheduleShift => {
+    const shift = state.shifts.byId[shiftId];
+
+    return {
+        ...shift,
+        weekId: null,
+        baseShiftId: shift.id,
+        employeeId: null,
+        employeeName: null,
+        startTimestamp: null,
+        endTimestamp: null,
+    };
+};
+
+export const employeeShiftsByWeek = (state: State, employeeId: number, weekId: number): ScheduledShift[] =>
     state.scheduledShifts.allIds
         .filter(id => {
             let shift = state.scheduledShifts.byId[id];
 
             return shift.employeeId === employeeId && shift.weekId === weekId;
         })
-        .map(id => state.scheduledShifts.byId[id])
-);
+        .map(id => state.scheduledShifts.byId[id]);
