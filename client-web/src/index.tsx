@@ -10,6 +10,13 @@ import {canUseStorage, loadState, resetState, saveState} from "./utils/stateDevT
 
 if(canUseStorage) {
     loadState();
+    store.dispatch(prevState => ({
+        ...prevState,
+        app: {
+            ...prevState.app,
+            errorMessage: '',
+        }
+    }));
     store.subscribe(saveState);
 }
 
