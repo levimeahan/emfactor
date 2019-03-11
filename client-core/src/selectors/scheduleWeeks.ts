@@ -1,10 +1,9 @@
 import {ScheduledShift, State, UIScheduleShift, UIScheduleWeek} from "../types";
-import { UIScheduledShiftFromBaseId, UIScheduledShiftFromId} from "./schedule";
+import {UIMergedDraftShift, UIScheduledShiftFromBaseId, UIScheduledShiftFromId} from "./schedule";
 
 import { spreadShiftsToDays } from "../utils/shifts";
 import {inRange} from "../utils/number";
 import {formatDate, formatMonth, formatWeekday, getWeekStartTime} from "../utils/time";
-import {employeeFullName} from "./employees";
 
 const weekScheduledShiftIds = (state: State, weekId: number): number[] => (
     state.scheduledShifts.allIds.filter(
@@ -48,7 +47,6 @@ const getUIScheduleWeek = (state: State, weekId: number): UIScheduleWeek => {
 
     const shifts = scheduleWeek.draft ?
         getDraftWeekShifts(state, weekId) : getFinalizedWeekShifts(state, weekId);
-    // debugger;
 
     return transformShiftsToWeek(shifts, scheduleWeek.id, scheduleWeek.startTimestamp, scheduleWeek.draft);
 };
@@ -65,13 +63,7 @@ const getDraftWeekShifts = (state, weekId): UIScheduleShift[] => {
         let shift = UIScheduledShiftFromBaseId(state, weekId, id);
 
         if(scheduledShiftIndex.has(id)) {
-            const scheduledShift = state.scheduledShifts.byId[scheduledShiftIndex.get(id)];
-
-            shift = {
-                ...UIScheduledShiftFromBaseId(state, weekId, id),
-                employeeId: scheduledShift.employeeId,
-                employeeName: employeeFullName(state, scheduledShift.employeeId)
-            };
+            shift = UIMergedDraftShift(state, shift, state.scheduledShifts.byId[scheduledShiftIndex.get(id)]);
         }
 
         return shift;

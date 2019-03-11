@@ -30,8 +30,6 @@ export default function assignShift(data: AssignShiftData): ShiftAssignResponse 
 
     let errors = validate(data, {
         shiftId: {
-            presence: { allowEmpty: false },
-            numericality: true,
         },
         baseShiftId: {
             presence: true,
@@ -53,9 +51,7 @@ export default function assignShift(data: AssignShiftData): ShiftAssignResponse 
     const { shifts, scheduledShifts, scheduleWeeks } = store.getState();
 
     let scheduledShift: ScheduledShift;
-    let existingId = scheduledShifts.allIds.find(id =>
-        scheduledShifts.byId[id].baseShiftId === data.shiftId
-    );
+    let existingId = scheduledShifts.allIds.find(id => id === data.shiftId);
 
     if(!scheduleWeeks.byId.hasOwnProperty(data.weekId)) {
         response.errorMessage = "Invalid week!";
@@ -65,14 +61,14 @@ export default function assignShift(data: AssignShiftData): ShiftAssignResponse 
     if(existingId === undefined) {
         response.isNew = true;
 
-        let baseShift = shifts.byId[data.shiftId];
+        let baseShift = shifts.byId[data.baseShiftId];
         let weekStartTime = scheduleWeeks.byId[data.weekId].startTimestamp;
 
         const timestamps = calcShiftTimestamps(weekStartTime, baseShift.day, baseShift.startHour, baseShift.endHour);
 
         scheduledShift = {
             id: getNextCollectionId(scheduledShifts),
-            baseShiftId: data.shiftId,
+            baseShiftId: data.baseShiftId,
             employeeId: data.employeeId,
             weekId: data.weekId,
             day: baseShift.day,

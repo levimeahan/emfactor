@@ -6,12 +6,14 @@ import { actions, selectors } from 'emfactor-client-core';
 import useAppState from '../hooks/useAppState';
 import ScheduleWeek from "../components/Schedule/ScheduleWeek";
 import { getWeekName } from "../utils/dateTime";
+import ErrorMessage from "../components/ErrorMessage";
 
 const Schedules = () => {
     const state = useAppState();
     const scheduleWeeks = selectors.assignableScheduleWeeks(state);
 
     return <div className={css(styles.container)} data-testid="schedulePage">
+        <ErrorMessage>{state.app.errorMessage}</ErrorMessage>
         {scheduleWeeks.map((week, i) => (
             <ScheduleWeek
                 key={i}
