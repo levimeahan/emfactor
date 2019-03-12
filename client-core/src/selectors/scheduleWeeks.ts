@@ -1,4 +1,4 @@
-import {ScheduledShift, State, UIScheduleShift, UIScheduleWeek} from "../types";
+import { State, UIScheduleShift, UIScheduleWeek} from "../types";
 import {UIMergedDraftShift, UIScheduledShiftFromBaseId, UIScheduledShiftFromId} from "./schedule";
 
 import { spreadShiftsToDays } from "../utils/shifts";

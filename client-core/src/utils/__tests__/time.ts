@@ -1,7 +1,8 @@
 import { getWeekStartTime } from '../time';
+import moment from 'moment';
 
-const monJan22017 = 1483315200000;
-const wedJan42017 = 1483488000000;
+const monJan22017 = moment([2017, 0, 2]).valueOf();
+const wedJan42017 = moment([2017, 0, 4]).valueOf();
 
 describe('getWeekStartTime', () => {
     it('gets start time for passed timestamp correctly', () => {
