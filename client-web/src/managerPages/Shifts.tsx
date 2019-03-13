@@ -24,8 +24,8 @@ const Shifts = () => {
                     headerStyle={styles.dayHeaderContainer}
                     mode='EDIT'
                     actions={{
-                        addShift: () => actions.addShift(dayId),
-                        editShift: actions.editShift,
+                        addShift: () => actions.schedule.addShift(dayId),
+                        editShift: (shiftId, baseShiftId, data) => actions.schedule.editBaseShift(baseShiftId, data),
                         assignShift: null,
                     }}
                 />

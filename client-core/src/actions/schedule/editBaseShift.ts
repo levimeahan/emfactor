@@ -1,17 +1,18 @@
 import store from '../../store/index';
-import {Shift, Reducer, ScheduledShift} from '../../types';
+import { Shift, Reducer } from '../../types';
 
 import changeErrorMessage from '../../reducers/changeErrorMessage';
 import editEntityItem from "../../reducers/editEntityItem";
 
-export default function editBaseShift(shiftId: number, changedData: Partial<ScheduledShift>) {
-    if(!store.getState().scheduledShifts.byId.hasOwnProperty(shiftId)) {
+export default function editBaseShift(baseShiftId: number, changedData: Partial<Shift>) {
+    if(!store.getState().shifts.byId.hasOwnProperty(baseShiftId)) {
         store.dispatch(changeErrorMessage, 'Invalid shift!');
         return;
     }
 
+
     store.dispatch(prevState => ({
         ...prevState,
-        scheduledShifts: editEntityItem(prevState.scheduledShifts, shiftId, changedData)
+        shifts: editEntityItem(prevState.shifts, baseShiftId, changedData)
     }));
 }

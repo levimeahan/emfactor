@@ -2,7 +2,7 @@ export type ScheduleMode = "EDIT" | "ASSIGN" | "DISPLAY";
 
 export interface ScheduleDayActions {
     addShift: () => void;
-    editShift: (shiftId, changedData) => void;
+    editShift: (shiftId: number, baseShiftId: number, changedData: any) => void;
     assignShift: (shiftId, baseShiftId, employeeId) => void;
 }
 

@@ -36,9 +36,16 @@ const ScheduleWeek = ({ id, name, startTimestamp, draft, setDraft, days, dayIds,
                     headerStyle={styles.dayHeaderContainer}
                     mode={mode}
                     actions={{
-                        addShift: () => actions.addShift(dayId),
-                        editShift: (shiftId, data) => actions.editShift(shiftId, data),
-                        assignShift: (shiftId, baseShiftId, data) => actions.assignShift(id, shiftId, baseShiftId, data),
+                        addShift: () => actions.schedule.addShift(dayId),
+                        editShift: (shiftId, baseShiftId, data) => {
+                            if(draft) {
+                                actions.schedule.editBaseShift(baseShiftId, data)
+                            }
+                            else {
+                                actions.schedule.editShift(shiftId, data)
+                            }
+                        },
+                        assignShift: (shiftId, baseShiftId, data) => actions.schedule.assignShift(id, shiftId, baseShiftId, data),
                     }}
                 />
             </div>

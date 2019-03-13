@@ -24,12 +24,12 @@ const Schedules = () => {
                 days={week.days}
                 dayIds={week.dayIds}
                 mode='ASSIGN'
-                setDraft={(draft) => actions.editScheduleWeek(week.id, { draft })}
+                setDraft={(draft) => actions.schedule.editWeek(week.id, { draft })}
             />
         ))}
         <button
             className={css(styles.addWeekButton)}
-            onClick={() => actions.addScheduleWeek()}
+            onClick={() => actions.schedule.addWeek()}
         >
             Add Week
         </button>
