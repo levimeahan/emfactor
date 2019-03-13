@@ -79,7 +79,7 @@ const getFinalizedWeekShifts = (state, weekId): UIScheduleShift[] =>
 export const allShiftsWeek = (state: State): UIScheduleWeek|null => {
     let shifts = state.shifts.allIds.map(id => UIScheduledShiftFromBaseId(state, 0, id));
 
-    return transformShiftsToWeek(shifts, 0, 0, null);
+    return transformShiftsToWeek(shifts, 0, getWeekStartTime(), null);
 };
 
 export const scheduleWeekByStartTime = (state: State, startTime: number): UIScheduleWeek|null => {
