@@ -1,4 +1,4 @@
-import {Employee, State, Day, Permissions, DeepReadonly} from "../types";
+import {Employee, State, Day, Permissions, DeepReadonly, UIScheduleShift} from "../types";
 import { DaysByNum } from "../config";
 
 import { hasHourRange } from '../utils/availability';
@@ -8,6 +8,7 @@ import {fullName} from "../utils/employee";
 
 import moment from 'moment';
 import {inRange, rangesOverlap} from "../utils/number";
+import {UIScheduledShiftFromBaseId, UIScheduledShiftFromId} from "./schedule";
 
 export const allEmployees = (state: State) => (
     state.employees.allIds.map(id => state.employees.byId[id])
@@ -55,17 +56,17 @@ export const employeeIsAvailable = (state: State, employeeId: number, startTimes
     return true;
 };
 
-export const employeeIsScheduled = (state: State, employeeId: number, startTimestamp, endTimestamp, desiredShiftId = null) => {
-    let shift = state.scheduledShifts.allIds.find(id => {
-        if(id === desiredShiftId) {
-            return false;
-        }
+export const employeeIsScheduled = (state: State, employeeId: number, startTimestamp, endTimestamp, excludeShiftId = null) =>
+    employeeScheduledShiftIds(state, employeeId, startTimestamp, endTimestamp)
+        .filter(id => id !== excludeShiftId)
+        .length > 0;
 
+export const employeeScheduledShiftIds = (state: State, employeeId: number, startTimestamp: number, endTimestamp: number) =>
+    state.scheduledShifts.allIds.filter(id => {
         let shift = state.scheduledShifts.byId[id];
         if (shift.employeeId !== employeeId) {
             return false;
         }
-
 
         return rangesOverlap(
             { start: shift.startTimestamp, end: shift.endTimestamp },
@@ -73,8 +74,10 @@ export const employeeIsScheduled = (state: State, employeeId: number, startTimes
         );
     });
 
-    return shift !== undefined;
-};
+export const employeeScheduledShifts = (state: State, employeeId: number, startTimestamp: number, endTimestamp: number): UIScheduleShift[] =>
+    employeeScheduledShiftIds(state, employeeId, startTimestamp, endTimestamp)
+        .map(id => UIScheduledShiftFromId(state, id))
+        .sort((a, b) => a.startTimestamp > b.startTimestamp ? 1 : -1);
 
 export const employeeHasRole = (state: State, employeeId: number, roleId: number) => {
     for(let id of state.employees.byId[employeeId].roles) {

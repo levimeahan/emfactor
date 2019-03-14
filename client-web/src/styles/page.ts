@@ -1,6 +1,6 @@
 import { StyleSheet } from 'aphrodite/no-important';
 
-export default StyleSheet.create({
+const pageStyles = StyleSheet.create({
     container: {
         display: 'flex',
         flexDirection: 'column',
@@ -18,3 +18,5 @@ export default StyleSheet.create({
         margin: '0.2em 0 0.2em',
     },
 });
+
+export default pageStyles;
