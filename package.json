@@ -8,10 +8,10 @@
     "emfactor-client-core": "file:client-core"
   },
   "scripts": {
-    "start-web": "cd client-web && npm run start",
+    "dev-web": "cd client-web && npm run start",
     "build-web": "cd client-web && npm run build",
     "test-web": "cd client-web && npm run test",
-    "start-core": "cd client-core && npm start",
+    "dev-core": "cd client-core && npm run dev",
     "build-core": "cd client-core && npm build"
   }
 }
