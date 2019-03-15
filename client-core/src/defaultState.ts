@@ -1,11 +1,13 @@
-import {Permissions, Role, State} from './types';
+import moment from 'moment';
+
+import {Permissions, State} from './types';
 
 import { getWeekStartTime } from './utils/time';
+import { shiftStartTime, shiftEndTime } from './utils/shifts';
 
-import { permissions } from "./config";
+import {permissions} from "./config";
 
-const eightToSixteen = '0'.repeat(8) + '1'.repeat(8) + '0'.repeat(8);
-const notAvailable = '0'.repeat(23);
+const weekStartTime = getWeekStartTime();
 
 const defaultState: State = {
     app: {
@@ -16,21 +18,51 @@ const defaultState: State = {
         byId: {
             1: {
                 id: 1,
-                firstName: 'Levi',
-                lastName: 'Meahan',
+                firstName: "Levi",
+                lastName: "Meahan",
                 availability: {
-                    mon: eightToSixteen,
-                    tue: eightToSixteen,
-                    wed: eightToSixteen,
-                    thu: eightToSixteen,
-                    fri: eightToSixteen,
-                    sat: notAvailable,
-                    sun: notAvailable,
+                    mon: "000000001111111100000000",
+                    tue: "000000001111111100000000",
+                    wed: "000000001111111100000000",
+                    thu: "000000001111111100000000",
+                    fri: "000000001111111100000000",
+                    sat: "00000000000000000000000",
+                    sun: "00000000000000000000000"
                 },
                 roles: [1, 2]
             },
+            2: {
+                id: 2,
+                firstName: "Isaac",
+                lastName: "Asimov",
+                availability: {
+                    mon: "000000001111111100000000",
+                    tue: "000000001111111100000000",
+                    wed: "000000001111111100000000",
+                    thu: "000000001111111100000000",
+                    fri: "000000001111111100000000",
+                    sat: "000000001111111100000000",
+                    sun: "000000001111111100000000"
+                },
+                roles: [1]
+            },
+            3: {
+                id: 3,
+                firstName: "Ada",
+                lastName: "Lovelace",
+                availability: {
+                    mon: "000000000000000011111111",
+                    tue: "000000000000000011111111",
+                    wed: "000000000000000011111111",
+                    thu: "000000000000000011111111",
+                    fri: "000000000000000011111111",
+                    sat: "000000000000000011111111",
+                    sun: "000000000000000011111111"
+                },
+                roles: [1, 2]
+            }
         },
-        allIds: [1],
+        allIds: [1, 2, 3]
     },
     roles: {
         byId: {
@@ -54,70 +86,88 @@ const defaultState: State = {
             1: {
                 id: 1,
                 day: 1,
-                startHour: 0,
-                endHour: 8,
-                name: 'Sunrise / Reg 1',
-                roleId: 1,
+                startHour: 8,
+                endHour: 16,
+                name: "Day / Cashier 2",
+                roleId: 1
+            },
+            2: {id: 2, day: 1, startHour: 8, endHour: 16, name: "Day / Cashier 1", roleId: 0},
+            3: {id: 3, day: 1, startHour: 16, endHour: 24, name: "Evening / Cashier", roleId: 1},
+            4: {id: 4, day: 2, startHour: 8, endHour: 16, name: "Day / Cashier", roleId: 1}
+        },
+        allIds: [1, 2, 3, 4]
+    },
+    scheduledShifts: {
+        byId: {
+            1: {
+                id: 1,
+                baseShiftId: 2,
+                employeeId: 1,
+                weekId: 1,
+                day: 1,
+                name: "Day / Cashier 1",
+                startHour: 8,
+                endHour: 16,
+                startTimestamp: shiftStartTime(weekStartTime, 1, 8),
+                endTimestamp: shiftEndTime(weekStartTime, 1, 16),
+                roleId: 0
             },
             2: {
                 id: 2,
+                baseShiftId: 1,
+                employeeId: 2,
+                weekId: 1,
                 day: 1,
-                startHour: 0,
-                endHour: 8,
-                name: 'Sunrise / Reg 2',
-                roleId: 1,
-            },
-
-            3: {
-                id: 3,
-                day: 1,
+                name: "Day / Cashier 2",
                 startHour: 8,
                 endHour: 16,
-                name: 'Day / Reg 1',
-                roleId: 1,
+                startTimestamp: shiftStartTime(weekStartTime, 1, 8),
+                endTimestamp: shiftEndTime(weekStartTime, 1, 16),
+                roleId: 1
+            },
+            3: {
+                id: 3,
+                baseShiftId: 4,
+                employeeId: 1,
+                weekId: 1,
+                day: 2,
+                name: "Day / Cashier",
+                startHour: 8,
+                endHour: 16,
+                startTimestamp: shiftStartTime(weekStartTime, 2, 8),
+                endTimestamp: shiftEndTime(weekStartTime, 2, 16),
+                roleId: 1
             },
             4: {
                 id: 4,
+                baseShiftId: 3,
+                employeeId: 3,
+                weekId: 1,
                 day: 1,
-                startHour: 8,
-                endHour: 16,
-                name: 'Day / Reg 2',
-                roleId: 1,
-            },
-
-
-            5: {
-                id: 5,
-                day: 3,
+                name: "Evening / Cashier",
                 startHour: 16,
                 endHour: 24,
-                name: 'Swing / Reg 1',
-                roleId: 1,
-            },
-            6: {
-                id: 6,
-                day: 4,
-                startHour: 16,
-                endHour: 24,
-                name: 'Swing / Reg 2',
-                roleId: 1,
+                startTimestamp: shiftStartTime(weekStartTime, 1, 16),
+                endTimestamp: shiftEndTime(weekStartTime, 1, 24),
+                roleId: 1
             }
-        },
-        allIds: [1, 2, 3, 4, 5, 6],
-    },
-    scheduledShifts: {
-        byId: {},
-        allIds: [],
+        }, 
+        allIds: [1, 2, 3, 4]
     },
     scheduleWeeks: {
         byId: {
             1: {
                 id: 1,
+                draft: false,
+                startTimestamp: weekStartTime,
+            },
+            2: {
+                id: 2,
                 draft: true,
-                startTimestamp: getWeekStartTime(),
+                startTimestamp: moment(weekStartTime).add({ days: 7 }).valueOf(),
             },
         },
-        allIds: [1],
+        allIds: [1, 2],
     },
     timeOffRequests: {
         byId: {},
@@ -167,10 +217,10 @@ const defaultState: State = {
                 "thoroughly until covered with soap and debris is removed. Acquire a clean wet rag and wipe grill down" +
                 "until all soap residue is gone. Turn grill back on, place plastic food name rollers, and then place" +
                 "metal dividers using plastic name rollers as a size guide.",
-                roles: [ 1 ],
+                roles: [1],
             },
         },
-        allIds: [ 1 ],
+        allIds: [1],
     },
     availabilityChangeRequests: {
         byId: {},
