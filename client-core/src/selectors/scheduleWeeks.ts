@@ -5,11 +5,9 @@ import { spreadShiftsToDays } from "../utils/shifts";
 import {inRange} from "../utils/number";
 import {formatDate, formatMonth, formatWeekday, getWeekStartTime} from "../utils/time";
 
-const weekScheduledShiftIds = (state: State, weekId: number): number[] => (
-    state.scheduledShifts.allIds.filter(
-        id => state.scheduledShifts.byId[id].weekId === weekId
-    )
-);
+// Utils
+
+const shiftSort = (a: UIScheduleShift, b: UIScheduleShift): number => a.name < b.name ? 1 : -1;
 
 const transformShiftsToWeek = (shifts: UIScheduleShift[], weekId, startTimestamp, draft): UIScheduleWeek => {
     let shiftsByDay = spreadShiftsToDays(shifts);
@@ -42,6 +40,16 @@ const transformShiftsToWeek = (shifts: UIScheduleShift[], weekId, startTimestamp
     };
 };
 
+
+// Selectors
+
+const weekScheduledShiftIds = (state: State, weekId: number): number[] => (
+    state.scheduledShifts.allIds.filter(
+        id => state.scheduledShifts.byId[id].weekId === weekId
+    )
+);
+
+
 const getUIScheduleWeek = (state: State, weekId: number): UIScheduleWeek => {
     let scheduleWeek = state.scheduleWeeks.byId[weekId];
 
@@ -51,7 +59,7 @@ const getUIScheduleWeek = (state: State, weekId: number): UIScheduleWeek => {
     return transformShiftsToWeek(shifts, scheduleWeek.id, scheduleWeek.startTimestamp, scheduleWeek.draft);
 };
 
-const getDraftWeekShifts = (state, weekId): UIScheduleShift[] => {
+const getDraftWeekShifts = (state: State, weekId: number): UIScheduleShift[] => {
     let scheduledShiftIndex = new Map();
 
     weekScheduledShiftIds(state, weekId).forEach(id => {
@@ -67,12 +75,14 @@ const getDraftWeekShifts = (state, weekId): UIScheduleShift[] => {
         }
 
         return shift;
-    });
+    })
+    .sort(shiftSort);
 };
 
-const getFinalizedWeekShifts = (state, weekId): UIScheduleShift[] =>
+const getFinalizedWeekShifts = (state: State, weekId: number): UIScheduleShift[] =>
     weekScheduledShiftIds(state, weekId)
-        .map(id => UIScheduledShiftFromId(state, id));
+        .map(id => UIScheduledShiftFromId(state, id))
+        .sort(shiftSort);
 
 /*** SELECTORS ***/
 
