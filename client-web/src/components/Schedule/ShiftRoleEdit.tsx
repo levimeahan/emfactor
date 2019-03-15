@@ -10,7 +10,7 @@ const ShiftRoleEdit = ({ currentRole, allRoles, onChange }) => {
         <select
             name="role"
             value={currentRole}
-            onChange={e => onChange([e.currentTarget.value])}
+            onChange={e => onChange(e.currentTarget.value)}
             className={css(styles.nameInput)}
         >
             <option key={0} value={0}>None</option>
