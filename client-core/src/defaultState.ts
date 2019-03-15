@@ -132,13 +132,22 @@ const defaultState: State = {
             1: {
                 id: 1,
                 name: 'Shoplifting',
-                content: 'not allowed LOL what did you expect',
+                content: 'Make sure to make eye contact and greet every customer who enters the store. Be cautious of anyone' +
+                'who avoids eye contact, especially if they are wearing clothing that obscures part or all of their ' +
+                'head/face. Mentally note a description of the person, approximately what age/height/weight are they, what' +
+                'clothes are they wearing, any distinguishing features? When there are no customers at the register, ' +
+                'move to the sales floor and put yourself in a ' +
+                'position where you can see a potential shoplifter - They often will be deterred from stealing anything ' +
+                'if they know they are being watched. In the event a shoplifter does take an item and proceed for the ' +
+                'store exit, do NOT try to stop them. Make sure you remember a good description of them and what they took,' +
+                'then write it down along with the time the incident occurred, and leave it in the document drawer of ' +
+                'your shift for a manager to review. Inform the next manager on duty of the incident.'
             },
-
             2: {
                 id: 2,
                 name: 'Refunds',
-                content: 'Refunds are only allowed for undamaged items with receipt. Food/drink are nonrefundable.',
+                content: 'Refunds are only allowed for undamaged and unopened items with receipt. Perishable ' +
+                'Food/drink items are nonrefundable.',
             },
         },
         allIds: [1, 2],
