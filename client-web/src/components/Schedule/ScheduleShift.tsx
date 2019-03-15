@@ -1,17 +1,19 @@
 import React, { useState } from 'react';
-import {StyleSheet, css} from 'aphrodite/no-important';
+import { css } from 'aphrodite/no-important';
 
-import { colors, sizes } from '../../themes/default';
-import FormInput from "../FormInput";
+import {Employee, Shift, DeepReadonly } from "emfactor-client-core";
+import { ScheduleMode, ScheduleDayActions } from "../../types";
+
 import calcShiftWidth from '../../utils/calcShiftWidth';
 
+import FormInput from "../FormInput";
 import ShiftTime from "./ShiftTime";
 import ShiftAssign from "./ShiftAssign";
+import ShiftRoleEdit from "./ShiftRoleEdit";
 
-import { ScheduleMode, ScheduleDayActions } from "../../types";
-import {Employee, Shift} from "emfactor-client-core";
 import useFormInput from "../../hooks/useFormInput";
-import {DeepReadonly} from "../../../../client-core/src/types/index";
+
+import styles from './scheduleShiftStyles';
 
 // Main Component
 interface ScheduleShiftProps {
@@ -59,7 +61,7 @@ const ScheduleShift = ({
                             onChange={(newValue) => edit({roleId: newValue})}
                         />
                     </>
-                    : null}
+                : null}
                 {mode === 'ASSIGN' ?
                     <>
                         <ShiftNameDisplay name={name}/>
@@ -69,13 +71,13 @@ const ScheduleShift = ({
                             assign={assign}
                         />
                     </>
-                    : null}
+                : null}
                 {mode === 'DISPLAY' ?
                     <>
                         <ShiftNameDisplay name={name}/>
                         <ShiftEmployeeName name={employeeName}/>
                     </>
-                    : null}
+                : null}
             </div>
 
             <ShiftTime
@@ -117,130 +119,10 @@ const ShiftEmployeeName = ({ name }) => (
     <span className={css(styles.employeeNameDisplay)}>{name ? name : '-'}</span>
 );
 
-// Roles
-const ShiftRoleEdit = ({ currentRole, allRoles, onChange }) => {
-    return <div className={css(styles.nameInputContainer)}>
-        <label className={css(styles.nameInputLabel)}>Role</label>
-        <select
-            name="role"
-            value={currentRole}
-            onChange={e => onChange([e.currentTarget.value])}
-            className={css(styles.nameInput)}
-        >
-            <option key={0} value={0}>None</option>
-            {allRoles.map((role, i) => (
-                <option key={i} value={role.id}>{role.name}</option>
-            ))}
-        </select>
-    </div>;
-};
+
 
 // Styles
-const styles = StyleSheet.create({
-    container: {
-        boxSizing: 'border-box',
-        padding: '0',
-        alignSelf: 'center',
-        backgroundColor: '#3a3a3a',
-        border: '1px solid #303030',
-    },
-    shiftContent: {
-        display: 'flex',
-        flexDirection: 'row',
-        alignItems: 'center',
-        minHeight: '2.7em',
-        padding: 0,
-    },
 
-
-    startTime: {
-        marginLeft: '6px',
-        textAlign: 'left',
-    },
-    endTime: {
-        marginRight: '6px',
-        textAlign: 'right',
-    },
-
-    shiftDetails: {
-        display: 'flex',
-        flexGrow: 1,
-        justifyContent: 'flex-end',
-        alignItems: 'center',
-        flexDirection: 'column',
-        padding: '14px 4px 8px',
-        minHeight: '22px',
-        position: 'relative',
-    },
-    nameDisplay: {
-        position: 'absolute',
-        top: '-2px',
-        left: '10px',
-        fontSize: '10px',
-        textTransform: 'uppercase',
-        fontWeight: 'bold',
-        color: colors.text.medium,
-    },
-    employeeNameDisplay: {
-        fontWeight: 'bold',
-        fontFamily: 'Lucida Sans Unicode',
-        color: colors.text.semiBright,
-        lineHeight: '1em',
-    },
-    shiftName: {
-        margin: 0,
-        fontSize: '10px',
-        backgroundColor: '#333',
-    },
-
-    nameInput: {
-        width: '110px',
-        margin: 0,
-        boxSizing: 'border-box',
-    },
-    nameInputContainer: {
-        display: 'flex',
-        flexDirection: 'row',
-
-        margin: '3px 0',
-        padding: '4px',
-        borderTopLeftRadius: '5px',
-        borderBottomLeftRadius: '5px',
-
-        background: colors.background.secondaryDark,
-    },
-    nameInputLabel: {
-        width: '3.7em',
-        padding: '0 3px',
-        fontSize: '14px',
-        fontWeight: 'normal',
-        textAlign: 'left',
-    },
-});
-
-const selectTheme = (theme) => ({
-    ...theme,
-    colors: {
-        ...theme.colors,
-        primary: '#1a3469',
-        primary25: '#515969',
-        primary50: '#1d3469',
-        primary75: '#344469',
-        danger: '#c82f0a',
-        dangerLight: '#af6158',
-        neutral0:  'rgb(30,30,30)',
-        neutral5:  'rgb(40,40,40)',
-        neutral10: 'rgb(50,50,50)',
-        neutral20: 'rgb(60,60,60)',
-        neutral30: 'rgb(70,70,70)',
-        neutral40: 'rgb(80,80,80)',
-        neutral50: 'rgb(90,90,90)',
-        neutral60: 'rgb(100,100,100)',
-        neutral70: 'rgb(110,110,110)',
-        neutral80: 'rgb(120,120,120)',
-        neutral90: 'rgb(130,130,130)',
-    },
-});
 
 // Export
 export default ScheduleShift;
