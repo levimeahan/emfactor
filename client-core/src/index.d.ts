@@ -25,4 +25,5 @@ export type State = types.State;
 export type UIScheduleShift = types.UIScheduleShift;
 export type UIScheduleDay = types.UIScheduleDay;
 export type UIScheduleWeek = types.UIScheduleWeek;
+export type DeepReadonly<T> = types.DeepReadonly<T>;
 
