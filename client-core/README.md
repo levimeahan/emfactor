@@ -23,6 +23,9 @@ better served by living in the components/hooks themselves.
 Call these to handle all necessary actions. Check `/actions` folder for all actions. Do
 NOT dispatch store yourself.
 
+NOTE: As server is not yet implemented, for testing purposes all actions currently either 
+call a function from `mockServerActions` or dispatch the state change directly without
+running it through the API. 
 
 ##Selectors
 
