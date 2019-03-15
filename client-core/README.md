@@ -1,14 +1,14 @@
-#emfactor-client-core
+# emfactor-client-core
 
 Responsible for managing all client-side persistent data, handling actions, and
 reusable logic for processing/filtering data sent to the display layer (see Selectors). 
 
-##Exports
+## Exports
 Check `index.ts` for exports this core makes available. As a general rule of thumb, 
 try to import from the main package itself, not subdirectories. Most of the main concepts
 listed below have are exported through `index.ts`.
 
-##Store
+## Store
 
 Use store to access global state. Call `store.subscribe(fn)` to subscribe to changes
 and `store.unsubscribe(fn)` to unsubscribe. `fn` will be passed the new state whenever
@@ -18,7 +18,7 @@ As a general rule of thumb - The store contains any type of state that needs to 
 to/from the server, or values directly related to those. Everything else is most likely 
 better served by living in the components/hooks themselves.
 
-##Actions
+## Actions
 
 Call these to handle all necessary actions. Check `/actions` folder for all actions. Do
 NOT dispatch store yourself.
@@ -27,7 +27,7 @@ NOTE: As server is not yet implemented, for testing purposes all actions current
 call a function from `mockServerActions` or dispatch the state change directly without
 running it through the API. 
 
-##Selectors
+## Selectors
 
 Call these and pass current state to get a slice returned. Also used for abstracting logic.
 These will have "answers to questions" such as "is the user logged in" = 
@@ -37,7 +37,7 @@ environment-dependent should be placed in these selectors to be re-used between 
 
 **TODO: Memoization**
 
-##Entity Concepts
+## Entity Concepts
 
 See [Type Declarations](./src/types/index.d.ts) for what properties each entity has.
 
