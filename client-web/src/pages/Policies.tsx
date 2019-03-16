@@ -9,7 +9,7 @@ import useAppState from "../hooks/useAppState";
 import pageStyles from '../styles/page';
 import {colors} from "../themes/default";
 import useFormInput from "../hooks/useFormInput";
-import FormInput from "../components/FormInput";
+import FormInput from "../components/Form/FormInput";
 
 const Policies = () => {
     const state = useAppState();

@@ -1,8 +1,8 @@
 import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
-import { colors, list as listTheme } from '../themes/default';
-import listStyle from '../styles/list';
+import { colors, list as listTheme } from '../../themes/default';
+import listStyle from '../../styles/list';
 
 const RoleList = ({ roles }) => {
     return <div className={css(listStyle.container)}>

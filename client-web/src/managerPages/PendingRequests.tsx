@@ -6,7 +6,7 @@ import useAppState from "../hooks/useAppState";
 
 import pageStyles from '../styles/page';
 
-import TimeOffRequest from '../components/TimeOffRequest';
+import TimeOffRequest from '../components/PendingRequests/TimeOffRequest';
 
 const PendingRequests = () => {
     const state = useAppState();

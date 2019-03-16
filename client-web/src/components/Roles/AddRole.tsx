@@ -2,15 +2,15 @@ import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 import { Link } from 'react-router-dom';
 
-import { actions, permissions as rolePermissions } from 'emfactor-client-core';
+import { actions, permissions as rolePermissions } from "emfactor-client-core";
 
-import ErrorMessage from './ErrorMessage';
-import FormInput from './FormInput';
-import FormCheckboxGroup from "./FormCheckboxGroup";
+import ErrorMessage from '../ErrorMessage';
+import FormInput from '../Form/FormInput';
+import FormCheckboxGroup from "../Form/FormCheckboxGroup";
 
-import useAppState from "../hooks/useAppState";
-import useFormInput from "../hooks/useFormInput";
-import useFormCheckboxGroup from '../hooks/useFormCheckboxGroup';
+import useAppState from "../../hooks/useAppState";
+import useFormInput from "../../hooks/useFormInput";
+import useFormCheckboxGroup from '../../hooks/useFormCheckboxGroup';
 
 const AddRole = ({ basePath, history }) => {
     const state = useAppState();

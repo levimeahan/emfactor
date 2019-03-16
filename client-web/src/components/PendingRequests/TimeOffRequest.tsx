@@ -3,13 +3,13 @@ import {StyleSheet, css} from 'aphrodite/no-important';
 
 import { utils, selectors, TimeOffRequest, UIScheduleShift, UIScheduleWeek } from "emfactor-client-core";
 
-import useAppState from "../hooks/useAppState";
-import {formatDate, getWeekName} from '../utils/dateTime';
+import useAppState from "../../hooks/useAppState";
+import {formatDate, getWeekName} from '../../utils/dateTime';
 
-import boxStyles from '../styles/box';
-import pageStyles from '../styles/page';
+import boxStyles from '../../styles/box';
+import pageStyles from '../../styles/page';
 import moment from 'moment';
-import {colors} from "../themes/default";
+import {colors} from "../../themes/default";
 
 // Utils
 function getWeekShifts (scheduleWeek: UIScheduleWeek, scheduledShifts: UIScheduleShift[]) {
@@ -33,8 +33,6 @@ const TimeOffRequestComponent = ({
     const scheduleWeeks = selectors.scheduleWeekRange(state, startDate, endDate);
     const scheduledShifts = selectors.employeeScheduledShifts(state, employeeId, startDate, endDate);
 
-    // debugger;
-
     let weeksInRequest = [];
     let weekIndex = 0;
     for(let time = moment(startDate).startOf('isoWeek'); time.valueOf() < endDate; time.add({days: 7})) {
@@ -52,10 +50,6 @@ const TimeOffRequestComponent = ({
             index: index,
         });
     }
-
-
-    console.log('Debug', scheduleWeeks, scheduledShifts, weeksInRequest);
-
 
     return <div className={css(boxStyles.container, styles.torContainer)}>
         <h4 className={css(boxStyles.header)}>{employeeName}</h4>

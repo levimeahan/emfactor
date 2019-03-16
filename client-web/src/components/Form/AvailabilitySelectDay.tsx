@@ -3,8 +3,8 @@ import {StyleSheet, css} from 'aphrodite/no-important';
 
 import { createSelectable } from 'react-selectable-fast';
 
-import arrayFromRange from "../utils/arrayFromRange";
-import formatHour from "../utils/formatHour";
+import arrayFromRange from "../../utils/arrayFromRange";
+import formatHour from "../../utils/formatHour";
 
 const hoursInDay = arrayFromRange(0, 23);
 

@@ -7,7 +7,7 @@ import { DayPickerRangeController } from 'react-dates';
 
 import { START_DATE, END_DATE, HORIZONTAL_ORIENTATION, ANCHOR_LEFT } from 'react-dates/constants';
 
-import isInclusivelyAfterDay from '../utils/isInclusivelyAfterDay';
+import isInclusivelyAfterDay from '../../utils/isInclusivelyAfterDay';
 import 'react-dates/lib/css/_datepicker.css';
 
 

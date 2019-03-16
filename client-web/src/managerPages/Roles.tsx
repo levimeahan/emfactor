@@ -4,8 +4,8 @@ import { Route, Link } from 'react-router-dom';
 
 import useAppState from '../hooks/useAppState';
 
-import AddRole from '../components/AddRole';
-import RoleList from '../components/RoleList';
+import AddRole from '../components/Roles/AddRole';
+import RoleList from '../components/Roles/RoleList';
 import SubRoute from '../components/SubRoute';
 
 import { colors, linkThemes } from '../themes/default';

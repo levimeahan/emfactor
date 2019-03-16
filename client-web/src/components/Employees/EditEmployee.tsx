@@ -1,13 +1,13 @@
 import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
-import { actions } from 'emfactor-client-core';
+import { actions } from "emfactor-client-core";
 
-import useAppState from "../hooks/useAppState";
-import useFormCheckboxGroup from "../hooks/useFormCheckboxGroup";
-import useFormInput from "../hooks/useFormInput";
+import useAppState from "../../hooks/useAppState";
+import useFormCheckboxGroup from "../../hooks/useFormCheckboxGroup";
+import useFormInput from "../../hooks/useFormInput";
 
-import ErrorMessage from "./ErrorMessage";
+import ErrorMessage from "../ErrorMessage";
 import EmployeeForm from "./EmployeeForm";
 
 const EditEmployee = ({ basePath, match,  history }) => {

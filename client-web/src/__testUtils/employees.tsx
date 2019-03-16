@@ -6,6 +6,7 @@ import { Employee } from "emfactor-client-core";
 import { store } from 'emfactor-client-core';
 
 import App from '../components/App/App';
+import {act} from "react-dom/test-utils";
 
 export const roles = {
     employee: 1,
@@ -51,7 +52,7 @@ export const defaultEmployee: Employee = {
 };
 
 export const setup = async () => {
-        store.initialize({
+    store.initialize({
         ...store.defaultState,
         app: {
             ...store.defaultState.app,
@@ -67,7 +68,9 @@ export const setup = async () => {
 
     let renderResult = render(<App />);
 
-    clickNavMenuLink(renderResult.container, 'Employees');
+    act(() => {
+        clickNavMenuLink(renderResult.container, 'Employees');
+    });
 
     await waitForElement(() => renderResult.getByTestId('manageEmployeesPage'));
 

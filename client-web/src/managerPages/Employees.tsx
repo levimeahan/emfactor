@@ -5,9 +5,9 @@ import { Route, Link } from 'react-router-dom';
 import { selectors } from 'emfactor-client-core';
 
 import SubRoute from "../components/SubRoute";
-import AddEmployee from '../components/AddEmployee';
-import EmployeeList from '../components/EmployeeList';
-import EditEmployee from "../components/EditEmployee";
+import AddEmployee from '../components/Employees/AddEmployee';
+import EmployeeList from '../components/Employees/EmployeeList';
+import EditEmployee from "../components/Employees/EditEmployee";
 
 import useAppState from '../hooks/useAppState';
 

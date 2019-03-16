@@ -1,13 +1,13 @@
 import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
-import ErrorMessage from './ErrorMessage';
-import FormInput from './FormInput';
-import FormCheckboxGroup from './FormCheckboxGroup';
-import FormAvailabilitySelect from './FormAvailabilitySelect';
-import {FormCheckboxGroupManager, InputStateManager} from "../types";
+import ErrorMessage from '../ErrorMessage';
+import FormInput from '../Form/FormInput';
+import FormCheckboxGroup from '../Form/FormCheckboxGroup';
+import FormAvailabilitySelect from '../Form/FormAvailabilitySelect';
+import {FormCheckboxGroupManager, InputStateManager} from "../../types";
 
-import { Availability } from 'emfactor-client-core';
+import { Availability } from "emfactor-client-core";
 
 interface EmployeeFormProps {
     errorMessage: string;

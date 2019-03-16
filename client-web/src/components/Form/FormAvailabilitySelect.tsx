@@ -5,11 +5,11 @@ import {Availability} from "emfactor-client-core";
 
 import { SelectableGroup } from 'react-selectable-fast'
 
-import {InputStateManager} from "../types";
+import {InputStateManager} from "../../types";
 import FormInputLabel from "./FormInputLabel";
 
 import AvailabilitySelectDay from './AvailabilitySelectDay';
-import {colors} from "../themes/default";
+import {colors} from "../../themes/default";
 
 // AvailabilitySelect
 interface FormAvailabilitySelectProps {

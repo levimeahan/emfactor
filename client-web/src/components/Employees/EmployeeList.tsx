@@ -2,10 +2,10 @@ import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 import { Link } from 'react-router-dom';
 
-import { colors, linkThemes } from '../themes/default';
+import { colors, linkThemes } from '../../themes/default';
 
-import { selectors } from 'emfactor-client-core';
-import useAppState from "../hooks/useAppState";
+import { selectors } from "emfactor-client-core";
+import useAppState from "../../hooks/useAppState";
 
 const EmployeeDisplay = ({ id, firstName, lastName, roles, editPath, style }) => (
     <div className={css(styles.employeeDisplay, style)}>

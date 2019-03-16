@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
 import FormCheckbox from './FormCheckbox';
-import {ObjectInputStateManager} from "../types";
+import {ObjectInputStateManager} from "../../types";
 
 interface FormCheckboxGroupProps {
     name: string;

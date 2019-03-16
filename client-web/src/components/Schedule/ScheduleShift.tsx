@@ -6,7 +6,7 @@ import { ScheduleMode, ScheduleDayActions } from "../../types";
 
 import calcShiftWidth from '../../utils/calcShiftWidth';
 
-import FormInput from "../FormInput";
+import FormInput from "../Form/FormInput";
 import ShiftTime from "./ShiftTime";
 import ShiftAssign from "./ShiftAssign";
 import ShiftRoleEdit from "./ShiftRoleEdit";

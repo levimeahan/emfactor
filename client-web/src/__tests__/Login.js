@@ -1,4 +1,5 @@
 import React from 'react';
+import { act } from 'react-dom/test-utils';
 import {
     render,
     fireEvent,
@@ -10,45 +11,43 @@ import { store } from 'emfactor-client-core';
 
 import App from '../components/App/App';
 
+const employeeIdLabel = 'Employee ID';
+const passwordLabel = 'Password';
+
 const setup = () => {
     store.initialize({
         ...store.defaultState,
         app: { ...store.defaultState.app, userEmployeeId: 0 }
     });
 
-    let renderResult = render(<App />);
-
-    let employeeIdInput = renderResult.getByLabelText('Employee ID');
-    let passwordInput = renderResult.getByLabelText('Password');
-
-    return { renderResult, employeeIdInput, passwordInput };
+    return render(<App />);
 };
 
 it('renders employee id and password fields', () => {
-    let { renderResult, employeeIdInput, passwordInput } = setup();
+    let renderResult = setup();
 });
 
 it('successfully registers changes to employee ID and password fields', async () => {
-    let { renderResult, employeeIdInput, passwordInput } = setup();
+    let { getByLabelText } = setup();
 
-    await changeFormInput(employeeIdInput, 1);
-    expect(employeeIdInput.value).toBe("1");
+    await changeFormInput(getByLabelText(employeeIdLabel), 1);
+    expect(getByLabelText(employeeIdLabel).value).toBe("1");
 
-    await changeFormInput(passwordInput, 'bananas');
-    expect(passwordInput.value).toBe("bananas");
+    await changeFormInput(getByLabelText(passwordLabel), 'bananas');
+    expect(getByLabelText(passwordLabel).value).toBe("bananas");
 });
 
 it('denies invalid login credentials and shows error', async () => {
-    let { renderResult, employeeIdInput, passwordInput } = setup();
+    let { getByText, getByTestId, getByLabelText } = setup();
 
-    await changeFormInput(employeeIdInput, 1);
-    await changeFormInput(passwordInput, 'bananas2');
+    await changeFormInput(getByLabelText(employeeIdLabel), 1);
+    await changeFormInput(getByLabelText(passwordLabel), 'bananas2');
 
-    let submitButton = renderResult.getByText('Login');
+    let submitButton = getByText('Login');
 
     fireEvent.click(submitButton);
 
-    let errorMessage = await waitForElement(() => renderResult.getByTestId('errorMessage'));
+    let errorMessage = await waitForElement(() => getByTestId('errorMessage'));
 
     expect(store.getState().app.userEmployeeId).toBe(0);
 
@@ -56,19 +55,19 @@ it('denies invalid login credentials and shows error', async () => {
 });
 
 it('logs in successfully', async () => {
-    let { renderResult, employeeIdInput, passwordInput } = setup();
+    let { getByText, getByTestId, getByLabelText } = setup();
 
-    await changeFormInput(employeeIdInput, 1);
-    await changeFormInput(passwordInput, 'bananas');
+    await changeFormInput(getByLabelText(employeeIdLabel), 1);
+    await changeFormInput(getByLabelText(passwordLabel), 'bananas');
 
-    let submitButton = renderResult.getByText('Login');
+    let submitButton = getByText('Login');
 
     fireEvent.click(submitButton);
 
     try {
-        await waitForElement(() => renderResult.getByText('Logout'), { timeout: 1000 });
+        await waitForElement(() => getByText('Logout'), { timeout: 1000 });
     } catch (e) {
-        let errorMessage = renderResult.getByTestId('errorMessage');
+        let errorMessage = getByTestId('errorMessage');
         throw new Error('Login timed out - ' + errorMessage.innerHTML);
     }
 

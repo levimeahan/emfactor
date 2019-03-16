@@ -6,7 +6,7 @@ import { actions } from 'emfactor-client-core';
 
 import useAppState from '../hooks/useAppState';
 
-import FormInput from '../components/FormInput';
+import FormInput from '../components/Form/FormInput';
 
 const Login = () => {
     const employeeId = useFormInput('');

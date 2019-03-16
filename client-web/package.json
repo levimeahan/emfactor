@@ -15,7 +15,7 @@
     "react-dates": "^19.0.4",
     "react-dom": "^16.8.3",
     "react-router-dom": "^4.4.0-beta.7",
-    "react-scripts": "^2.1.5",
+    "react-scripts": "^2.1.8",
     "react-select": "^2.4.1",
     "react-selectable-fast": "^2.2.2"
   },
@@ -42,10 +42,7 @@
     "@types/react-dates": "^17.1.5",
     "@types/react-dom": "^16.8.2",
     "jest-dom": "^3.1.2",
-    "react-testing-library": "^5.9.0",
+    "react-testing-library": "^6.0.0",
     "typescript": "^3.3.3333"
-  },
-  "resolutions": {
-    "write-file-atomic": "2.4.1"
   }
 }

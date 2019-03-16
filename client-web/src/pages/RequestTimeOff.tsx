@@ -3,7 +3,7 @@ import {StyleSheet, css} from 'aphrodite/no-important';
 
 import {actions, selectors, TimeOffRequest} from 'emfactor-client-core';
 
-import DateRangePicker from '../components/DateRangePicker';
+import DateRangePicker from '../components/Form/DateRangePicker';
 
 import pageStyles from '../styles/page';
 import useAppState from "../hooks/useAppState";

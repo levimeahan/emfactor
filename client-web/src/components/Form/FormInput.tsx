@@ -4,7 +4,7 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 import FormInputLabel from './FormInputLabel';
 
 
-import {InputStateManager} from "../types";
+import {InputStateManager} from "../../types";
 
 interface FormInputProps {
     type: string;
@@ -21,11 +21,11 @@ interface FormInputProps {
 const FormInput = (props: FormInputProps) => (
     <div className={css(styles.container, props.containerStyle)}>
         {props.labelType === 'label' ?
-            <FormInputLabel inputId={name} style={props.labelStyle}>{props.label}</FormInputLabel>
+            <FormInputLabel inputId={props.name} style={props.labelStyle}>{props.label}</FormInputLabel>
         : null}
         <input
             type='text'
-            id={name}
+            id={props.name}
             placeholder={props.labelType === 'placeholder' ? props.label : null}
             value={props.manager.value}
             onChange={e => props.manager.onChange(e.currentTarget.value)}

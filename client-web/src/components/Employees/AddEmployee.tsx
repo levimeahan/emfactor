@@ -2,18 +2,18 @@ import React, { useContext } from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 
 import { Link } from 'react-router-dom';
-import { linkThemes } from '../themes/default';
+import { linkThemes } from '../../themes/default';
 
-import useFormInput from '../hooks/useFormInput';
-import useAppState from '../hooks/useAppState';
+import useFormInput from '../../hooks/useFormInput';
+import useAppState from '../../hooks/useAppState';
 
-import FormInput from '../components/FormInput';
-import FormCheckbox from "./FormCheckbox";
+import FormInput from '../Form/FormInput';
+import FormCheckbox from "../Form/FormCheckbox";
 
-import { actions } from 'emfactor-client-core';
-import ErrorMessage from "./ErrorMessage";
+import { actions } from "emfactor-client-core";
+import ErrorMessage from "../ErrorMessage";
 import EmployeeForm from "./EmployeeForm";
-import useFormCheckboxGroup from "../hooks/useFormCheckboxGroup";
+import useFormCheckboxGroup from "../../hooks/useFormCheckboxGroup";
 
 const AddEmployee = ({ basePath, history }) => {
     const state = useAppState();
