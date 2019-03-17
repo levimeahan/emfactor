@@ -4,7 +4,7 @@ import {StyleSheet, css} from 'aphrodite/no-important';
 import { createSelectable } from 'react-selectable-fast';
 
 import arrayFromRange from "../../utils/arrayFromRange";
-import formatHour from "../../utils/formatHour";
+import formatShiftHour from "../../utils/formatShiftHour";
 
 const hoursInDay = arrayFromRange(0, 23);
 
@@ -32,7 +32,7 @@ const HourInput = ({ selectableRef, hour, selected, selecting, onClick }) => (
         className={css(styles.hourContainer, selected ? styles.hourSelected : null, selecting ? styles.hourSelecting : null)}
         onClick={onClick}
     >
-        <div className={css(styles.hour)}>{formatHour(hour)}</div>
+        <div className={css(styles.hour)}>{formatShiftHour(hour)}</div>
     </div>
 );
 

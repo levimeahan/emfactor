@@ -1,13 +1,13 @@
 import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
-import formatHour from "../../utils/formatHour";
+import formatShiftHour from "../../utils/formatShiftHour";
 import arrayFromRange from "../../utils/arrayFromRange";
 import {colors, sizes} from "../../themes/default";
 
 const hours = arrayFromRange(0, 24);
 
-const ShiftTime = ({ time, label, onChange, mode, styles }) => (
-    <div className={css(styles.container, styles)}>
+const ShiftTime = ({ time, label, onChange, mode, extraStyles }) => (
+    <div className={css(styles.container, extraStyles)}>
         {mode === 'EDIT' ?
             <ShiftTimeEdit
                 time={time}
@@ -20,13 +20,15 @@ const ShiftTime = ({ time, label, onChange, mode, styles }) => (
     </div>
 );
 ShiftTime.defaultProps = {
-    styles: null,
+    extraStyles: null,
+    label: '',
+    onChange: () => {}
 };
 
 
 // Time
 const ShiftTimeDisplay = ({ time }) => (
-    <span className={css(styles.timeDisplay)}>{formatHour(time)}</span>
+    <span className={css(styles.timeDisplay)}>{formatShiftHour(time)}</span>
 );
 
 const ShiftTimeEdit = ({ time, label, onChange }) => {

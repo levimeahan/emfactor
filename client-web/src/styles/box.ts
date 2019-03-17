@@ -7,6 +7,13 @@ export default StyleSheet.create({
         background: colors.background.secondary,
     },
     header: {
+        fontSize: '1.2em',
+        fontWeight: 500,
         margin: '0 0 5px',
+    },
+    header2: {
+        fontSize: '1.1em',
+        fontWeight: 500,
+        margin: '0 0 4px',
     },
 });

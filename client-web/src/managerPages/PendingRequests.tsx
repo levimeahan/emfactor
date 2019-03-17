@@ -51,7 +51,8 @@ const TimeOffRequestsList = ({ requests, employeeNames }) => (
 
 const styles = StyleSheet.create({
     requestList: {
-        textAlign: 'left'
+        textAlign: 'left',
+        alignSelf: 'stretch',
     }
 });
 

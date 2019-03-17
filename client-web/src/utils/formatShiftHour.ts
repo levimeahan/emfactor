@@ -1,4 +1,4 @@
-export default function formatTime(hour) {
+export default function formatShiftTime(hour) {
     if(hour == 0 || hour == 24) {
         return '12 AM';
     }

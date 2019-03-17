@@ -17,6 +17,11 @@ const pageStyles = StyleSheet.create({
         fontWeight: 500,
         margin: '0.2em 0 0.2em',
     },
+    header3: {
+        fontSize: '1.15em',
+        fontWeight: 500,
+        margin: '0.2em 0 0.2em',
+    },
 });
 
 export default pageStyles;

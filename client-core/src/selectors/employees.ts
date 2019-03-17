@@ -27,7 +27,7 @@ export const employeeNamesByIds = (state: State, employeeIds: number[]) => {
     return names;
 };
 
-export const availableEmployees = (state: State, startTimestamp, endTimestamp, shiftId = null) => {
+export const availableEmployees = (state: State, startTimestamp, endTimestamp, shiftId = null): DeepReadonly<Employee>[] => {
     if(!startTimestamp || !endTimestamp) {
         return [];
     }
@@ -45,21 +45,21 @@ export const employeeIsAvailable = (state: State, employeeId: number, startTimes
 
     const day = DaysByNum[startTime.isoWeekday()];
 
+    let scheduledEmployeeId = desiredShiftId ? state.scheduledShifts.byId[desiredShiftId].employeeId : null;
+
     if(!hasHourRange(employee.availability, day, startTime.hour(), endTime.hour())) {
         return false;
     }
 
-    if(employeeIsScheduled(state, employeeId, startTimestamp, endTimestamp, desiredShiftId)) {
+    if(employeeIsScheduled(state, employeeId, startTimestamp, endTimestamp) && employeeId !== scheduledEmployeeId) {
         return false;
     }
 
     return true;
 };
 
-export const employeeIsScheduled = (state: State, employeeId: number, startTimestamp, endTimestamp, excludeShiftId = null) =>
-    employeeScheduledShiftIds(state, employeeId, startTimestamp, endTimestamp)
-        .filter(id => id !== excludeShiftId)
-        .length > 0;
+export const employeeIsScheduled = (state: State, employeeId: number, startTimestamp, endTimestamp) =>
+    employeeScheduledShiftIds(state, employeeId, startTimestamp, endTimestamp).length > 0;
 
 export const employeeScheduledShiftIds = (state: State, employeeId: number, startTimestamp: number, endTimestamp: number) =>
     state.scheduledShifts.allIds.filter(id => {

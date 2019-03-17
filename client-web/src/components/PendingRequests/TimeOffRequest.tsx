@@ -1,15 +1,15 @@
 import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
+import moment from 'moment';
 
-import { utils, selectors, TimeOffRequest, UIScheduleShift, UIScheduleWeek } from "emfactor-client-core";
+import { utils, actions, selectors, TimeOffRequest, UIScheduleShift, UIScheduleWeek } from "emfactor-client-core";
+
+import RequestedWeekOff from './RequestedWeekOff';
 
 import useAppState from "../../hooks/useAppState";
 import {formatDate, getWeekName} from '../../utils/dateTime';
 
 import boxStyles from '../../styles/box';
-import pageStyles from '../../styles/page';
-import moment from 'moment';
-import {colors} from "../../themes/default";
 
 // Utils
 function getWeekShifts (scheduleWeek: UIScheduleWeek, scheduledShifts: UIScheduleShift[]) {
@@ -17,8 +17,31 @@ function getWeekShifts (scheduleWeek: UIScheduleWeek, scheduledShifts: UISchedul
     return scheduledShifts.filter(shift => shift.weekId === scheduleWeek.id);
 }
 
-function formatTime(timestamp) {
-    return moment(timestamp).format('HH:00');
+
+interface RequestWeek {
+    startTime: number;
+    index: number;
+}
+function getRequestWeeks(scheduleWeeks: UIScheduleWeek[], startTimestamp: number, endTimestamp: number): RequestWeek[] {
+    let weeksInRequest = [];
+    let weekIndex = 0;
+    for(let time = moment(startTimestamp).startOf('isoWeek'); time.valueOf() < endTimestamp; time.add({days: 7})) {
+        while(weekIndex < scheduleWeeks.length && scheduleWeeks[weekIndex].startTimestamp < time.valueOf()) {
+            weekIndex++;
+        }
+
+        let index = null;
+        if(weekIndex < scheduleWeeks.length && scheduleWeeks[weekIndex].startTimestamp === time.valueOf()) {
+            index = weekIndex;
+        }
+
+        weeksInRequest.push({
+            startTime: time.valueOf(),
+            index: index,
+        });
+    }
+
+    return weeksInRequest;
 }
 
 // Time Off Request
@@ -33,31 +56,16 @@ const TimeOffRequestComponent = ({
     const scheduleWeeks = selectors.scheduleWeekRange(state, startDate, endDate);
     const scheduledShifts = selectors.employeeScheduledShifts(state, employeeId, startDate, endDate);
 
-    let weeksInRequest = [];
-    let weekIndex = 0;
-    for(let time = moment(startDate).startOf('isoWeek'); time.valueOf() < endDate; time.add({days: 7})) {
-        while(weekIndex < scheduleWeeks.length && scheduleWeeks[weekIndex].startTimestamp < time.valueOf()) {
-            weekIndex++;
-        }
-
-        let index = null;
-        if(weekIndex < scheduleWeeks.length && scheduleWeeks[weekIndex].startTimestamp === time.valueOf()) {
-           index = weekIndex;
-        }
-
-        weeksInRequest.push({
-            startTime: time.valueOf(),
-            index: index,
-        });
-    }
+    let weeksInRequest = getRequestWeeks(scheduleWeeks, startDate, endDate);
 
     return <div className={css(boxStyles.container, styles.torContainer)}>
         <h4 className={css(boxStyles.header)}>{employeeName}</h4>
-        <span>{formatDate(startDate)} -> {formatDate(endDate)}</span>
-        <h4 className={css(boxStyles.header, styles.scheduledShiftsHeader)}>Scheduled Shifts</h4>
+        <span>{formatDate(startDate, 'long')} &rarr; {formatDate(endDate, 'long')}</span>
+        <h4 className={css(styles.scheduledShiftsHeader)}>Scheduled Shifts</h4>
         {weeksInRequest.map((week, i) => (
             <RequestedWeekOff
                 key={i}
+                weekId={week.index !== null ? scheduleWeeks[week.index].id : null}
                 startTime={week.startTime}
                 scheduleCreated={week.index !== null}
                 shifts={week.index !== null ? getWeekShifts(scheduleWeeks[week.index], scheduledShifts) : []}
@@ -71,39 +79,14 @@ const TimeOffRequestComponent = ({
     </div>;
 };
 
-// Requested Week Off
-const RequestedWeekOff = ({ startTime, scheduleCreated, shifts }) => (
-    <div>
-        <h3 className={css(pageStyles.header2)}>{getWeekName(startTime)}</h3>
-        {scheduleCreated ?
-            <ScheduledShiftsList shifts={shifts} />
-            :
-            <div>Not scheduled yet. <button>Generate Schedule Draft</button></div>
-        }
-    </div>
-);
-
-// Scheduled Shifts List
-interface ScheduledShiftsListProps {
-   shifts: UIScheduleShift[];
-}
-const ScheduledShiftsList = ({ shifts }: ScheduledShiftsListProps) => (
-    <div>
-        {shifts.map((shift, i) => (
-            <div key={i} className={css(styles.scheduledShift)}>
-                <span className={css(styles.scheduledShiftDate)}>{formatDate(shift.startTimestamp)}</span>
-                <span>{formatTime(shift.startTimestamp)} -> {formatTime(shift.endTimestamp)}</span>
-            </div>
-        ))}
-    </div>
-);
-
 // Styles
 const styles = StyleSheet.create({
     torContainer: {
         display: 'flex',
         flexDirection: 'column',
         margin: '8px 0',
+        width: '90%',
+        maxWidth: '40em',
     },
     employeeName: {
 
@@ -115,19 +98,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-evenly',
     },
     scheduledShiftsHeader: {
-        marginTop: '10px'
-    },
-
-    requestedWeekOff: {},
-    scheduledShift: {
-        display: 'flex',
-        flexDirection: 'column',
-        margin: '5px 0',
-        padding: '5px',
-
-        background: colors.background.secondaryDark,
-    },
-    scheduledShiftDate: {
+        margin: '15px 0 5px',
         fontWeight: 'bold',
     },
 });

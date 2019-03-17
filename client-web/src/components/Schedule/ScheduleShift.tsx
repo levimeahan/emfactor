@@ -48,7 +48,7 @@ const ScheduleShift = ({
                 label='Start'
                 onChange={newValue => edit({startHour: newValue})}
                 mode={mode}
-                styles={styles.startTime}
+                extraStyles={styles.startTime}
             />
 
             <div className={css(styles.shiftDetails)}>
@@ -85,7 +85,7 @@ const ScheduleShift = ({
                 label='End'
                 onChange={newValue => edit({endHour: newValue})}
                 mode={mode}
-                styles={styles.endTime}
+                extraStyles={styles.endTime}
             />
         </div>
     </div>;
