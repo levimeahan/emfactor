@@ -11,7 +11,7 @@ import TimeOffRequest from '../components/PendingRequests/TimeOffRequest';
 const PendingRequests = () => {
     const state = useAppState();
 
-    const timeOffRequests = selectors.allTimeOffRequests(state);
+    const timeOffRequests = selectors.pendingTimeOffRequests(state);
     const employeeNames = selectors.employeeNamesByIds(
         state, timeOffRequests.map(request => request.employeeId)
     );

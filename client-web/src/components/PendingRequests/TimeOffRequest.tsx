@@ -73,8 +73,8 @@ const TimeOffRequestComponent = ({
         ))}
 
         <div className={css(styles.actionsContainer)}>
-            <button>Accept</button>
-            <button>Decline</button>
+            <button onClick={() => actions.requests.approveTimeOff(id, state.app.userEmployeeId)}>Accept</button>
+            <button onClick={() => actions.requests.declineTimeOff(id, state.app.userEmployeeId)}>Decline</button>
         </div>
     </div>;
 };

@@ -16,8 +16,8 @@ const addEntityItem: AddEntityItemFn = (entityCollection, data) => {
         byId: {
             ...entityCollection.byId,
             [id]: {
-                id: id,
                 ...data,
+                id: id,
             }
         },
         allIds: [

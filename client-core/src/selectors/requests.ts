@@ -7,3 +7,7 @@ export const employeeTimeOffRequests = (state: State, employeeId: number): TimeO
 
 export const allTimeOffRequests = (state: State): TimeOffRequest[] =>
     state.timeOffRequests.allIds.map(id => state.timeOffRequests.byId[id]);
+
+export const pendingTimeOffRequests = (state: State): TimeOffRequest[] =>
+    state.timeOffRequests.allIds.filter(id => !state.timeOffRequests.byId[id].finalized)
+        .map(id => state.timeOffRequests.byId[id]);

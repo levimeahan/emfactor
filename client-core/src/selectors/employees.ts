@@ -55,11 +55,30 @@ export const employeeIsAvailable = (state: State, employeeId: number, startTimes
         return false;
     }
 
+    if(employeeOnVacation(state, employeeId, startTimestamp, endTimestamp)) {
+        return false;
+    }
+
     return true;
 };
 
 export const employeeIsScheduled = (state: State, employeeId: number, startTimestamp, endTimestamp) =>
     employeeScheduledShiftIds(state, employeeId, startTimestamp, endTimestamp).length > 0;
+
+export const employeeOnVacation = (state: State, employeeId: number, startTimestamp, endTimestamp) =>
+    state.timeOffRequests.allIds.find(id => {
+        const request = state.timeOffRequests.byId[id];
+
+        if(!request.finalized) return false;
+        if(!request.approved) return false;
+        if(request.employeeId !== employeeId) return false;
+
+        return rangesOverlap(
+            { start: request.startDate, end: request.endDate },
+            { start: startTimestamp, end: endTimestamp }
+        );
+
+    }) !== undefined;
 
 export const employeeScheduledShiftIds = (state: State, employeeId: number, startTimestamp: number, endTimestamp: number) =>
     state.scheduledShifts.allIds.filter(id => {
