@@ -24,7 +24,7 @@ const FormInput = (props: FormInputProps) => (
             <FormInputLabel inputId={props.name} style={props.labelStyle}>{props.label}</FormInputLabel>
         : null}
         <input
-            type='text'
+            type={props.type}
             id={props.name}
             placeholder={props.labelType === 'placeholder' ? props.label : null}
             value={props.manager.value}
