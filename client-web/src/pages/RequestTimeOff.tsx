@@ -26,7 +26,7 @@ const RequestTimeOff = () => {
 const NewTimeOffRequest = ({employeeId}) => {
     const [dates, setDates] = useState({startDate: null, endDate: null});
 
-    const submitRequest = () => actions.requestTimeOff(
+    const submitRequest = () => actions.requests.timeOff(
         employeeId,
         dates.startDate.toDate(),
         dates.endDate.toDate(),

@@ -1,9 +1,9 @@
-import store from '../store';
+import store from '../../store/index';
 
-import changeErrorMessage from '../reducers/changeErrorMessage';
-import addEntityItem from '../reducers/addEntityItem';
+import changeErrorMessage from '../../reducers/changeErrorMessage';
+import addEntityItem from '../../reducers/addEntityItem';
 
-import {Employee, EntityCollection, Reducer, TimeOffRequest } from '../types';
+import {Employee, EntityCollection, Reducer, TimeOffRequest } from '../../types';
 
 export default function requestTimeOff(
     employeeId,
