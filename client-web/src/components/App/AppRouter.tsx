@@ -50,7 +50,7 @@ const AppRouter = () => {
                             {selectors.userIsManager(state) ?
                                 <React.Fragment>
                                     {lazyManagerRoutes.map((route, i) => (
-                                        <Route key={i} path={route.path} component={route.component} />
+                                        <Route key={'manager' + i} path={route.path} component={route.component} />
                                     ))}
                                 </React.Fragment>
                             : null}
