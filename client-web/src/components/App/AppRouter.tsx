@@ -4,11 +4,14 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 
 import { selectors } from 'emfactor-client-core';
 
-import useAppState from '../../hooks/useAppState';
 import NavMenu from '../NavMenu'
-import { routes, managerRoutes } from '../../routes';
-import {colors} from "../../themes/default";
 import ErrorBoundary from "../ErrorBoundary";
+
+import useAppState from '../../hooks/useAppState';
+
+import { routes, managerRoutes } from '../../routes';
+
+import {colors} from "../../themes/default";
 
 // Lazy components must be set ahead of time to avoid new instances being created every render
 const addLazyComponent = route => ({ ...route, component: React.lazy(route.componentFactory) });

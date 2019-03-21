@@ -25,7 +25,7 @@ const defaultProps = {
     // day presentation and interaction related props
     renderCalendarDay: undefined,
     renderDayContents: null,
-    minimumNights: 1,
+    minimumNights: 0,
     isDayBlocked: () => false,
     isOutsideRange: day => !isInclusivelyAfterDay(day, moment()),
     isDayHighlighted: () => false,
@@ -67,8 +67,16 @@ const EmfactorDateRangePicker = (props) => {
         'dates',
         'setDates',
     ]);
+    
+    const setToSingleDay = () => props.setDates({startDate: props.dates.startDate, endDate: props.dates.startDate});
 
-    const handleFocusChange = (focusedInput) => setFocusedInput(!focusedInput ? START_DATE : focusedInput);
+    const handleFocusChange = (focusedInput) => {
+        console.log('handleFocusChange');
+        setFocusedInput(!focusedInput ? START_DATE : focusedInput);
+    };
+
+    const handleBlur = () => props.dates.startDate && !props.dates.endDate ?
+        setToSingleDay() : null;
 
     return <div>
         <DayPickerRangeController
@@ -80,6 +88,7 @@ const EmfactorDateRangePicker = (props) => {
 
             focusedInput={focusedInput}
             onFocusChange={handleFocusChange}
+            onOutsideClick={handleBlur}
         />
     </div>;
 };

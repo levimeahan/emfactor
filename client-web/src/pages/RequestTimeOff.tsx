@@ -28,8 +28,8 @@ const NewTimeOffRequest = ({employeeId}) => {
 
     const submitRequest = () => actions.requests.timeOff(
         employeeId,
-        dates.startDate.toDate(),
-        dates.endDate.toDate(),
+        dates.startDate.startOf('day').toDate(),
+        dates.endDate.endOf('day').toDate(),
         () => setDates({startDate: null, endDate: null})
     );
 
