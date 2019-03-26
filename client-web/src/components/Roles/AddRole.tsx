@@ -31,7 +31,7 @@ const AddRole = ({ basePath, history }) => {
     ]);
 
     const submit = () => {
-        actions.addRole(name.value, permissions.value, subRoles.value, () => {
+        actions.roles.addRole(name.value, permissions.value, subRoles.value, () => {
             history.push(basePath);
         });
     };

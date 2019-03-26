@@ -1,9 +1,9 @@
-import store from '../store';
+import store from '../../store/index';
 
-import changeErrorMessage from '../reducers/changeErrorMessage';
-import {State, Role, Reducer} from "../types";
+import changeErrorMessage from '../../reducers/changeErrorMessage';
+import {State, Role, Reducer} from "../../types";
 
-import getNextCollectionId from '../utils/getNextCollectionId';
+import getNextCollectionId from '../../utils/getNextCollectionId';
 
 export default function addRole(name, permissions, subRoles, onSuccess: Function = null) {
     if(name.length <= 0) {
