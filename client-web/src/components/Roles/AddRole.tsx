@@ -21,14 +21,17 @@ const AddRole = ({ basePath, history }) => {
             checked: false,
         }))
     );
-    const subRoles = useFormCheckboxGroup([
-        {
-            name: 'employee',
-            label: 'Employee',
-            value: 1,
-            checked: false,
-        }
-    ]);
+    const subRoles = useFormCheckboxGroup(
+        state.roles.allIds.map(id => {
+            let role = state.roles.byId[id];
+            return {
+                name: role.name,
+                label: role.name,
+                value: role.id,
+                checked: false,
+            };
+        })
+    );
 
     const submit = () => {
         actions.roles.addRole(name.value, permissions.value, subRoles.value, () => {
