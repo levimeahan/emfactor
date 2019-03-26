@@ -4,13 +4,10 @@ import { Link } from 'react-router-dom';
 
 import { actions, permissions as rolePermissions } from "emfactor-client-core";
 
-import ErrorMessage from '../ErrorMessage';
-import FormInput from '../Form/FormInput';
-import FormCheckboxGroup from "../Form/FormCheckboxGroup";
-
 import useAppState from "../../hooks/useAppState";
 import useFormInput from "../../hooks/useFormInput";
 import useFormCheckboxGroup from '../../hooks/useFormCheckboxGroup';
+import RoleForm from "./RoleForm";
 
 const AddRole = ({ basePath, history }) => {
     const state = useAppState();
@@ -41,42 +38,18 @@ const AddRole = ({ basePath, history }) => {
 
     return <React.Fragment>
         <h2>Add New Role</h2>
-        <ErrorMessage>{state.app.errorMessage}</ErrorMessage>
-
-        <FormInput
-            name='name'
-            label='Name'
-            manager={name}
-            containerStyle={styles.inputContainer}
-            labelStyle={styles.inputLabel}
+        <RoleForm
+            errorMessage={state.app.errorMessage}
+            name={name}
+            subRoles={subRoles}
+            permissions={permissions}
+            submit={submit}
         />
-
-        <FormCheckboxGroup
-            name='permissions'
-            label='Permissions'
-            manager={permissions}
-        />
-
-        <FormCheckboxGroup
-            name='subRoles'
-            label='Sub-Roles'
-            manager={subRoles}
-        />
-
-        <button onClick={submit} className={css(styles.submitButton)}>Submit</button>
     </React.Fragment>;
 };
 
 const styles = StyleSheet.create({
-    inputContainer: {
-        margin: '8px 0',
-    },
-    inputLabel: {
-        fontWeight: 'bold',
-    },
-    submitButton: {
-        marginTop: '10px',
-    },
+
 });
 
 export default AddRole;
