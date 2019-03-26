@@ -6,7 +6,7 @@ import * as utils from './utils/publicIndex';
 import { Days, permissions } from './index';
 
 
-export { store, actions, selectors, utils, permissions, Days };
+export { store, actions, selectors, utils, permissions, Days, types };
 
 export type Employee = types.Employee;
 export type Role = types.Role;
