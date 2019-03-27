@@ -19,6 +19,7 @@ export const colors = {
         secondary: "#363941",
         secondaryDark: "#2C2F37",
         secondaryLight: "#3f434b",
+        secondaryUltraLight: '#4f525a',
         tertiary: "#282c4b",
         tertiaryDark: "#202541",
         tertiaryLight: "#313455",

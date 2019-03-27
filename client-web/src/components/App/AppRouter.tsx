@@ -73,6 +73,7 @@ const styles = StyleSheet.create({
 
         display: 'flex',
         flexDirection: 'row',
+        overflow: 'hidden',
     },
     navContainer: {
         flexShrink: 0,
@@ -96,6 +97,18 @@ const styles = StyleSheet.create({
         maxHeight: '100%',
         overflowY: 'scroll',
         overflowX: 'hidden',
+        padding: '3px',
+        background: colors.background.primary,
+        '::-webkit-scrollbar': {
+            width: '8px',
+            background: colors.background.secondaryDark,
+        },
+        '::-webkit-scrollbar-thumb': {
+            background: colors.background.secondaryUltraLight,
+            borderRadius: '24px',
+        },
+        scrollbarColor: `${colors.background.secondaryUltraLight} ${colors.background.secondaryDark}`,
+        scrollbarWidth: 'thin',
     },
 });
 
