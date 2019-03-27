@@ -5,23 +5,23 @@ import {colors} from "../themes/default";
 import UserMenu from './UserMenu';
 
 const Header = ({ userLoggedIn }) => {
-    return <div className={css(styles.headerContainer)}>
+    return <header className={css(styles.headerContainer)}>
         <h1 className={css(styles.logo)}><span className={css(styles.prefix)}>Em</span>factor</h1>
         {userLoggedIn ?
             <UserMenu />
         : null}
-    </div>;
+    </header>;
 };
 
 
 const styles = StyleSheet.create({
     headerContainer: {
         background: colors.background.tertiary,
-        alignSelf: 'stretch',
         display: 'flex',
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'space-between',
+        margin: '0',
         padding: '5px',
         borderBottom: `1px solid ${colors.background.tertiaryDark}`
     },

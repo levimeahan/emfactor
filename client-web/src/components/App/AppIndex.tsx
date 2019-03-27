@@ -30,15 +30,13 @@ const styles = StyleSheet.create({
     appContainer: {
         margin: 0,
         padding: 0,
-        textAlign: "center",
 
         backgroundColor: colors.primaryBg,
+        height: '100vh',
         minHeight: '100vh',
         maxHeight: '100vh',
         display: "flex",
         flexDirection: "column",
-        alignItems: "center",
-        justifyContent: "space-between",
         fontSize: "calc(16px)",
         color: colors.primaryText,
     },

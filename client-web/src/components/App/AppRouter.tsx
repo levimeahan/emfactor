@@ -33,17 +33,17 @@ const AppRouter = () => {
     useEffect(preloadRoutes, []);
 
     return <Router>
-        <div className={css(styles.container)}>
-            <nav className={css(styles.navMenuContainer)}>
+        <div className={css(styles.navAndMainContainer)}>
+            <nav className={css(styles.navContainer)}>
                 <NavMenu routes={routes} />
                 {selectors.userIsManager(state) ?
                     <React.Fragment>
                         <h3 className={css(styles.navMenuHeader)}>Manage</h3>
                         <NavMenu routes={managerRoutes} />
                     </React.Fragment>
-                : null}
+                    : null}
             </nav>
-            <div className={css(styles.appContent)}>
+            <main className={css(styles.mainContent)}>
                 <ErrorBoundary>
                     <React.Suspense fallback={<div>Loading...</div>}>
                         <Switch>
@@ -56,24 +56,25 @@ const AppRouter = () => {
                                         <Route key={'manager' + i} path={route.path} component={route.component} />
                                     ))}
                                 </React.Fragment>
-                            : null}
+                                : null}
                         </Switch>
                     </React.Suspense>
                 </ErrorBoundary>
-            </div>
+            </main>
         </div>
     </Router>;
 };
 
 const styles = StyleSheet.create({
-    container: {
+    navAndMainContainer: {
         flexGrow: 2,
         alignSelf: 'stretch',
+        justifySelf: 'stretch',
 
         display: 'flex',
         flexDirection: 'row',
     },
-    navMenuContainer: {
+    navContainer: {
         flexShrink: 0,
         background: colors.background.secondary,
         margin: 0,
@@ -90,8 +91,9 @@ const styles = StyleSheet.create({
         borderTop: `1px solid ${colors.background.secondaryLight}`,
         borderBottom: `1px solid ${colors.background.secondaryLight}`,
     },
-    appContent: {
+    mainContent: {
         flexGrow: 2,
+        maxHeight: '100%',
         overflowY: 'scroll',
         overflowX: 'hidden',
     },
