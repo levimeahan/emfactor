@@ -1,3 +1,5 @@
+import React from "react";
+
 export type ScheduleMode = "EDIT" | "ASSIGN" | "DISPLAY";
 
 export interface ScheduleDayActions {
@@ -33,4 +35,13 @@ export interface FormCheckboxGroupManager {
     options: InputCheckboxItem[],
     value: Array<any>,
     onChange: (index: number, checked: boolean) => void;
+}
+
+export type MenuMode = 'FIXED'|'TOGGLE';
+export type MenuStatusValue = 'OPEN'|'CLOSED';
+
+export interface PageRoute {
+    path: string;
+    componentFactory: () => Promise<{ default: React.ComponentType<any>; }>;
+    name: string;
 }

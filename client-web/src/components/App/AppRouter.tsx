@@ -4,7 +4,7 @@ import { StyleSheet, css } from 'aphrodite/no-important';
 
 import { selectors } from 'emfactor-client-core';
 
-import NavMenu from '../NavMenu'
+import AppMenu from './AppMenu';
 import ErrorBoundary from "../ErrorBoundary";
 
 import useAppState from '../../hooks/useAppState';
@@ -27,23 +27,20 @@ const preloadRoutes = () => {
     });
 };
 
-const AppRouter = () => {
+const AppRouter = ({ menuStatus, menuMode, closeMenu }) => {
     const state = useAppState();
 
     useEffect(preloadRoutes, []);
 
     return <Router>
         <div className={css(styles.navAndMainContainer)}>
-            <nav className={css(styles.navContainer)}>
-                <NavMenu routes={routes} />
-                {selectors.userIsManager(state) ?
-                    <React.Fragment>
-                        <h3 className={css(styles.navMenuHeader)}>Manage</h3>
-                        <NavMenu routes={managerRoutes} />
-                    </React.Fragment>
-                    : null}
-            </nav>
-            <main className={css(styles.mainContent)}>
+            <AppMenu
+                routes={routes}
+                managerRoutes={selectors.userIsManager(state) ? managerRoutes : null}
+                status={menuStatus}
+                mode={menuMode}
+            />
+            <main className={css(styles.mainContent)} onClick={closeMenu}>
                 <ErrorBoundary>
                     <React.Suspense fallback={<div>Loading...</div>}>
                         <Switch>
@@ -65,6 +62,8 @@ const AppRouter = () => {
     </Router>;
 };
 
+
+
 const styles = StyleSheet.create({
     navAndMainContainer: {
         flexGrow: 2,
@@ -72,26 +71,11 @@ const styles = StyleSheet.create({
         justifySelf: 'stretch',
 
         display: 'flex',
+        position: 'relative',
         flexDirection: 'row',
         overflow: 'hidden',
     },
-    navContainer: {
-        flexShrink: 0,
-        background: colors.background.secondary,
-        margin: 0,
-        padding: 0,
-        borderRight: `1px solid ${colors.background.secondaryLight}`
-    },
-    navMenuHeader: {
-        margin: '6px 0 0',
-        padding: '2px 0 4px',
 
-        fontSize: '18px',
-        fontWeight: 'normal',
-        background: colors.background.secondaryDark,
-        borderTop: `1px solid ${colors.background.secondaryLight}`,
-        borderBottom: `1px solid ${colors.background.secondaryLight}`,
-    },
     mainContent: {
         flexGrow: 2,
         maxHeight: '100%',

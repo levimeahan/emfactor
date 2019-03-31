@@ -43,6 +43,9 @@ Pending Requests
 
 */
 
+
+import { PageRoute } from './types';
+
 const Schedule = () => import('./pages/Schedule');
 const Messages = () => import('./pages/Messages');
 const Notifications = () => import('./pages/Notifications');
@@ -58,12 +61,6 @@ const ManageShifts = () => import('./managerPages/Shifts');
 const ManageSchedules = () => import('./managerPages/Schedules');
 const ManagePendingRequests = () => import('./managerPages/PendingRequests');
 const ManageRoles = () => import('./managerPages/Roles');
-
-interface PageRoute {
-    path: string;
-    componentFactory: () => Promise<{ default: React.ComponentType<any>; }>;
-    name: string;
-}
 
 export const routes: PageRoute[] = [
     {
