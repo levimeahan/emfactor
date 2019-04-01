@@ -2,11 +2,18 @@ import React from 'react';
 import { StyleSheet, css } from 'aphrodite/no-important';
 
 import NavMenuLink from './NavMenuLink';
+import {PageRoute} from "../../types";
 
-const NavMenu = ({ routes }) => {
+interface NavMenuProps {
+    routes: PageRoute[];
+}
+const NavMenu = ({ routes }: NavMenuProps) => {
     return <ul className={css(styles.menu)}>
         {routes.map((route, i) => (
-            <NavMenuLink key={i} route={route} />
+            <NavMenuLink
+                key={i}
+                route={route}
+            />
         ))}
     </ul>;
 };

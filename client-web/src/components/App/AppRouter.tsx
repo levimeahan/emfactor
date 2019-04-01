@@ -27,7 +27,7 @@ const preloadRoutes = () => {
     });
 };
 
-const AppRouter = ({ menuStatus, menuMode, closeMenu }) => {
+const AppRouter = ({ menuStatus, menuMode, closeMenu, userIsManager }) => {
     const state = useAppState();
 
     useEffect(preloadRoutes, []);
@@ -39,6 +39,7 @@ const AppRouter = ({ menuStatus, menuMode, closeMenu }) => {
                 managerRoutes={selectors.userIsManager(state) ? managerRoutes : null}
                 status={menuStatus}
                 mode={menuMode}
+                closeMenu={closeMenu}
             />
             <main className={css(styles.mainContent)} onClick={closeMenu}>
                 <ErrorBoundary>
@@ -47,13 +48,13 @@ const AppRouter = ({ menuStatus, menuMode, closeMenu }) => {
                             {lazyRoutes.map((route, i) => (
                                 <Route key={i} path={route.path} component={route.component} />
                             ))}
-                            {selectors.userIsManager(state) ?
+                            {userIsManager ?
                                 <React.Fragment>
                                     {lazyManagerRoutes.map((route, i) => (
                                         <Route key={'manager' + i} path={route.path} component={route.component} />
                                     ))}
                                 </React.Fragment>
-                                : null}
+                            : null}
                         </Switch>
                     </React.Suspense>
                 </ErrorBoundary>

@@ -1,10 +1,15 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import {StyleSheet, css} from 'aphrodite/no-important';
-import {colors} from "../themes/default";
+import {colors} from "../../themes/default";
+import {PageRoute} from "../../types";
 
-const NavMenuLink = ({ route }) => (
-    <li className={css(styles.navItem)}>
+interface NavMenuLinkProps {
+    route: PageRoute;
+    onClick?: (path: string) => void;
+}
+const NavMenuLink = ({ route, onClick = null }: NavMenuLinkProps) => (
+    <li className={css(styles.navItem)} onClick={onClick ? () => onClick(route.path) : undefined}>
         <NavLink
             to={route.path}
             className={css(styles.navLink)}

@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
+import { withRouter } from 'react-router-dom';
+
+
 import {colors} from "../../themes/default";
-import NavMenu from "../NavMenu";
+import NavMenu from "./NavMenu";
 import {MenuMode, MenuStatusValue, PageRoute} from "../../types";
 
 interface AppMenuProps {
@@ -9,8 +12,12 @@ interface AppMenuProps {
     mode: MenuMode;
     routes: PageRoute[];
     managerRoutes: PageRoute[]|null;
+    closeMenu: Function;
+    location: {
+        pathname: string;
+    };
 }
-const AppMenu = ({ status, mode, routes, managerRoutes }: AppMenuProps) => {
+const AppMenu = ({ status, mode, routes, managerRoutes, closeMenu, location }: AppMenuProps) => {
     let menuStyles = [styles.navContainer];
     if (mode === 'FIXED') {
         menuStyles.push(styles.fixedNav)
@@ -26,12 +33,23 @@ const AppMenu = ({ status, mode, routes, managerRoutes }: AppMenuProps) => {
         }
     }
 
+    const locationRef = useRef(location.pathname);
+
+    useEffect(() => {
+        if(location.pathname !== locationRef.current) {
+            locationRef.current = location.pathname;
+            if(mode === 'TOGGLE') {
+                closeMenu();
+            }
+        }
+    });
+
     return <nav className={css(...menuStyles)}>
-        <NavMenu routes={routes}/>
+        <NavMenu routes={routes} />
         {managerRoutes ?
             <React.Fragment>
                 <h3 className={css(styles.navMenuHeader)}>Manage</h3>
-                <NavMenu routes={managerRoutes}/>
+                <NavMenu routes={managerRoutes} />
             </React.Fragment>
             : null}
     </nav>;
@@ -81,4 +99,4 @@ const styles = StyleSheet.create({
     },
 });
 
-export default AppMenu;
+export default withRouter(AppMenu);

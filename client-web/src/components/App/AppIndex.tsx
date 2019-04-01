@@ -37,6 +37,7 @@ function AppIndex() {
                 menuStatus={menuStatus}
                 menuMode={menuMode}
                 closeMenu={() => setMenuStatus('CLOSED')}
+                userIsManager={selectors.userIsManager(state)}
             />
             :
             <Login />
