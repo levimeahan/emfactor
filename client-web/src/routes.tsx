@@ -79,11 +79,6 @@ export const routes: PageRoute[] = [
         name: 'Notifications',
     },
     {
-        path: '/change-availability',
-        componentFactory: ChangeAvailability,
-        name: 'Change Availability',
-    },
-    {
         path: '/request-time-off',
         componentFactory: RequestTimeOff,
         name: 'Request Time Off',
