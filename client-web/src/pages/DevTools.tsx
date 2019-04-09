@@ -12,6 +12,7 @@ const Button = ({ children, ...rest }) => (
 const DevTools = () => {
     return <div className={css(styles.container)}>
         <h2 className={css(styles.header)}>Local Storage</h2>
+        <span className={css(styles.label)}>Note: Resets after 24 hours of inactivity</span>
         <span className={css(styles.label)}>(Open console for result info)</span>
         <Button onClick={saveState} disabled={!canUseStorage}>Save State</Button>
         <Button onClick={loadState} disabled={!canUseStorage}>Load State</Button>
