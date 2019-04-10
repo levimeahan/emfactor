@@ -185,6 +185,14 @@ export interface UIScheduleWeek {
     dayIds: [1, 2, 3, 4, 5, 6, 7]
 }
 
+export interface ShiftToAssign {
+    weekId: number;
+    shiftId: number;
+    baseShiftId: number;
+    employeeId: number;
+}
+
+export type ShiftsToAssign = { [key: number]: ShiftToAssign };
 
 /* MASTER INTERFACE */
 

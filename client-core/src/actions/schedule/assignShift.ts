@@ -6,9 +6,9 @@ import { Reducer, ScheduledShift } from '../../types';
 
 import mockAssignShift from '../../mockServerActions/assignShift';
 
-export default function assignShift(weekId, shiftId, baseShiftId, employeeId) {
+export default function assignShift(weekId: number, shiftId: number, baseShiftId: number, employeeId: number) {
     try {
-        let response = mockAssignShift({ weekId: weekId, shiftId, baseShiftId, employeeId: parseInt(employeeId) });
+        let response = mockAssignShift({ weekId: weekId, shiftId, baseShiftId, employeeId: employeeId });
 
         if(!response.success) {
             store.dispatch(changeErrorMessage, response.errorMessage);
@@ -20,10 +20,13 @@ export default function assignShift(weekId, shiftId, baseShiftId, employeeId) {
             store.dispatch(editScheduledShift, response.scheduledShift);
         }
 
+        return true;
     } catch(error) {
         store.dispatch(changeErrorMessage, JSON.stringify(error));
+
+        return false;
     }
-}
+};
 
 const addScheduledShift: Reducer = (prevState, newShift: ScheduledShift) => ({
     ...prevState,

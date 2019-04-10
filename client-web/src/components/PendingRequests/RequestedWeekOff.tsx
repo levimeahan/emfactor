@@ -2,35 +2,34 @@ import React from 'react';
 import {StyleSheet, css} from 'aphrodite/no-important';
 import { getWeekName } from "../../utils/dateTime";
 
-import { selectors, actions, UIScheduleShift } from "emfactor-client-core";
+import { selectors, types } from "emfactor-client-core";
 import useAppState from "../../hooks/useAppState";
 import RequestedShiftOff from "./RequestedShiftOff";
 
 // Requested Week Off
-const RequestedWeekOff = ({ weekId, startTime, scheduleCreated, shifts }) => {
-    const assignShift = (shiftId, baseShiftId, employeeId) =>
-        actions.schedule.assignShift(weekId, shiftId, baseShiftId, employeeId);
-
-    return <div>
+interface RequestedWeekOffProps {
+    startTime: number;
+    scheduleCreated: boolean;
+    shifts: types.UIScheduleShift[];
+    assignShift: (shiftId: number, baseShiftId: number, employeeId: number) => void;
+}
+const RequestedWeekOff = ({ startTime, scheduleCreated, shifts, assignShift = () => {} }: RequestedWeekOffProps) => (
+    <div>
         <span className={css(styles.weekName)}>Week of {getWeekName(startTime)}</span>
         {scheduleCreated ?
             <ScheduledShiftsList
                 shifts={shifts}
-                assignShift={weekId ?
-                    assignShift
-                    :
-                    () => {}
-                }
+                assignShift={assignShift}
             />
             :
             <div>Not scheduled yet. <button>Generate Schedule Draft</button></div>
         }
-    </div>;
-};
+    </div>
+);
 
 // Scheduled Shifts List
 interface ScheduledShiftsListProps {
-    shifts: UIScheduleShift[];
+    shifts: types.UIScheduleShift[];
     assignShift: (shiftId: number, baseShiftId: number, employeeId: number) => void;
 }
 const ScheduledShiftsList = ({ shifts, assignShift }: ScheduledShiftsListProps) => {
