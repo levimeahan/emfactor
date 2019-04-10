@@ -12,7 +12,7 @@ if(canUseStorage) {
     let lastVisit = window.localStorage.getItem('lastVisit');
 
     // Clear local storage cache every day to avoid stale data
-    if(lastVisit === null || parseInt(lastVisit) > Date.now() - (86400000)) {
+    if(lastVisit !== null && parseInt(lastVisit) > Date.now() - (86400000)) {
         loadState();
         store.dispatch(prevState => ({
             ...prevState,
