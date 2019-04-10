@@ -59,6 +59,7 @@ const styles = StyleSheet.create({
     },
     dayName: {
         textTransform: 'capitalize',
+        textAlign: 'center',
         width: '6em',
     },
     date: {
