@@ -9,7 +9,7 @@
     "aphrodite": "^2.3.1",
     "axios": "^0.18.0",
     "emfactor-client-core": "file:../client-core",
-    "lodash": "^4.17.11",
+    "lodash": "^4.17.13",
     "moment": "^2.24.0",
     "react": "^16.8.3",
     "react-dates": "^19.0.4",
