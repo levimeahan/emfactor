@@ -24,7 +24,7 @@
     "typescript": "^3.4.0-dev.20190301"
   },
   "dependencies": {
-    "moment": "^2.24.0",
+    "moment": "^2.29.4",
     "validate.js": "^0.12.0"
   },
   "jest": {
